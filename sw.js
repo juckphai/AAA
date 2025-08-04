@@ -1,5 +1,5 @@
 // เปลี่ยนชื่อ Cache ทุกครั้งที่มีการอัปเดตไฟล์ใน urlsToCache
-const CACHE_NAME = 'manphai-pwa-cache-v23'; // แนะนำให้เปลี่ยนเวอร์ชันทุกครั้งที่แก้ไฟล์นี้
+const CACHE_NAME = '่juckphai-pwa-cache-v23'; // แนะนำให้เปลี่ยนเวอร์ชันทุกครั้งที่แก้ไฟล์นี้
 
 // รายการไฟล์ทั้งหมดที่ต้องการให้แอปทำงานแบบ Offline ได้
 const urlsToCache = [
