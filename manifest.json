@@ -1,7 +1,7 @@
 {
   "name": "บัญชี",
   "short_name": "บัญชี",
-  "description": "แอปพลิเคชันรายรับราจ่ายส่วนตัว",
+  "description": "แอปพลิเคชันรายรับรายจ่ายส่วนตัว",
   "start_url": "./index.html",
   "id": "/Ac/",
   "display": "standalone",
