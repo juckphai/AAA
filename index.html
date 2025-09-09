@@ -1249,12 +1249,16 @@ function buildPdfSummaryHtml(context) {
         recordsHTML = `
             <div style="margin-top: 20px;">
                 <h4>รายละเอียดธุรกรรม</h4>
-                <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
-                    <thead>
-                        <tr style="background-color: #f2f2f2;">
-                            <th>วันเดือนปี</th><th>เวลา</th><th>ประเภท</th><th>รายละเอียด</th><th>จำนวนเงิน</th>
-                        </tr>
-                    </thead>
+                <table style="width: 100%; border-collapse: collapse; margin-top: 10px; table-layout: fixed;">
+<thead>
+    <tr style="background-color: #f2f2f2;">
+        <th style="width: 18%;">วันเดือนปี</th>
+        <th style="width: 10%;">เวลา</th>
+        <th style="width: 18%;">ประเภท</th>
+        <th style="width: 36%;">รายละเอียด</th>
+        <th style="width: 18%;">จำนวนเงิน</th>
+    </tr>
+</thead>
                     <tbody>
                         ${periodRecords.map(record => {
                             const recordDate = new Date(record.dateTime);
@@ -1309,7 +1313,7 @@ function buildPdfSummaryHtml(context) {
     const summaryDateTime = new Date().toLocaleString("th-TH", { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'}) + ' น.';
 
 return `
-    <div style="margin-left: 10px; margin-right: 5px;">  
+    <div style="margin-left: 6px; margin-right: 3px;">  
         <p style="line-height: 0.5;"><strong>ชื่อบัญชี:</strong> ${currentAccount}</p>
         <p style="line-height: 0.5;"><strong>สรุปเมื่อวันที่ : </strong> ${summaryDateTime}</p>
         <p style="line-height: 0.5;"><strong>${title} : </strong> ${thaiDateString}</p>
