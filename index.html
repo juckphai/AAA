@@ -1308,7 +1308,8 @@ function buildPdfSummaryHtml(context) {
 
     const summaryDateTime = new Date().toLocaleString("th-TH", { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'}) + ' น.';
 
-    return `
+return `
+    <div style="margin-left: 10px; margin-right: 5px;">  
         <p style="line-height: 0.5;"><strong>ชื่อบัญชี:</strong> ${currentAccount}</p>
         <p style="line-height: 0.5;"><strong>สรุปเมื่อวันที่ : </strong> ${summaryDateTime}</p>
         <p style="line-height: 0.5;"><strong>${title} : </strong> ${thaiDateString}</p>
