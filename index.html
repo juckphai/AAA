@@ -15,8 +15,10 @@
 
   <!-- ไลบรารีสำหรับอ่านไฟล์ CSV -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
-  <!-- ไลบรารีสำหรับบันทึกเป็นรูปภาพ (เพิ่มเข้ามาใหม่) -->
+  <!-- ไลบรารีสำหรับบันทึกเป็นรูปภาพ -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <!-- ไลบรารีสำหรับสร้างไฟล์ Excel (XLSX) -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
   <style>
     /* CSS ทั้งหมดของคุณยังคงเหมือนเดิม */
@@ -158,6 +160,14 @@
     .format-modal-buttons .btn-cancel:hover { background-color: #5a6268; }
     .format-modal-buttons .btn-display { background-color: #007bff; }
     .format-modal-buttons .btn-display:hover { background-color: #0056b3; }
+    .format-modal-buttons .btn-xlsx { background-color: #107C41; }
+    .format-modal-buttons .btn-xlsx:hover { background-color: #0E6A37; }
+.format-modal-buttons .btn-xlsx { 
+    background-color: #107C41; 
+}
+.format-modal-buttons .btn-xlsx:hover { 
+    background-color: #0E6A37; 
+}
     .header-import {
         background-color: #a7dca5; /* สีเขียวอ่อน */
         border-radius: 15px;      /* ลดความโค้งของขอบ ทำให้ดูเหลี่ยมขึ้น */
@@ -274,7 +284,7 @@
             <li><b>สำหรับ iPhone (iOS):</b> เปิดใน Safari แล้วกดที่ปุ่ม "แชร์" (Share) จากนั้นเลือก "เพิ่มไปยังหน้าจอโฮม" (Add to Home Screen)</li>
         </ul>
         <p style="color: red; font-weight: bold; margin-top: 10px; margin-bottom: 0;">
-            ข้อควรระวังสำหรับ iPhone: ระบบอาจลบข้อมูลที่บันทึกไว้หากไม่ได้ใช้งานนานๆ หรือพื้นที่เหลือน้อย! <br>แนะนำให้ "บันทึกถาวร" หรือ "บันทึกเป็น CSV" เพื่อสำรองข้อมูลสม่ำเสมอ
+            ข้อควรระวังสำหรับ iPhone: ระบบอาจลบข้อมูลที่บันทึกไว้หากไม่ได้ใช้งานนานๆ หรือพื้นที่เหลือน้อย! <br>แนะนำให้ "บันทึกถาวร" หรือ "บันทึกเป็น XLSX" เพื่อสำรองข้อมูลสม่ำเสมอ
         </p>
     </div>
 </div>
@@ -285,7 +295,7 @@
         <div style="width: 100%; max-width: 600px; margin: 10px auto;">
             <div class="file-actions" style="display: flex; justify-content: center; gap: 10px;">
               <div class="file-button-wrapper" style="flex: 1; min-width: 0;">
-                <input type="file" id="fileInput" onchange="loadFromFile(event)" style="display: none;" accept=".json,application/json,.csv,text/csv">
+                <input type="file" id="fileInput" onchange="loadFromFile(event)" style="display: none;" accept=".json,application/json,.csv,text/csv,.xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
                 <button type="button" onclick="document.getElementById('fileInput').click()" 
                         class="action-button" 
                          style="width: 50%; height: 50px; padding: 5px; font-size: 16px; background-color: #196B24; color: #FFFFFF; border: 5px solid #FFFFFF; border-radius: 30px; cursor: pointer; margin: 0 auto;">
@@ -591,7 +601,7 @@
         <h3>เลือกรูปแบบการแสดงผลสรุป</h3>
         <div class="format-modal-buttons">
             <button class="btn-display" onclick="handleSummaryOutput('display')">แสดงบนจอ</button>
-            <button class="btn-csv" onclick="handleSummaryOutput('csv')">บันทึกเป็น CSV</button>
+            <button class="btn-xlsx" onclick="handleSummaryOutput('xlsx')">บันทึกเป็น XLSX</button>
             <button class="btn-pdf" onclick="handleSummaryOutput('pdf')">บันทึกเป็น PDF</button>
             <button class="btn-cancel" onclick="closeSummaryOutputModal()">ยกเลิก</button>
         </div>
@@ -642,7 +652,6 @@
 <div id="print-container"></div>
 
 <script>
-    // === START: ฟังก์ชันที่ปรับปรุงและเพิ่มเข้ามาใหม่ ===
     function openSummaryModal(htmlContent) {
         const modal = document.getElementById('summaryModal');
         const modalBody = document.getElementById('modalBodyContent');
@@ -826,25 +835,65 @@
             URL.revokeObjectURL(url);
             alert(`บันทึกข้อมูลวันที่ ${selectedDate} เป็น JSON เรียบร้อย\n\nไฟล์: ${fullFileName}`);
 
-        } else if (format === 'csv') {
-            let csvData = [];
-            csvData.push([`ชื่อบัญชี: ${currentAccount}`]);
-            csvData.push([`isDailyExport: true`]);
-            csvData.push([`exportDate: ${selectedDate}`]);
-            csvData.push([]);
-            csvData.push(["วันที่", "เวลา", "ประเภท", "รายละเอียด", "จำนวนเงิน (บาท)"]);
+        } else if (format === 'xlsx') {
+            // สร้างเวิร์กบุ๊กใหม่
+            const wb = XLSX.utils.book_new();
+            
+            // สร้างข้อมูลสำหรับชีต
+            let excelData = [];
+            
+            // เพิ่มข้อมูลส่วนหัว
+            excelData.push([`ชื่อบัญชี: ${currentAccount}`]);
+            excelData.push([`วันที่ส่งออก: ${selectedDate}`]);
+            excelData.push([]);
+            
+            // เพิ่มหัวข้อตาราง
+            excelData.push(["วันที่", "เวลา", "ประเภท", "รายละเอียด", "จำนวนเงิน (บาท)"]);
+            
+            // เรียงลำดับข้อมูลตามเวลา
             const sortedRecords = [...filteredRecords].sort((a, b) => new Date(a.dateTime) - new Date(b.dateTime));
+            
+            // เพิ่มข้อมูลแต่ละรายการ
             sortedRecords.forEach(record => {
                 const dt = new Date(record.dateTime);
-                const d = `${String(dt.getDate()).padStart(2, '0')}/${String(dt.getMonth() + 1).padStart(2, '0')}/${dt.getFullYear()}`;
-                const t = `${String(dt.getHours()).padStart(2, '0')}.${String(dt.getMinutes()).padStart(2, '0')} น.`;
-                csvData.push([d, t, record.type, record.description, record.amount]);
+                const dateStr = `${String(dt.getDate()).padStart(2, '0')}/${String(dt.getMonth() + 1).padStart(2, '0')}/${dt.getFullYear()}`;
+                const timeStr = `${String(dt.getHours()).padStart(2, '0')}.${String(dt.getMinutes()).padStart(2, '0')} น.`;
+                excelData.push([dateStr, timeStr, record.type, record.description, record.amount]);
             });
-            let csvContent = Papa.unparse(csvData, { header: false });
-            const blob = new Blob(["\uFEFF" + csvContent], { type: "text/csv;charset=utf-8;" });
-            const link = document.createElement("a"); link.href = URL.createObjectURL(blob); link.download = fullFileName; link.click();
-            setTimeout(() => URL.revokeObjectURL(link.href), 100);
-            alert(`บันทึกข้อมูลวันที่ ${selectedDate} เป็น CSV เรียบร้อย\n\nไฟล์: ${fullFileName}`);
+            
+            // สร้างชีตจากข้อมูล
+            const ws = XLSX.utils.aoa_to_sheet(excelData);
+            
+            // ตั้งค่าคอลัมน์ให้พอดีกับเนื้อหา
+            const colWidths = [
+                {wch: 12}, // วันที่
+                {wch: 10}, // เวลา
+                {wch: 15}, // ประเภท
+                {wch: 30}, // รายละเอียด
+                {wch: 15}  // จำนวนเงิน
+            ];
+            ws['!cols'] = colWidths;
+            
+            // ตั้งค่าหน้ากระดาษสำหรับพิมพ์
+            ws['!pageSetup'] = {
+                orientation: 'landscape',
+                paperSize: 9, // A4
+                fitToPage: true,
+                fitToWidth: 1,
+                fitToHeight: 0,
+                margins: {
+                    left: 0.7, right: 0.7,
+                    top: 0.75, bottom: 0.75,
+                    header: 0.3, footer: 0.3
+                }
+            };
+            
+            // เพิ่มชีตลงในเวิร์กบุ๊ก
+            XLSX.utils.book_append_sheet(wb, ws, "ข้อมูลบัญชี");
+            
+            // ส่งออกไฟล์
+            XLSX.writeFile(wb, fullFileName);
+            alert(`บันทึกข้อมูลวันที่ ${selectedDate} เป็น XLSX เรียบร้อย\n\nไฟล์: ${fullFileName}`);
         }
         singleDateExportContext = {};
     }
@@ -1115,7 +1164,6 @@
 
     function saveDataAndShowToast(entryCategory = 'neutral') { const dataToSave = { accounts: [...accounts], currentAccount: currentAccount, records: [...records], accountTypes: Array.from(accountTypes.entries()), backupPassword: backupPassword }; try { localStorage.setItem('accountData', JSON.stringify(dataToSave)); } catch (error) { console.error("บันทึกข้อมูลไม่สำเร็จ:", error); alert("⚠️ เกิดข้อผิดพลาดในการบันทึกข้อมูล"); return; } const toast = document.getElementById('toast'); toast.textContent = '✓ บันทึกข้อมูลสำเร็จแล้ว'; if (entryCategory === 'income') { toast.style.backgroundColor = '#28a745'; } else if (entryCategory === 'expense') { toast.style.backgroundColor = '#dc3545'; } else { toast.style.backgroundColor = '#007bff'; } toast.className = "toast-notification show"; setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 2500); }
     function displayRecords() { const recordBody = document.getElementById('recordBody'); recordBody.innerHTML = ""; const filteredRecords = records.filter(record => record.account === currentAccount) .sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime)); filteredRecords.forEach((record, index) => { const originalIndex = records.findIndex(r => r === record); const dateTime = new Date(record.dateTime); const formattedDate = `${String(dateTime.getDate()).padStart(2, '0')}/${String(dateTime.getMonth() + 1).padStart(2, '0')}/${dateTime.getFullYear()}`; const formattedTime = `${String(dateTime.getHours()).padStart(2, '0')}.${String(dateTime.getMinutes()).padStart(2, '0')} น.`; const row = document.createElement('tr'); row.innerHTML = ` <td>${formattedDate}</td> <td>${formattedTime}</td> <td>${record.type}</td> <td>${record.description}</td> <td>${record.amount.toLocaleString()} บาท</td> <td> <button onclick="editRecord(${originalIndex})">แก้ไข</button> <button onclick="deleteRecord(${originalIndex})">ลบ</button> </td> `; recordBody.appendChild(row); }); if (filteredRecords.length === 0) { const row = document.createElement('tr'); row.innerHTML = `<td colspan="6" style="text-align: center;">ไม่มีข้อมูล</td>`; recordBody.appendChild(row); } }
-    
     function editRecord(index) {
         const record = records[index];
         document.getElementById('type').value = record.type;
@@ -1141,28 +1189,28 @@
     function openSummaryOutputModal() { document.getElementById('summaryOutputModal').style.display = 'flex'; }
     function closeSummaryOutputModal() { document.getElementById('summaryOutputModal').style.display = 'none'; summaryContext = {}; }
     
-    function handleSummaryOutput(choice) {
-        if (!summaryContext || !summaryContext.summaryResult) {
-            console.error("Summary context is missing. Cannot proceed.");
-            closeSummaryOutputModal();
-            return;
-        }
-        if (choice === 'display') {
-            const htmlForDisplay = buildOriginalSummaryHtml(summaryContext);
-            openSummaryModal(htmlForDisplay);
-        } else if (choice === 'csv') {
-            const { summaryResult, title, dateString, remark, transactionDaysInfo, periodName } = summaryContext;
-            exportSummaryToCsv(summaryResult, title, dateString, remark, transactionDaysInfo, periodName);
-        } else if (choice === 'pdf') {
-            const printContainer = document.getElementById('print-container');
-            if (printContainer) {
-                const htmlWithDetailsForPdf = buildPdfSummaryHtml(summaryContext);
-                printContainer.innerHTML = `<div class="summaryResult">${htmlWithDetailsForPdf}</div>`;
-                setTimeout(() => { window.print(); }, 250);
-            }
-        }
+function handleSummaryOutput(choice) {
+    if (!summaryContext || !summaryContext.summaryResult) {
+        console.error("Summary context is missing. Cannot proceed.");
         closeSummaryOutputModal();
+        return;
     }
+    if (choice === 'display') {
+        const htmlForDisplay = buildOriginalSummaryHtml(summaryContext);
+        openSummaryModal(htmlForDisplay);
+    } else if (choice === 'xlsx') {
+        const { summaryResult, title, dateString, remark, transactionDaysInfo, periodName } = summaryContext;
+        exportSummaryToXlsx(summaryResult, title, dateString, remark, transactionDaysInfo, periodName);
+    } else if (choice === 'pdf') {
+        const printContainer = document.getElementById('print-container');
+        if (printContainer) {
+            const htmlWithDetailsForPdf = buildPdfSummaryHtml(summaryContext);
+            printContainer.innerHTML = `<div class="summaryResult">${htmlWithDetailsForPdf}</div>`;
+            setTimeout(() => { window.print(); }, 250);
+        }
+    }
+    closeSummaryOutputModal();
+}
 
     function generateSummaryData(startDate, endDate) {
         if (!currentAccount || !accountTypes.has(currentAccount)) { alert("ไม่พบบัญชีหรือประเภทของบัญชี"); return null; }
@@ -1233,6 +1281,158 @@
         const summaryDateTime = new Date().toLocaleString("th-TH", { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'}) + ' น.';
         return ` <p><strong>ชื่อบัญชี:</strong> ${currentAccount}</p> <p><strong>สรุปเมื่อวันที่ : </strong> ${summaryDateTime}</p> <p><strong>${title} : </strong> ${thaiDateString}</p> ${transactionDaysInfo ? transactionDaysInfo : ''} <hr> <p><strong>รายรับ : </strong> ${summary.incomeCount} ครั้ง เป็นเงิน ${summary.totalIncome.toLocaleString()} บาท</p>${incomeHTML} <hr> <p><strong>รายจ่าย : </strong> ${summary.expenseCount} ครั้ง เป็นเงิน ${summary.totalExpense.toLocaleString()} บาท</p>${expenseHTML} <hr> ${summaryLineHTML} ${totalBalanceLine} <p>ข้อความเพิ่ม : <span style="color: orange;">${remark}</span></p> ${recordsHTML}`;
     }
+
+function exportSummaryToXlsx(summaryResult, title, dateString, remark, transactionDaysInfo = null, periodName) {
+    const { summary, periodRecords, totalBalance } = summaryResult;
+    
+    // สร้างเวิร์กบุ๊กใหม่
+    const wb = XLSX.utils.book_new();
+    
+    // สร้างข้อมูลสำหรับชีตสรุป
+    let excelData = [];
+    
+    // ส่วนหัวเอกสาร
+    const summaryDateTime = new Date().toLocaleString("th-TH", { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric', 
+        hour: '2-digit', 
+        minute: '2-digit'
+    }) + ' น.';
+    
+    excelData.push(['สรุปข้อมูลบัญชี']);
+    excelData.push(['ชื่อบัญชี:', currentAccount]);
+    excelData.push(['สรุปเมื่อวันที่:', summaryDateTime]);
+    excelData.push([`${title}:`, dateString]);
+    excelData.push([]);
+    
+    // ข้อมูลวันทำธุรกรรม (ถ้ามี)
+    if (transactionDaysInfo) {
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = transactionDaysInfo;
+        const pElements = tempDiv.querySelectorAll('p');
+        pElements.forEach(p => {
+            excelData.push([p.innerText]);
+        });
+        excelData.push([]);
+    }
+    
+    // รายรับ
+    excelData.push(['--- รายรับ ---']);
+    excelData.push(['ประเภท', 'จำนวนครั้ง', 'จำนวนเงิน (บาท)']);
+    for (const type in summary.income) {
+        excelData.push([
+            type, 
+            summary.income[type].count, 
+            summary.income[type].amount.toLocaleString()
+        ]);
+    }
+    excelData.push([
+        'รวมรายรับ', 
+        summary.incomeCount, 
+        summary.totalIncome.toLocaleString()
+    ]);
+    excelData.push([]);
+    
+    // รายจ่าย
+    excelData.push(['--- รายจ่าย ---']);
+    excelData.push(['ประเภท', 'จำนวนครั้ง', 'จำนวนเงิน (บาท)']);
+    for (const type in summary.expense) {
+        excelData.push([
+            type, 
+            summary.expense[type].count, 
+            summary.expense[type].amount.toLocaleString()
+        ]);
+    }
+    excelData.push([
+        'รวมรายจ่าย', 
+        summary.expenseCount, 
+        summary.totalExpense.toLocaleString()
+    ]);
+    excelData.push([]);
+    
+    // สรุปยอด
+    excelData.push(['--- สรุปยอดสุทธิ ---']);
+    const netAmount = summary.totalIncome - summary.totalExpense;
+    const netText = netAmount > 0 ? 
+        'รายได้มากกว่ารายจ่าย' : 
+        (netAmount < 0 ? 'รายจ่ายมากกว่ารายได้' : 'รายได้เท่ากับรายจ่าย');
+    
+    let summaryLineText = `สรุป: ${netText} = ${Math.abs(netAmount).toLocaleString()} บาท`;
+    if (netAmount === 0 && summary.totalIncome === 0 && summary.totalExpense === 0) {
+        summaryLineText = 'สรุป: ไม่มีรายการการเงินในช่วงนี้';
+    }
+    
+    excelData.push([summaryLineText]);
+    excelData.push(['ยอดเงินคงเหลือในบัญชี:', `${totalBalance.toLocaleString()} บาท`]);
+    excelData.push([]);
+    
+    // หมายเหตุ
+    excelData.push(['หมายเหตุ:', remark]);
+    excelData.push([]);
+    
+    // รายการธุรกรรม (ถ้ามี)
+    if (periodRecords.length > 0) {
+        excelData.push(['--- รายการธุรกรรม ---']);
+        excelData.push(['วันที่', 'เวลา', 'ประเภท', 'รายละเอียด', 'จำนวนเงิน (บาท)']);
+        
+        periodRecords.forEach(record => {
+            const d = new Date(record.dateTime);
+            const date = d.toLocaleDateString('th-TH', { 
+                day: '2-digit', 
+                month: '2-digit', 
+                year: 'numeric' 
+            });
+            const hours = String(d.getHours()).padStart(2, '0');
+            const minutes = String(d.getMinutes()).padStart(2, '0');
+            const time = `${hours}.${minutes} น.`;
+            
+            excelData.push([
+                date, 
+                time, 
+                record.type, 
+                record.description, 
+                record.amount.toLocaleString()
+            ]);
+        });
+    }
+    
+    // สร้างชีตจากข้อมูล
+    const ws = XLSX.utils.aoa_to_sheet(excelData);
+    
+    // ตั้งค่าความกว้างของคอลัมน์
+    const colWidths = [
+        {wch: 20}, // วันที่
+        {wch: 12}, // เวลา
+        {wch: 15}, // ประเภท
+        {wch: 30}, // รายละเอียด
+        {wch: 15}  // จำนวนเงิน
+    ];
+    ws['!cols'] = colWidths;
+    
+    // ตั้งค่าหน้ากระดาษสำหรับพิมพ์ (เหมือนกับ PDF)
+    ws['!pageSetup'] = {
+        orientation: 'landscape',
+        paperSize: 9, // A4
+        fitToPage: true,
+        fitToWidth: 1,
+        fitToHeight: 0,
+        margins: {
+            left: 0.7, right: 0.7,
+            top: 0.75, bottom: 0.75,
+            header: 0.3, footer: 0.3
+        }
+    };
+    
+    // เพิ่มชีตลงในเวิร์กบุ๊ก
+    XLSX.utils.book_append_sheet(wb, ws, "สรุปข้อมูลบัญชี");
+    
+    // สร้างชื่อไฟล์
+    const fileName = `สรุป_${currentAccount}_${periodName}_${new Date().getTime()}.xlsx`;
+    
+    // ส่งออกไฟล์
+    XLSX.writeFile(wb, fileName);
+}
 
 function buildPdfSummaryHtml(context) {
     const { summaryResult, title, dateString, remark, transactionDaysInfo, type, thaiDateString, headerLine1, headerLine2, headerLine3 } = context;
