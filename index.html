@@ -180,97 +180,99 @@
     @media screen and (max-width: 600px) { .container { padding: 5px; } h2 { font-size: 24px; } .entry-form, .button-group, .button-container { grid-template-columns: 1fr; } .sub-section-content .button-group { grid-template-columns: repeat(3, 1fr); gap: 5px; } .sub-section-content .button-group button { padding: 10px 5px; font-size: 14px; } .button-group button, .button-container button { padding: 14px; font-size: 16px; } .file-actions { flex-direction: column; padding: 0 10px; align-items: stretch; } .file-actions button { width: 100%; max-width: none; } .back-button { width: 100%; } }
     
     /* === START: REVISED PRINT STYLES === */
-    @media screen {
-        #print-container {
-            display: none;
-        }
+@media screen {
+    #print-container {
+        display: none;
     }
+}
 
-    @media print {
-        body * {
-            visibility: hidden;
-        }
-        #print-container, #print-container * {
-            visibility: visible;
-        }
-        #print-container {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            padding: 0 5mm; /* ลด padding ด้านข้าง */
-        }
-        
-        @page {
-            size: A4;
-            margin: 10mm 5mm; /* ลด margin จาก 20mm เป็น 10mm และ 5mm ด้านข้าง */
-            @top-right {
-                content: "หน้า " counter(page);
-                font-family: Arial, sans-serif;
-                font-size: 9pt;
-                color: #888;
-            }
-        }
-        body {
-            background: #fff !important;
-            font-size: 10pt;
-            margin: 0;
-            width: 100%;
-        }
-        
-        #print-container .summaryResult {
-            border: none !important;
-            box-shadow: none !important;
-            padding: 0 !important;
-            background-color: #fff !important;
-            text-align: center;
-            width: 100% !important;
-            max-width: 100% !important;
-        }
-        
-        #print-container .summaryResult p[style*="margin-left"] {
-            text-align: left;
-            display: inline-block;
-        }
-        
-        #print-container h2, #print-container h3, #print-container h4 {
-            margin-bottom: 0.5em;
-        }
-        #print-container p, #print-container li {
-            font-size: 9.5pt;
-            line-height: 1.5; /* Adjusted for better print readability */
-        }
-        #print-container table {
-            width: 100% !important;
-            border-collapse: collapse !important;
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    #print-container, #print-container * {
+        visibility: visible;
+    }
+    #print-container {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        padding: 0 5mm;
+    }
+    
+    @page {
+        size: A4;
+        margin: 15mm 5mm 10mm 5mm; /* top, right, bottom, left */
+        @top-center {
+            content: "หน้า " counter(page);
+            font-family: Arial, sans-serif;
             font-size: 9pt;
-            margin-top: 0.8em;
-            page-break-inside: auto;
-        }
-        #print-container thead {
-             display: table-header-group;
-        }
-        #print-container tr {
-            page-break-inside: avoid;
-        }
-        #print-container th, #print-container td {
-            border: 1px solid #888 !important;
-            padding: 4px 6px;
-            text-align: center;
-            line-height: 1.4; 
-        }
-        #print-container th {
-            background-color: #f0f0f0 !important;
-            font-weight: bold;
-        }
-        #print-container span[style*="color"] {
-            color: #000 !important;
-        }
-        #print-container hr {
-             border-top: 1px solid #999;
-             margin: 1.5em 0;
+            color: #888;
+            margin-top: 5mm;
         }
     }
+    body {
+        background: #fff !important;
+        font-size: 10pt;
+        margin: 0;
+        width: 100%;
+    }
+    
+    #print-container .summaryResult {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        background-color: #fff !important;
+        text-align: center;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-top: 10mm; /* เพิ่ม margin-top เพื่อเว้นที่สำหรับเลขหน้า */
+    }
+    
+    #print-container .summaryResult p[style*="margin-left"] {
+        text-align: left;
+        display: inline-block;
+    }
+    
+    #print-container h2, #print-container h3, #print-container h4 {
+        margin-bottom: 0.5em;
+    }
+    #print-container p, #print-container li {
+        font-size: 9.5pt;
+        line-height: 1.5;
+    }
+    #print-container table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        font-size: 9pt;
+        margin-top: 0.8em;
+        page-break-inside: auto;
+    }
+    #print-container thead {
+         display: table-header-group;
+    }
+    #print-container tr {
+        page-break-inside: avoid;
+    }
+    #print-container th, #print-container td {
+        border: 1px solid #888 !important;
+        padding: 4px 6px;
+        text-align: center;
+        line-height: 1.4; 
+    }
+    #print-container th {
+        background-color: #f0f0f0 !important;
+        font-weight: bold;
+    }
+    #print-container span[style*="color"] {
+        color: #000 !important;
+    }
+    #print-container hr {
+         border-top: 1px solid #999;
+         margin: 1.5em 0;
+    }
+}
     /* === END: REVISED PRINT STYLES === */
   </style>
 </head>
@@ -573,13 +575,14 @@
 <!-- --- Modal ที่เพิ่มเข้ามา --- -->
 <!-- Modal สำหรับเลือกรูปแบบไฟล์ (สำรองข้อมูลทั้งหมด) -->
 <div id="formatSelectionModal" class="modal-overlay">
-  <div class="format-modal-content">
-    <h3>เลือกรูปแบบไฟล์สำรองข้อมูล</h3>
-    <div class="format-modal-buttons">
-      <button class="btn-json" onclick="handleSaveAs('json')">JSON (.json)</button>
-      <button class="btn-csv" onclick="handleSaveAs('csv')">CSV (.csv)</button>
-      <button class="btn-cancel" onclick="closeFormatModal()">ยกเลิก</button>
-    </div>
+    <div class="format-modal-content">
+        <h3>เลือกรูปแบบการแสดงผลสรุป</h3>
+        <div class="format-modal-buttons">
+            <button class="btn-display" onclick="handleSummaryOutput('display')">แสดงบนจอ</button>
+            <button class="btn-xlsx" onclick="handleSummaryOutput('xlsx')">บันทึกเป็น XLSX</button>
+            <button class="btn-pdf" onclick="handleSummaryOutput('pdf')">บันทึกเป็น PDF</button>
+            <button class="btn-cancel" onclick="closeSummaryOutputModal()">ยกเลิก</button>
+        </div>
   </div>
 </div>
 
@@ -1288,7 +1291,7 @@ function exportSummaryToXlsx(summaryResult, title, dateString, remark, transacti
     // สร้างเวิร์กบุ๊กใหม่
     const wb = XLSX.utils.book_new();
     
-    // สร้างข้อมูลสำหรับชีตสรุป
+    // สร้างข้อมูลสำหรับชีต
     let excelData = [];
     
     // ส่วนหัวเอกสาร
@@ -1300,10 +1303,11 @@ function exportSummaryToXlsx(summaryResult, title, dateString, remark, transacti
         minute: '2-digit'
     }) + ' น.';
     
+    // เพิ่มข้อมูลส่วนหัว
     excelData.push(['สรุปข้อมูลบัญชี']);
     excelData.push(['ชื่อบัญชี:', currentAccount]);
     excelData.push(['สรุปเมื่อวันที่:', summaryDateTime]);
-    excelData.push([`${title}:`, dateString]);
+    excelData.push([`${title} :`, dateString]);
     excelData.push([]);
     
     // ข้อมูลวันทำธุรกรรม (ถ้ามี)
@@ -1318,57 +1322,49 @@ function exportSummaryToXlsx(summaryResult, title, dateString, remark, transacti
     }
     
     // รายรับ
-    excelData.push(['--- รายรับ ---']);
-    excelData.push(['ประเภท', 'จำนวนครั้ง', 'จำนวนเงิน (บาท)']);
+    excelData.push(['รายรับ :', `${summary.incomeCount} ครั้ง เป็นเงิน ${summary.totalIncome.toLocaleString()} บาท`]);
     for (const type in summary.income) {
-        excelData.push([
-            type, 
-            summary.income[type].count, 
-            summary.income[type].amount.toLocaleString()
-        ]);
+        excelData.push([`- ${type} : ${summary.income[type].count} ครั้ง เป็นเงิน ${summary.income[type].amount.toLocaleString()} บาท`]);
     }
-    excelData.push([
-        'รวมรายรับ', 
-        summary.incomeCount, 
-        summary.totalIncome.toLocaleString()
-    ]);
     excelData.push([]);
     
     // รายจ่าย
-    excelData.push(['--- รายจ่าย ---']);
-    excelData.push(['ประเภท', 'จำนวนครั้ง', 'จำนวนเงิน (บาท)']);
+    excelData.push(['รายจ่าย :', `${summary.expenseCount} ครั้ง เป็นเงิน ${summary.totalExpense.toLocaleString()} บาท`]);
     for (const type in summary.expense) {
-        excelData.push([
-            type, 
-            summary.expense[type].count, 
-            summary.expense[type].amount.toLocaleString()
-        ]);
+        excelData.push([`- ${type} : ${summary.expense[type].count} ครั้ง เป็นเงิน ${summary.expense[type].amount.toLocaleString()} บาท`]);
     }
-    excelData.push([
-        'รวมรายจ่าย', 
-        summary.expenseCount, 
-        summary.totalExpense.toLocaleString()
-    ]);
     excelData.push([]);
     
     // สรุปยอด
-    excelData.push(['--- สรุปยอดสุทธิ ---']);
     const netAmount = summary.totalIncome - summary.totalExpense;
-    const netText = netAmount > 0 ? 
-        'รายได้มากกว่ารายจ่าย' : 
-        (netAmount < 0 ? 'รายจ่ายมากกว่ารายได้' : 'รายได้เท่ากับรายจ่าย');
+    let comparisonText = '';
+    let comparisonColor = 'black';
     
-    let summaryLineText = `สรุป: ${netText} = ${Math.abs(netAmount).toLocaleString()} บาท`;
-    if (netAmount === 0 && summary.totalIncome === 0 && summary.totalExpense === 0) {
-        summaryLineText = 'สรุป: ไม่มีรายการการเงินในช่วงนี้';
+    if (summary.totalIncome > summary.totalExpense) {
+        comparisonText = `รายได้มากกว่ารายจ่าย = ${netAmount.toLocaleString()} บาท`;
+        comparisonColor = 'blue';
+    } else if (summary.totalIncome < summary.totalExpense) {
+        comparisonText = `รายจ่ายมากกว่ารายได้ = ${Math.abs(netAmount).toLocaleString()} บาท`;
+        comparisonColor = 'red';
+    } else {
+        comparisonText = 'รายได้เท่ากับรายจ่าย';
     }
     
-    excelData.push([summaryLineText]);
-    excelData.push(['ยอดเงินคงเหลือในบัญชี:', `${totalBalance.toLocaleString()} บาท`]);
-    excelData.push([]);
+    if (summary.totalIncome === 0 && summary.totalExpense === 0) {
+        excelData.push(['สรุป :', 'ไม่มีธุรกรรมการเงิน']);
+    } else {
+        excelData.push(['สรุป :', comparisonText]);
+    }
+    
+    // ยอดเงินคงเหลือ
+    if (periodName === 'ทั้งหมด' || periodName.includes('ถึง')) {
+        excelData.push(['เงินในบัญชีถึงวันนี้มี =', `${totalBalance.toLocaleString()} บาท`]);
+    } else {
+        excelData.push(['เงินคงเหลือในบัญชีทั้งหมด =', `${totalBalance.toLocaleString()} บาท`]);
+    }
     
     // หมายเหตุ
-    excelData.push(['หมายเหตุ:', remark]);
+    excelData.push(['ข้อความเพิ่ม :', remark]);
     excelData.push([]);
     
     // รายการธุรกรรม (ถ้ามี)
@@ -1402,17 +1398,17 @@ function exportSummaryToXlsx(summaryResult, title, dateString, remark, transacti
     
     // ตั้งค่าความกว้างของคอลัมน์
     const colWidths = [
-        {wch: 20}, // วันที่
-        {wch: 12}, // เวลา
-        {wch: 15}, // ประเภท
-        {wch: 30}, // รายละเอียด
-        {wch: 15}  // จำนวนเงิน
+        {wch: 15}, // คอลัมน์ A
+        {wch: 30}, // คอลัมน์ B
+        {wch: 15}, // คอลัมน์ C
+        {wch: 30}, // คอลัมน์ D
+        {wch: 20}  // คอลัมน์ E
     ];
     ws['!cols'] = colWidths;
     
     // ตั้งค่าหน้ากระดาษสำหรับพิมพ์ (เหมือนกับ PDF)
     ws['!pageSetup'] = {
-        orientation: 'landscape',
+        orientation: 'portrait',
         paperSize: 9, // A4
         fitToPage: true,
         fitToWidth: 1,
@@ -1424,6 +1420,10 @@ function exportSummaryToXlsx(summaryResult, title, dateString, remark, transacti
         }
     };
     
+    // เพิ่มหัวเรื่องให้กับเอกสาร
+    if (!ws['!merges']) ws['!merges'] = [];
+    ws['!merges'].push({s: {r: 0, c: 0}, e: {r: 0, c: 4}});
+    
     // เพิ่มชีตลงในเวิร์กบุ๊ก
     XLSX.utils.book_append_sheet(wb, ws, "สรุปข้อมูลบัญชี");
     
@@ -1433,6 +1433,29 @@ function exportSummaryToXlsx(summaryResult, title, dateString, remark, transacti
     // ส่งออกไฟล์
     XLSX.writeFile(wb, fileName);
 }
+
+// เพิ่มฟังก์ชันสำหรับจัดรูปแบบเซลล์ใน Excel
+function applyExcelStyles(ws, data) {
+    // กำหนดสไตล์ให้กับส่วนหัว
+    if (!ws['!merges']) ws['!merges'] = [];
+    
+    // รวมเซลล์สำหรับหัวเรื่องหลัก
+    ws['!merges'].push({s: {r: 0, c: 0}, e: {r: 0, c: 4}});
+    
+    // กำหนดความกว้างคอลัมน์
+    if (!ws['!cols']) ws['!cols'] = [];
+    ws['!cols'][0] = {wch: 25};
+    ws['!cols'][1] = {wch: 35};
+    ws['!cols'][2] = {wch: 15};
+    ws['!cols'][3] = {wch: 30};
+    ws['!cols'][4] = {wch: 20};
+    
+    return ws;
+}
+
+// เรียกใช้ฟังก์ชันจัดรูปแบบหลังจากสร้าง worksheet
+// ในฟังก์ชัน exportSummaryToXlsx ให้เพิ่มบรรทัดนี้ก่อนเพิ่มชีตลงในเวิร์กบุ๊ก:
+// ws = applyExcelStyles(ws, excelData);
 
 function buildPdfSummaryHtml(context) {
     const { summaryResult, title, dateString, remark, transactionDaysInfo, type, thaiDateString, headerLine1, headerLine2, headerLine3 } = context;
