@@ -23,7 +23,7 @@
     *, *::before, *::after { box-sizing: border-box; }
     body { font-family: Arial, sans-serif; background-color: #f4f7fb; margin: 0; padding: 0; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; text-size-adjust: 100%; }
     h2 { text-align: center; color: #333; margin-top: 30px; font-size: 28px; }
-    .container { max-width: 800px; margin: 20px auto; background-color: #FAFAD2; border: 2px solid #ED01ED; padding: 10px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); width: 95%; }
+    .container { max-width: 800px; margin: 20px auto; background-color: #FFFFFF; border: 2px solid #ED01ED; padding: 10px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); width: 95%; }
     .section-header { background-color: #4CAF50; color: white; padding: 12px 15px; border-radius: 2px; margin-bottom: 10px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
     .section-header:hover { background-color: #45a049; }
     .section-header .arrow { transition: transform 0.3s; }
@@ -67,7 +67,7 @@
     font-size: clamp(12px, 2.2vw, 15px); 
     font-weight: normal; 
     color: blue; 
-     background-color: #FFFFFF;  
+    background-color: #FFFFFF; 
     border: 1px solid #4CAF50; 
     border-radius: 5px; 
     padding: 10px 5px; /* <-- แก้ไขเรียบร้อย */
@@ -107,7 +107,7 @@
         overflow-y: auto; 
     }
     
-    .modal-content-container { background-color: #FAFAD2; padding: 10px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); display: flex; flex-direction: column; align-items: center; margin: auto 0; width: 100%; max-width: 800px; }
+    .modal-content-container { background-color: #FFFFFF; padding: 10px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); display: flex; flex-direction: column; align-items: center; margin: auto 0; width: 100%; max-width: 800px; }
     .modal-close-btn { background-color: #E97132; color: white; padding: 12px 30px; border: none; cursor: pointer; border-radius: 20px; font-size: 16px; margin-top: 10px; transition: background-color 0.3s; width: 90%; max-width: 250px; }
     .modal-close-btn:hover { background-color: #e64a19; }
     
@@ -188,6 +188,7 @@
             left: 0;
             top: 0;
             width: 100%;
+            padding: 0 5mm; /* ลด padding ด้านข้าง */
         }
         
     @page {
@@ -205,6 +206,7 @@
             background: #fff !important;
             font-size: 10pt;
             margin: 0;
+            width: 100%;
         }
         
         #print-container .summaryResult {
@@ -213,6 +215,8 @@
             padding: 0 !important;
             background-color: #fff !important;
             text-align: center;
+            width: 100% !important;
+            max-width: 100% !important;
         }
         
         #print-container .summaryResult p[style*="margin-left"] {
@@ -225,7 +229,7 @@
         }
         #print-container p, #print-container li {
             font-size: 9.5pt;
-            line-height: 1.5; /* Adjusted for better print readability */
+            line-height: 1.2; /* Adjusted for better print readability */
         }
         #print-container table {
             width: 100% !important;
@@ -244,7 +248,7 @@
             border: 1px solid #888 !important;
             padding: 4px 6px;
             text-align: center;
-            line-height: 1.4; 
+            line-height: 1.2; 
         }
         #print-container th {
             background-color: #f0f0f0 !important;
@@ -1231,50 +1235,82 @@
         return ` <p><strong>ชื่อบัญชี:</strong> ${currentAccount}</p> <p><strong>สรุปเมื่อวันที่ : </strong> ${summaryDateTime}</p> <p><strong>${title} : </strong> ${thaiDateString}</p> ${transactionDaysInfo ? transactionDaysInfo : ''} <hr> <p><strong>รายรับ : </strong> ${summary.incomeCount} ครั้ง เป็นเงิน ${summary.totalIncome.toLocaleString()} บาท</p>${incomeHTML} <hr> <p><strong>รายจ่าย : </strong> ${summary.expenseCount} ครั้ง เป็นเงิน ${summary.totalExpense.toLocaleString()} บาท</p>${expenseHTML} <hr> ${summaryLineHTML} ${totalBalanceLine} <p>ข้อความเพิ่ม : <span style="color: orange;">${remark}</span></p> ${recordsHTML}`;
     }
 
-    function buildPdfSummaryHtml(context) {
-        const { summaryResult, title, dateString, remark, transactionDaysInfo, type, thaiDateString, headerLine1, headerLine2, headerLine3 } = context;
-        const { summary, periodRecords, totalBalance } = summaryResult;
-        let incomeHTML = ''; for (const type in summary.income) { incomeHTML += `<p style="margin-left: 15px;">- ${type} : ${summary.income[type].count} ครั้ง เป็นเงิน ${summary.income[type].amount.toLocaleString()} บาท</p>`; }
-        let expenseHTML = ''; for (const type in summary.expense) { expenseHTML += `<p style="margin-left: 15px;">- ${type} : ${summary.expense[type].count} ครั้ง เป็นเงิน ${summary.expense[type].amount.toLocaleString()} บาท</p>`; }
-        let recordsHTML = '';
-        if (periodRecords.length > 0) {
-            recordsHTML = ` <div style="margin-top: 20px;"> <h4>รายละเอียดธุรกรรม</h4> <table style="width: 100%; border-collapse: collapse; margin-top: 10px;"> <thead><tr style="background-color: #f2f2f2;"><th>วันเดือนปี</th><th>เวลา</th><th>ประเภท</th><th>รายละเอียด</th><th>จำนวนเงิน</th></tr></thead> <tbody> ${periodRecords.map(record => {
-                const recordDate = new Date(record.dateTime);
-                const formattedDate = recordDate.toLocaleDateString('th-TH', { day: '2-digit', month: '2-digit', year: 'numeric' });
-                const [date, time] = record.dateTime.split(" ");
-                const [hours, minutes] = time.split(":");
-                const isIncome = accountTypes.get(currentAccount)["รายรับ"].includes(record.type); const color = isIncome ? "#4CAF50" : "#F44336";
-                return `<tr><td>${formattedDate}</td><td>${hours}.${minutes}</td><td>${record.type}</td><td>${record.description}</td><td style="color: ${color}; font-weight: bold;">${record.amount.toLocaleString()}</td></tr>`;
-            }).join('')} </tbody> </table> </div>`;
-        }
-        let comparisonText = ''; let comparisonColor = ''; let differenceAmount = 0;
-        if (summary.totalIncome > summary.totalExpense) {
-            differenceAmount = summary.totalIncome - summary.totalExpense;
-            comparisonText = `รายได้มากกว่ารายจ่าย = ${differenceAmount.toLocaleString()} บาท`;
-            comparisonColor = 'blue';
-        } else if (summary.totalIncome < summary.totalExpense) {
-            differenceAmount = summary.totalExpense - summary.totalIncome;
-            comparisonText = `รายจ่ายมากกว่ารายได้ = ${differenceAmount.toLocaleString()} บาท`;
-            comparisonColor = 'red';
-        } else {
-            comparisonText = 'รายได้เท่ากับรายจ่าย';
-            comparisonColor = 'black';
-        }
-        let summaryLineHTML;
-        if (summary.totalIncome === 0 && summary.totalExpense === 0) {
-             summaryLineHTML = `<p style="color: green; font-weight: bold;">${headerLine1} ไม่มีธุรกรรมการเงิน</p>`;
-        } else {
-             summaryLineHTML = `<p style="color: ${comparisonColor}; font-weight: bold;">${headerLine1} ${comparisonText}</p>`;
-        }
-        let totalBalanceLine;
-        if (type === 'range' || type === 'all') {
-            totalBalanceLine = `<p><b>${headerLine2} = </b><b style="color: ${totalBalance >= 0 ? 'green' : 'red'}; font-size: 1.1em;">${totalBalance.toLocaleString()}</b> บาท</p>`
-        } else {
-            totalBalanceLine = `<p><b>เงินในบัญชีถึงวันนี้มี = </b><b style="color: ${totalBalance >= 0 ? 'green' : 'red'}; font-size: 1.1em;">${totalBalance.toLocaleString()}</b> บาท</p>`
-        }
-        const summaryDateTime = new Date().toLocaleString("th-TH", { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'}) + ' น.';
-        return ` <p><strong>ชื่อบัญชี:</strong> ${currentAccount}</p> <p><strong>สรุปเมื่อวันที่ : </strong> ${summaryDateTime}</p> <p><strong>${title} : </strong> ${thaiDateString}</p> ${transactionDaysInfo ? transactionDaysInfo : ''} <hr> <p><strong>รายรับ : </strong> ${summary.incomeCount} ครั้ง เป็นเงิน ${summary.totalIncome.toLocaleString()} บาท</p>${incomeHTML} <hr> <p><strong>รายจ่าย : </strong> ${summary.expenseCount} ครั้ง เป็นเงิน ${summary.totalExpense.toLocaleString()} บาท</p>${expenseHTML} <hr> ${summaryLineHTML} ${totalBalanceLine} <p><b>ข้อความเพิ่ม : </b><span style="color: orange;">${remark}</span></p> ${recordsHTML}`;
+function buildPdfSummaryHtml(context) {
+    const { summaryResult, title, dateString, remark, transactionDaysInfo, type, thaiDateString, headerLine1, headerLine2, headerLine3 } = context;
+    const { summary, periodRecords, totalBalance } = summaryResult;
+    
+    // เพิ่ม style line-height: 0.5; ในส่วนของรายรับ
+    let incomeHTML = ''; 
+    for (const type in summary.income) { 
+        incomeHTML += `<p style="margin-left: 15px; line-height: 0.5;">- ${type} : ${summary.income[type].count} ครั้ง เป็นเงิน ${summary.income[type].amount.toLocaleString()} บาท</p>`; 
     }
+    
+    // เพิ่ม style line-height: 0.5; ในส่วนของรายจ่าย
+    let expenseHTML = ''; 
+    for (const type in summary.expense) { 
+        expenseHTML += `<p style="margin-left: 15px; line-height: 0.5;">- ${type} : ${summary.expense[type].count} ครั้ง เป็นเงิน ${summary.expense[type].amount.toLocaleString()} บาท</p>`; 
+    }
+    
+    let recordsHTML = '';
+    if (periodRecords.length > 0) {
+        recordsHTML = ` <div style="margin-top: 20px;"> <h4>รายละเอียดธุรกรรม</h4> <table style="width: 100%; border-collapse: collapse; margin-top: 10px;"> <thead><tr style="background-color: #f2f2f2;"><th>วันเดือนปี</th><th>เวลา</th><th>ประเภท</th><th>รายละเอียด</th><th>จำนวนเงิน</th></tr></thead> <tbody> ${periodRecords.map(record => {
+            const recordDate = new Date(record.dateTime);
+            const formattedDate = recordDate.toLocaleDateString('th-TH', { day: '2-digit', month: '2-digit', year: 'numeric' });
+            const [date, time] = record.dateTime.split(" ");
+            const [hours, minutes] = time.split(":");
+            const isIncome = accountTypes.get(currentAccount)["รายรับ"].includes(record.type); const color = isIncome ? "#4CAF50" : "#F44336";
+            return `<tr><td>${formattedDate}</td><td>${hours}.${minutes}</td><td>${record.type}</td><td>${record.description}</td><td style="color: ${color}; font-weight: bold;">${record.amount.toLocaleString()}</td></tr>`;
+        }).join('')} </tbody> </table> </div>`;
+    }
+    
+    let comparisonText = ''; let comparisonColor = ''; let differenceAmount = 0;
+    if (summary.totalIncome > summary.totalExpense) {
+        differenceAmount = summary.totalIncome - summary.totalExpense;
+        comparisonText = `รายได้มากกว่ารายจ่าย = ${differenceAmount.toLocaleString()} บาท`;
+        comparisonColor = 'blue';
+    } else if (summary.totalIncome < summary.totalExpense) {
+        differenceAmount = summary.totalExpense - summary.totalIncome;
+        comparisonText = `รายจ่ายมากกว่ารายได้ = ${differenceAmount.toLocaleString()} บาท`;
+        comparisonColor = 'red';
+    } else {
+        comparisonText = 'รายได้เท่ากับรายจ่าย';
+        comparisonColor = 'black';
+    }
+    
+    let summaryLineHTML;
+    if (summary.totalIncome === 0 && summary.totalExpense === 0) {
+        summaryLineHTML = `<p style="color: green; font-weight: bold; line-height: 0.5;">${headerLine1} ไม่มีธุรกรรมการเงิน</p>`;
+    } else {
+        summaryLineHTML = `<p style="color: ${comparisonColor}; font-weight: bold; line-height: 0.5;">${headerLine1} ${comparisonText}</p>`;
+    }
+    
+    let totalBalanceLine;
+    if (type === 'range' || type === 'all') {
+        totalBalanceLine = `<p style="line-height: 0.5;"><b>${headerLine2} = </b><b style="color: ${totalBalance >= 0 ? 'green' : 'red'}; font-size: 1.1em;">${totalBalance.toLocaleString()}</b> บาท</p>`
+    } else {
+        totalBalanceLine = `<p style="line-height: 0.5;"><b>เงินในบัญชีถึงวันนี้มี = </b><b style="color: ${totalBalance >= 0 ? 'green' : 'red'}; font-size: 1.1em;">${totalBalance.toLocaleString()}</b> บาท</p>`
+    }
+    
+    const summaryDateTime = new Date().toLocaleString("th-TH", { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'}) + ' น.';
+    
+    return ` 
+        <p style="line-height: 0.5;"><strong>ชื่อบัญชี:</strong> ${currentAccount}</p> 
+        <p style="line-height: 0.5;"><strong>สรุปเมื่อวันที่ : </strong> ${summaryDateTime}</p> 
+        <p style="line-height: 0.5;"><strong>${title} : </strong> ${thaiDateString}</p> 
+        ${transactionDaysInfo ? transactionDaysInfo.replace(/<p/g, '<p style="line-height: 0.5;"') : ''} 
+        <hr> 
+        <p style="line-height: 0.5;"><strong>รายรับ : </strong> ${summary.incomeCount} ครั้ง เป็นเงิน ${summary.totalIncome.toLocaleString()} บาท</p>
+        ${incomeHTML} 
+        <hr> 
+        <p style="line-height: 0.5;"><strong>รายจ่าย : </strong> ${summary.expenseCount} ครั้ง เป็นเงิน ${summary.totalExpense.toLocaleString()} บาท</p>
+        ${expenseHTML} 
+        <hr> 
+        ${summaryLineHTML} 
+        ${totalBalanceLine} 
+        <p style="line-height: 0.5;"><b>ข้อความเพิ่ม : </b><span style="color: orange;">${remark}</span></p> 
+        ${recordsHTML}
+    `;
+}
     
     function exportSummaryToCsv(summaryResult, title, dateString, remark, transactionDaysInfo = null, periodName) {
         const { summary, periodRecords, totalBalance } = summaryResult; 
