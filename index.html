@@ -142,32 +142,6 @@
         max-width: 300px;
         margin: 0;
     }
-.format-modal-content {
-    background-color: #fff;
-    padding: 20px 30px;
-    border-radius: 15px;
-    text-align: center;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    width: 90%;
-    max-width: 400px;
-}
-
-.format-modal-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-top: 20px;
-}
-
-.format-modal-buttons button {
-    padding: 15px;
-    font-size: 16px;
-    border: none;
-    border-radius: 10px;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
     /* === END: CSS ใหม่ === */
 
     .install-prompt { background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba; border-radius: 10px; padding: 15px; margin: 15px 10px; text-align: left; font-size: 14px; position: relative; }
@@ -206,27 +180,26 @@
     @media screen and (max-width: 600px) { .container { padding: 5px; } h2 { font-size: 24px; } .entry-form, .button-group, .button-container { grid-template-columns: 1fr; } .sub-section-content .button-group { grid-template-columns: repeat(3, 1fr); gap: 5px; } .sub-section-content .button-group button { padding: 10px 5px; font-size: 14px; } .button-group button, .button-container button { padding: 14px; font-size: 16px; } .file-actions { flex-direction: column; padding: 0 10px; align-items: stretch; } .file-actions button { width: 100%; max-width: none; } .back-button { width: 100%; } }
     
     /* === START: REVISED PRINT STYLES === */
-@media screen {
-    #print-container {
-        display: none;
+    @media screen {
+        #print-container {
+            display: none;
+        }
     }
-}
 
-@media print {
-    body * {
-        visibility: hidden;
-    }
-    #print-container, #print-container * {
-        visibility: visible;
-    }
-    #print-container {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        padding: 0 5mm;
-    }
-    
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+        #print-container, #print-container * {
+            visibility: visible;
+        }
+        #print-container {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+        }
+        
     @page {
         size: A4;
         margin: 15mm 5mm 10mm 10mm; /* top, right, bottom, left */
@@ -236,69 +209,65 @@
             font-size: 9pt;
             color: #888;
             margin-top: 5mm;
+            }
+        }
+        body {
+            background: #fff !important;
+            font-size: 10pt;
+            margin: 0;
+        }
+        
+        #print-container .summaryResult {
+            border: none !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+            background-color: #fff !important;
+            text-align: center;
+        }
+        
+        #print-container .summaryResult p[style*="margin-left"] {
+            text-align: left;
+            display: inline-block;
+        }
+        
+        #print-container h2, #print-container h3, #print-container h4 {
+            margin-bottom: 0.5em;
+        }
+        #print-container p, #print-container li {
+            font-size: 9.5pt;
+            line-height: 1.5; /* Adjusted for better print readability */
+        }
+        #print-container table {
+            width: 100% !important;
+            border-collapse: collapse !important;
+            font-size: 9pt;
+            margin-top: 0.8em;
+            page-break-inside: auto;
+        }
+        #print-container thead {
+             display: table-header-group;
+        }
+        #print-container tr {
+            page-break-inside: avoid;
+        }
+        #print-container th, #print-container td {
+            border: 1px solid #888 !important;
+            padding: 4px 6px;
+            text-align: center;
+            line-height: 1.4; 
+        }
+        #print-container th {
+            background-color: #f0f0f0 !important;
+            font-weight: bold;
+        }
+        #print-container span[style*="color"] {
+            color: #000 !important;
+        }
+        #print-container hr {
+             border-top: 1px solid #999;
+             margin: 1.5em 0;
         }
     }
-    body {
-        background: #fff !important;
-        font-size: 10pt;
-        margin: 0;
-        width: 100%;
-    }
-    
-    #print-container .summaryResult {
-        border: none !important;
-        box-shadow: none !important;
-        padding: 0 !important;
-        background-color: #fff !important;
-        text-align: center;
-        width: 100% !important;
-        max-width: 100% !important;
-        margin-top: 10mm; /* เพิ่ม margin-top เพื่อเว้นที่สำหรับเลขหน้า */
-    }
-    
-    #print-container .summaryResult p[style*="margin-left"] {
-        text-align: left;
-        display: inline-block;
-    }
-    
-    #print-container h2, #print-container h3, #print-container h4 {
-        margin-bottom: 0.5em;
-    }
-    #print-container p, #print-container li {
-        font-size: 9.5pt;
-        line-height: 1.0;
-    }
-    #print-container table {
-        width: 100% !important;
-        border-collapse: collapse !important;
-        font-size: 9pt;
-        margin-top: 0.8em;
-        page-break-inside: auto;
-    }
-    #print-container thead {
-         display: table-header-group;
-    }
-    #print-container tr {
-        page-break-inside: avoid;
-    }
-    #print-container th, #print-container td {
-        border: 1px solid #888 !important;
-        padding: 4px 6px;
-        text-align: center;
-        line-height: 1.2; 
-    }
-    #print-container th {
-        background-color: #f0f0f0 !important;
-        font-weight: bold;
-    }
-    #print-container span[style*="color"] {
-        color: #000 !important;
-    }
-    #print-container hr {
-         border-top: 1px solid #999;
-         margin: 1.5em 0;
-    }
-}
     /* === END: REVISED PRINT STYLES === */
   </style>
 </head>
