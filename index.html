@@ -15,8 +15,6 @@
 
   <!-- ไลบรารีสำหรับอ่านไฟล์ CSV -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
-  <!-- ไลบรารีสำหรับบันทึกเป็นรูปภาพ (เพิ่มเข้ามาใหม่) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
   <style>
     /* CSS ทั้งหมดของคุณยังคงเหมือนเดิม */
@@ -63,20 +61,7 @@
     #recordTable tr:nth-child(even) { background-color: #f9f9f9; }
     #recordTable tr:hover { background-color: #f1f1f1; }
     /* --- CSS ที่ปรับคืนตามต้นฉบับ --- */
-    .summaryResult { 
-    font-size: clamp(12px, 2.2vw, 15px); 
-    font-weight: normal; 
-    color: blue; 
-    background-color: #FAFAD2; 
-    border: 1px solid #4CAF50; 
-    border-radius: 5px; 
-    padding: 10px 5px; /* <-- แก้ไขเรียบร้อย */
-    width: 100%; 
-    margin: 0; 
-    text-align: center; 
-    box-shadow: 0 4px 12px rgba(0,0,0,0.25); 
-    line-height: 0.5; 
-}
+    .summaryResult { font-size: clamp(12px, 2.2vw, 15px); font-weight: normal; color: blue; background-color: #FAFAD2; border: 1px solid #4CAF50; border-radius: 5px; padding: 5px; width: 100%; margin: 0; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.25); line-height: 0.5; }
     .summaryResult table td, .summaryResult table th { line-height: 0.5; }
     .file-actions { display: flex; gap: 10px; align-items: center; }
     .action-button { padding: 10px 20px; height: 40px; min-width: 150px; border: none; border-radius: 20px; color: white; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; }
@@ -99,49 +84,18 @@
         top: 0; 
         width: 100%; 
         height: 100%; 
-        background-color: rgba(0,0,0,0.6);
+        background-color: #fffde7; /* เปลี่ยนพื้นหลังเป็นสีเหลืองอ่อนตามไฟล์ 02.html */
         display: none; 
         justify-content: center; 
         align-items: center; 
-        padding: 10px;
+        padding: 5px; /* เพิ่มระยะห่างรอบๆ */
         overflow-y: auto; 
     }
-    
-    .modal-content-container { background-color: #FAFAD2; padding: 10px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); display: flex; flex-direction: column; align-items: center; margin: auto 0; width: 100%; max-width: 800px; }
-    .modal-close-btn { background-color: #E97132; color: white; padding: 12px 30px; border: none; cursor: pointer; border-radius: 20px; font-size: 16px; margin-top: 10px; transition: background-color 0.3s; width: 90%; max-width: 250px; }
-    .modal-close-btn:hover { background-color: #e64a19; }
-    
-    /* === START: CSS ใหม่สำหรับส่วนควบคุมใน Popup สรุปผล === */
-    .modal-controls {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        margin-top: 10px;
-        max-width: 600px;
-        background-color: #f0f0f0;
-        padding: 10px;
-        border-radius: 8px;
-    }
-    .control-group {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        margin-bottom: 15px;
-    }
-    .control-group label, .control-group span {
-        font-size: 16px;
-        color: #333;
-        margin-bottom: 8px;
-    }
-    .control-group input[type="range"] {
-        width: 80%;
-        max-width: 300px;
-        margin: 0;
-    }
-    /* === END: CSS ใหม่ === */
+    /* === END: CSS ที่ปรับปรุงสำหรับ POPUP === */
 
+    .modal-content-container { background-color: transparent; padding: 0; border: none; box-shadow: none; display: flex; flex-direction: column; align-items: center; margin: auto 0; width: 100%; max-width: 800px; }
+    .modal-close-btn { background-color: #E97132; color: white; padding: 12px 30px; border: none; cursor: pointer; border-radius: 20px; font-size: 16px; margin-top: 10px; transition: background-color 0.3s; }
+    .modal-close-btn:hover { background-color: #e64a19; }
     .install-prompt { background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba; border-radius: 10px; padding: 15px; margin: 15px 10px; text-align: left; font-size: 14px; position: relative; }
     .install-prompt h4 { margin-top: 0; }
     .install-prompt ul { padding-left: 20px; margin-bottom: 0; }
@@ -224,7 +178,7 @@
         }
         #print-container p, #print-container li {
             font-size: 9.5pt;
-            line-height: 1.5; /* Adjusted for better print readability */
+            line-height: 0.5;
         }
         #print-container table {
             width: 100% !important;
@@ -243,7 +197,7 @@
             border: 1px solid #888 !important;
             padding: 4px 6px;
             text-align: center;
-            line-height: 1.4; 
+            line-height: 1.4; /* Added this line for vertical spacing */
         }
         #print-container th {
             background-color: #f0f0f0 !important;
@@ -533,26 +487,13 @@
     </div>
 </div>
 
-<!-- โครงสร้าง Popup สำหรับแสดงผลสรุป (ปรับปรุงใหม่) -->
+<!-- โครงสร้าง Popup สำหรับแสดงผลสรุป -->
 <div id="summaryModal" class="modal-overlay">
   <div class="modal-content-container">
     <div id="modalBodyContent" class="summaryResult">
       <!-- เนื้อหาการสรุปจะถูกใส่ที่นี่โดย JavaScript -->
     </div>
-    <div class="modal-controls">
-        <button id="saveSummaryAsImageBtn" class="modal-close-btn" style="background-color: #007bff; margin-bottom: 15px;">บันทึกเป็นรูปภาพ</button>
-        <div class="control-group">
-            <label for="summaryFontSizeSlider">ปรับขนาดตัวอักษร:</label>
-            <input type="range" id="summaryFontSizeSlider" min="0.5" max="1.5" step="0.05" value="1.0">
-            <span id="summaryFontSizeValue">ขนาด: 100%</span>
-        </div>
-        <div class="control-group">
-            <label for="summaryLineHeightSlider">ปรับขนาดของบรรทัด:</label>
-            <input type="range" id="summaryLineHeightSlider" min="0.01" max="1.5" step="0.01" value="0.5">
-            <span id="summaryLineHeightValue">ความสูงของบรรทัด: 0.5</span>
-        </div>
-        <button onclick="closeSummaryModal()" class="modal-close-btn">ปิดหน้าต่างนี้</button>
-    </div>
+    <button onclick="closeSummaryModal()" class="modal-close-btn">ปิดหน้าต่างนี้</button>
   </div>
 </div>
 
@@ -638,105 +579,7 @@
 <div id="print-container"></div>
 
 <script>
-    // === START: ฟังก์ชันที่ปรับปรุงและเพิ่มเข้ามาใหม่ ===
-    function openSummaryModal(htmlContent) {
-        const modal = document.getElementById('summaryModal');
-        const modalBody = document.getElementById('modalBodyContent');
-        modalBody.innerHTML = htmlContent;
-        modal.style.display = 'flex';
-        setupSummaryControlsAndSave(); // เรียกใช้ฟังก์ชันตั้งค่าปุ่มและแถบเลื่อน
-    }
-
-    function setupSummaryControlsAndSave() {
-        const modalContentContainer = document.querySelector("#summaryModal .modal-content-container");
-        const modalBody = document.getElementById("modalBodyContent");
-        if (!modalBody || !modalContentContainer) return;
-
-        // --- Font Size Controls ---
-        const textElements = modalBody.querySelectorAll('p, h4, strong, th, td, span, div');
-        const fsSlider = document.getElementById("summaryFontSizeSlider");
-        const fsValueSpan = document.getElementById("summaryFontSizeValue");
-
-        textElements.forEach(el => {
-            if (!el.dataset.originalSize) {
-                el.dataset.originalSize = parseFloat(window.getComputedStyle(el).fontSize);
-            }
-        });
-
-        function updateFontSize() {
-            const scale = fsSlider.value;
-            textElements.forEach(el => {
-                const originalSize = parseFloat(el.dataset.originalSize);
-                if (originalSize) {
-                    el.style.fontSize = (originalSize * scale) + 'px';
-                }
-            });
-            fsValueSpan.textContent = "ขนาด: " + Math.round(scale * 100) + "%";
-        }
-        // Remove old listener before adding new one
-        fsSlider.removeEventListener("input", updateFontSize);
-        fsSlider.addEventListener("input", updateFontSize);
-
-        // --- Line Height Controls ---
-        const lhSlider = document.getElementById("summaryLineHeightSlider");
-        const lhValueSpan = document.getElementById("summaryLineHeightValue");
-
-        function updateLineHeight() {
-            const lineHeight = lhSlider.value;
-            modalBody.style.lineHeight = lineHeight;
-            lhValueSpan.textContent = "ความสูงของบรรทัด: " + lineHeight;
-        }
-        // Remove old listener before adding new one
-        lhSlider.removeEventListener("input", updateLineHeight);
-        lhSlider.addEventListener("input", updateLineHeight);
-        
-        // --- Save as Image Button Logic ---
-        const saveBtn = document.getElementById("saveSummaryAsImageBtn");
-        // Clone and replace to remove old listeners
-        const newSaveBtn = saveBtn.cloneNode(true);
-        saveBtn.parentNode.replaceChild(newSaveBtn, saveBtn);
-
-        newSaveBtn.addEventListener("click", function() {
-            const controlsElement = modalContentContainer.querySelector('.modal-controls');
-            
-            // Temporarily hide controls for capture
-            if (controlsElement) controlsElement.style.display = 'none';
-
-            // --- START: ส่วนที่เพิ่มเข้ามา ---
-            // ปรับ padding ด้านข้างให้เล็กลงชั่วคราวก่อนถ่ายภาพ
-            // (15px คือ บน-ล่าง, 5px คือ ซ้าย-ขวา) คุณสามารถปรับเลข 5px ได้ตามต้องการ
-            modalContentContainer.style.padding = '10px 5px';
-            // --- END: ส่วนที่เพิ่มเข้ามา ---
-
-            html2canvas(modalContentContainer, {
-                useCORS: true,
-                scale: 2, // Higher resolution
-                backgroundColor: '#FAFAD2' // Match content background
-            }).then(canvas => {
-                const link = document.createElement('a');
-                const fileName = `สรุป_${currentAccount || 'account'}_${Date.now()}.png`;
-                link.download = fileName;
-                link.href = canvas.toDataURL("image/png");
-                link.click();
-            }).catch(err => {
-                console.error("Error creating image:", err);
-                alert("ขออภัย, ไม่สามารถบันทึกเป็นรูปภาพได้");
-            }).finally(() => {
-                // Show controls again
-                if (controlsElement) controlsElement.style.display = '';
-                
-                // --- START: ส่วนที่เพิ่มเข้ามา ---
-                // ล้างค่า style ที่เราใส่เข้าไป เพื่อให้ padding กลับไปเป็นค่าเดิมจาก CSS
-                modalContentContainer.style.padding = '';
-                // --- END: ส่วนที่เพิ่มเข้ามา ---
-            });
-        });        
-        // Initial setup
-        updateFontSize();
-        updateLineHeight();
-    }
-    // === END: ฟังก์ชันที่ปรับปรุงและเพิ่มเข้ามาใหม่ ===
-
+    function openSummaryModal(htmlContent) { const modal = document.getElementById('summaryModal'); const modalBody = document.getElementById('modalBodyContent'); modalBody.innerHTML = htmlContent; modal.style.display = 'flex'; }
     function closeSummaryModal() { const modal = document.getElementById('summaryModal'); modal.style.display = 'none'; }
     function toggleSection(sectionId) { const section = document.getElementById(sectionId); const header = section.previousElementSibling; section.classList.toggle('active'); header.classList.toggle('active'); }
     let accounts = [];
@@ -1281,10 +1124,8 @@
         const summaryDateTime = new Date().toLocaleString("th-TH", { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'}) + ' น.';
         csvRows.push(['สรุปข้อมูลบัญชี']); csvRows.push(['ชื่อบัญชี:', currentAccount]); csvRows.push(['สรุปเมื่อวันที่:', summaryDateTime]); csvRows.push([`${title}:`, dateString]);
         if(transactionDaysInfo) {
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = transactionDaysInfo;
-            const pElements = tempDiv.querySelectorAll('p');
-            pElements.forEach(p => csvRows.push([p.innerText]));
+            csvRows.push([transactionDaysInfo.totalDaysText]);
+            csvRows.push([transactionDaysInfo.activityText]);
         }
         csvRows.push(['']);
         csvRows.push([`--- รายรับ: ${summary.incomeCount} ครั้ง | รวม ${summary.totalIncome.toLocaleString()} บาท ---`]);
