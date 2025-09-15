@@ -15,10 +15,8 @@
 
   <!-- ไลบรารีสำหรับอ่านไฟล์ CSV -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
-  <!-- ไลบรารีสำหรับบันทึกเป็นรูปภาพ -->
+  <!-- ไลบรารีสำหรับบันทึกเป็นรูปภาพ (เพิ่มเข้ามาใหม่) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <!-- ไลบรารีสำหรับสร้างไฟล์ Excel (XLSX) -->
-  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
   <style>
     /* CSS ทั้งหมดของคุณยังคงเหมือนเดิม */
@@ -69,7 +67,7 @@
     font-size: clamp(12px, 2.2vw, 15px); 
     font-weight: normal; 
     color: blue; 
-    background-color: #FFFFFF;   
+    background-color: #FAFAD2; 
     border: 1px solid #4CAF50; 
     border-radius: 5px; 
     padding: 10px 5px; /* <-- แก้ไขเรียบร้อย */
@@ -160,14 +158,6 @@
     .format-modal-buttons .btn-cancel:hover { background-color: #5a6268; }
     .format-modal-buttons .btn-display { background-color: #007bff; }
     .format-modal-buttons .btn-display:hover { background-color: #0056b3; }
-    .format-modal-buttons .btn-xlsx { background-color: #107C41; }
-    .format-modal-buttons .btn-xlsx:hover { background-color: #0E6A37; }
-.format-modal-buttons .btn-xlsx { 
-    background-color: #107C41; 
-}
-.format-modal-buttons .btn-xlsx:hover { 
-    background-color: #0E6A37; 
-}
     .header-import {
         background-color: #a7dca5; /* สีเขียวอ่อน */
         border-radius: 15px;      /* ลดความโค้งของขอบ ทำให้ดูเหลี่ยมขึ้น */
@@ -200,15 +190,14 @@
             width: 100%;
         }
         
-    @page {
-        size: A4;
-        margin: 15mm 5mm 10mm 10mm; /* top, right, bottom, left */
-        @top-center {
-            content: "หน้า " counter(page);
-            font-family: Arial, sans-serif;
-            font-size: 9pt;
-            color: #888;
-            margin-top: 5mm;
+        @page {
+            size: A4;
+            margin: 20mm;
+            @top-right {
+                content: "หน้า " counter(page);
+                font-family: Arial, sans-serif;
+                font-size: 9pt;
+                color: #888;
             }
         }
         body {
@@ -281,7 +270,7 @@
             <li><b>สำหรับ iPhone (iOS):</b> เปิดใน Safari แล้วกดที่ปุ่ม "แชร์" (Share) จากนั้นเลือก "เพิ่มไปยังหน้าจอโฮม" (Add to Home Screen)</li>
         </ul>
         <p style="color: red; font-weight: bold; margin-top: 10px; margin-bottom: 0;">
-            ข้อควรระวังสำหรับ iPhone: ระบบอาจลบข้อมูลที่บันทึกไว้หากไม่ได้ใช้งานนานๆ หรือพื้นที่เหลือน้อย! <br>แนะนำให้ "บันทึกถาวร" หรือ "บันทึกเป็น XLSX" เพื่อสำรองข้อมูลสม่ำเสมอ
+            ข้อควรระวังสำหรับ iPhone: ระบบอาจลบข้อมูลที่บันทึกไว้หากไม่ได้ใช้งานนานๆ หรือพื้นที่เหลือน้อย! <br>แนะนำให้ "บันทึกถาวร" หรือ "บันทึกเป็น CSV" เพื่อสำรองข้อมูลสม่ำเสมอ
         </p>
     </div>
 </div>
@@ -292,7 +281,7 @@
         <div style="width: 100%; max-width: 600px; margin: 10px auto;">
             <div class="file-actions" style="display: flex; justify-content: center; gap: 10px;">
               <div class="file-button-wrapper" style="flex: 1; min-width: 0;">
-                <input type="file" id="fileInput" onchange="loadFromFile(event)" style="display: none;" accept=".json,application/json,.csv,text/csv,.xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                <input type="file" id="fileInput" onchange="loadFromFile(event)" style="display: none;" accept=".json,application/json,.csv,text/csv">
                 <button type="button" onclick="document.getElementById('fileInput').click()" 
                         class="action-button" 
                          style="width: 50%; height: 50px; padding: 5px; font-size: 16px; background-color: #196B24; color: #FFFFFF; border: 5px solid #FFFFFF; border-radius: 30px; cursor: pointer; margin: 0 auto;">
@@ -567,6 +556,19 @@
   </div>
 </div>
 
+<!-- --- Modal ที่เพิ่มเข้ามา --- -->
+<!-- Modal สำหรับเลือกรูปแบบไฟล์ (สำรองข้อมูลทั้งหมด) -->
+<div id="formatSelectionModal" class="modal-overlay">
+  <div class="format-modal-content">
+    <h3>เลือกรูปแบบไฟล์สำรองข้อมูล</h3>
+    <div class="format-modal-buttons">
+      <button class="btn-json" onclick="handleSaveAs('json')">JSON (.json)</button>
+      <button class="btn-csv" onclick="handleSaveAs('csv')">CSV (.csv)</button>
+      <button class="btn-cancel" onclick="closeFormatModal()">ยกเลิก</button>
+    </div>
+  </div>
+</div>
+
 <!-- Modal สำหรับเลือกรูปแบบไฟล์ (บัญชีที่เลือก) -->
 <div id="exportSingleAccountModal" class="modal-overlay">
   <div class="format-modal-content">
@@ -585,7 +587,7 @@
         <h3>เลือกรูปแบบการแสดงผลสรุป</h3>
         <div class="format-modal-buttons">
             <button class="btn-display" onclick="handleSummaryOutput('display')">แสดงบนจอ</button>
-            <button class="btn-xlsx" onclick="handleSummaryOutput('xlsx')">บันทึกเป็น XLSX</button>
+            <button class="btn-csv" onclick="handleSummaryOutput('csv')">บันทึกเป็น CSV</button>
             <button class="btn-pdf" onclick="handleSummaryOutput('pdf')">บันทึกเป็น PDF</button>
             <button class="btn-cancel" onclick="closeSummaryOutputModal()">ยกเลิก</button>
         </div>
@@ -620,16 +622,7 @@
     </div>
   </div>
 </div>
-<div id="formatSelectionModal" class="modal-overlay">
-  <div class="format-modal-content">
-    <h3>เลือกรูปแบบไฟล์สำหรับบันทึกทั้งหมด</h3>
-    <div class="format-modal-buttons">
-      <button class="btn-json" onclick="handleSaveAs('json')">JSON (.json)</button>
-      <button class="btn-csv" onclick="handleSaveAs('csv')">CSV (.csv)</button>
-      <button class="btn-cancel" onclick="closeFormatModal()">ยกเลิก</button>
-    </div>
-  </div>
-</div>
+
 <div id="singleDateExportFormatModal" class="modal-overlay">
   <div class="format-modal-content">
     <h3>เลือกรูปแบบไฟล์ที่จะบันทึก</h3>
@@ -645,6 +638,7 @@
 <div id="print-container"></div>
 
 <script>
+    // === START: ฟังก์ชันที่ปรับปรุงและเพิ่มเข้ามาใหม่ ===
     function openSummaryModal(htmlContent) {
         const modal = document.getElementById('summaryModal');
         const modalBody = document.getElementById('modalBodyContent');
@@ -828,65 +822,25 @@
             URL.revokeObjectURL(url);
             alert(`บันทึกข้อมูลวันที่ ${selectedDate} เป็น JSON เรียบร้อย\n\nไฟล์: ${fullFileName}`);
 
-        } else if (format === 'xlsx') {
-            // สร้างเวิร์กบุ๊กใหม่
-            const wb = XLSX.utils.book_new();
-            
-            // สร้างข้อมูลสำหรับชีต
-            let excelData = [];
-            
-            // เพิ่มข้อมูลส่วนหัว
-            excelData.push([`ชื่อบัญชี: ${currentAccount}`]);
-            excelData.push([`วันที่ส่งออก: ${selectedDate}`]);
-            excelData.push([]);
-            
-            // เพิ่มหัวข้อตาราง
-            excelData.push(["วันที่", "เวลา", "ประเภท", "รายละเอียด", "จำนวนเงิน (บาท)"]);
-            
-            // เรียงลำดับข้อมูลตามเวลา
+        } else if (format === 'csv') {
+            let csvData = [];
+            csvData.push([`ชื่อบัญชี: ${currentAccount}`]);
+            csvData.push([`isDailyExport: true`]);
+            csvData.push([`exportDate: ${selectedDate}`]);
+            csvData.push([]);
+            csvData.push(["วันที่", "เวลา", "ประเภท", "รายละเอียด", "จำนวนเงิน (บาท)"]);
             const sortedRecords = [...filteredRecords].sort((a, b) => new Date(a.dateTime) - new Date(b.dateTime));
-            
-            // เพิ่มข้อมูลแต่ละรายการ
             sortedRecords.forEach(record => {
                 const dt = new Date(record.dateTime);
-                const dateStr = `${String(dt.getDate()).padStart(2, '0')}/${String(dt.getMonth() + 1).padStart(2, '0')}/${dt.getFullYear()}`;
-                const timeStr = `${String(dt.getHours()).padStart(2, '0')}.${String(dt.getMinutes()).padStart(2, '0')} น.`;
-                excelData.push([dateStr, timeStr, record.type, record.description, record.amount]);
+                const d = `${String(dt.getDate()).padStart(2, '0')}/${String(dt.getMonth() + 1).padStart(2, '0')}/${dt.getFullYear()}`;
+                const t = `${String(dt.getHours()).padStart(2, '0')}.${String(dt.getMinutes()).padStart(2, '0')} น.`;
+                csvData.push([d, t, record.type, record.description, record.amount]);
             });
-            
-            // สร้างชีตจากข้อมูล
-            const ws = XLSX.utils.aoa_to_sheet(excelData);
-            
-            // ตั้งค่าคอลัมน์ให้พอดีกับเนื้อหา
-            const colWidths = [
-                {wch: 12}, // วันที่
-                {wch: 10}, // เวลา
-                {wch: 15}, // ประเภท
-                {wch: 30}, // รายละเอียด
-                {wch: 15}  // จำนวนเงิน
-            ];
-            ws['!cols'] = colWidths;
-            
-            // ตั้งค่าหน้ากระดาษสำหรับพิมพ์
-            ws['!pageSetup'] = {
-                orientation: 'landscape',
-                paperSize: 9, // A4
-                fitToPage: true,
-                fitToWidth: 1,
-                fitToHeight: 0,
-                margins: {
-                    left: 0.7, right: 0.7,
-                    top: 0.75, bottom: 0.75,
-                    header: 0.3, footer: 0.3
-                }
-            };
-            
-            // เพิ่มชีตลงในเวิร์กบุ๊ก
-            XLSX.utils.book_append_sheet(wb, ws, "ข้อมูลบัญชี");
-            
-            // ส่งออกไฟล์
-            XLSX.writeFile(wb, fullFileName);
-            alert(`บันทึกข้อมูลวันที่ ${selectedDate} เป็น XLSX เรียบร้อย\n\nไฟล์: ${fullFileName}`);
+            let csvContent = Papa.unparse(csvData, { header: false });
+            const blob = new Blob(["\uFEFF" + csvContent], { type: "text/csv;charset=utf-8;" });
+            const link = document.createElement("a"); link.href = URL.createObjectURL(blob); link.download = fullFileName; link.click();
+            setTimeout(() => URL.revokeObjectURL(link.href), 100);
+            alert(`บันทึกข้อมูลวันที่ ${selectedDate} เป็น CSV เรียบร้อย\n\nไฟล์: ${fullFileName}`);
         }
         singleDateExportContext = {};
     }
@@ -1157,6 +1111,7 @@
 
     function saveDataAndShowToast(entryCategory = 'neutral') { const dataToSave = { accounts: [...accounts], currentAccount: currentAccount, records: [...records], accountTypes: Array.from(accountTypes.entries()), backupPassword: backupPassword }; try { localStorage.setItem('accountData', JSON.stringify(dataToSave)); } catch (error) { console.error("บันทึกข้อมูลไม่สำเร็จ:", error); alert("⚠️ เกิดข้อผิดพลาดในการบันทึกข้อมูล"); return; } const toast = document.getElementById('toast'); toast.textContent = '✓ บันทึกข้อมูลสำเร็จแล้ว'; if (entryCategory === 'income') { toast.style.backgroundColor = '#28a745'; } else if (entryCategory === 'expense') { toast.style.backgroundColor = '#dc3545'; } else { toast.style.backgroundColor = '#007bff'; } toast.className = "toast-notification show"; setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 2500); }
     function displayRecords() { const recordBody = document.getElementById('recordBody'); recordBody.innerHTML = ""; const filteredRecords = records.filter(record => record.account === currentAccount) .sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime)); filteredRecords.forEach((record, index) => { const originalIndex = records.findIndex(r => r === record); const dateTime = new Date(record.dateTime); const formattedDate = `${String(dateTime.getDate()).padStart(2, '0')}/${String(dateTime.getMonth() + 1).padStart(2, '0')}/${dateTime.getFullYear()}`; const formattedTime = `${String(dateTime.getHours()).padStart(2, '0')}.${String(dateTime.getMinutes()).padStart(2, '0')} น.`; const row = document.createElement('tr'); row.innerHTML = ` <td>${formattedDate}</td> <td>${formattedTime}</td> <td>${record.type}</td> <td>${record.description}</td> <td>${record.amount.toLocaleString()} บาท</td> <td> <button onclick="editRecord(${originalIndex})">แก้ไข</button> <button onclick="deleteRecord(${originalIndex})">ลบ</button> </td> `; recordBody.appendChild(row); }); if (filteredRecords.length === 0) { const row = document.createElement('tr'); row.innerHTML = `<td colspan="6" style="text-align: center;">ไม่มีข้อมูล</td>`; recordBody.appendChild(row); } }
+    
     function editRecord(index) {
         const record = records[index];
         document.getElementById('type').value = record.type;
@@ -1182,28 +1137,28 @@
     function openSummaryOutputModal() { document.getElementById('summaryOutputModal').style.display = 'flex'; }
     function closeSummaryOutputModal() { document.getElementById('summaryOutputModal').style.display = 'none'; summaryContext = {}; }
     
-function handleSummaryOutput(choice) {
-    if (!summaryContext || !summaryContext.summaryResult) {
-        console.error("Summary context is missing. Cannot proceed.");
-        closeSummaryOutputModal();
-        return;
-    }
-    if (choice === 'display') {
-        const htmlForDisplay = buildOriginalSummaryHtml(summaryContext);
-        openSummaryModal(htmlForDisplay);
-    } else if (choice === 'xlsx') {
-        const { summaryResult, title, dateString, remark, transactionDaysInfo, periodName } = summaryContext;
-        exportSummaryToXlsx(summaryResult, title, dateString, remark, transactionDaysInfo, periodName);
-    } else if (choice === 'pdf') {
-        const printContainer = document.getElementById('print-container');
-        if (printContainer) {
-            const htmlWithDetailsForPdf = buildPdfSummaryHtml(summaryContext);
-            printContainer.innerHTML = `<div class="summaryResult">${htmlWithDetailsForPdf}</div>`;
-            setTimeout(() => { window.print(); }, 250);
+    function handleSummaryOutput(choice) {
+        if (!summaryContext || !summaryContext.summaryResult) {
+            console.error("Summary context is missing. Cannot proceed.");
+            closeSummaryOutputModal();
+            return;
         }
+        if (choice === 'display') {
+            const htmlForDisplay = buildOriginalSummaryHtml(summaryContext);
+            openSummaryModal(htmlForDisplay);
+        } else if (choice === 'csv') {
+            const { summaryResult, title, dateString, remark, transactionDaysInfo, periodName } = summaryContext;
+            exportSummaryToCsv(summaryResult, title, dateString, remark, transactionDaysInfo, periodName);
+        } else if (choice === 'pdf') {
+            const printContainer = document.getElementById('print-container');
+            if (printContainer) {
+                const htmlWithDetailsForPdf = buildPdfSummaryHtml(summaryContext);
+                printContainer.innerHTML = `<div class="summaryResult">${htmlWithDetailsForPdf}</div>`;
+                setTimeout(() => { window.print(); }, 250);
+            }
+        }
+        closeSummaryOutputModal();
     }
-    closeSummaryOutputModal();
-}
 
     function generateSummaryData(startDate, endDate) {
         if (!currentAccount || !accountTypes.has(currentAccount)) { alert("ไม่พบบัญชีหรือประเภทของบัญชี"); return null; }
@@ -1275,256 +1230,50 @@ function handleSummaryOutput(choice) {
         return ` <p><strong>ชื่อบัญชี:</strong> ${currentAccount}</p> <p><strong>สรุปเมื่อวันที่ : </strong> ${summaryDateTime}</p> <p><strong>${title} : </strong> ${thaiDateString}</p> ${transactionDaysInfo ? transactionDaysInfo : ''} <hr> <p><strong>รายรับ : </strong> ${summary.incomeCount} ครั้ง เป็นเงิน ${summary.totalIncome.toLocaleString()} บาท</p>${incomeHTML} <hr> <p><strong>รายจ่าย : </strong> ${summary.expenseCount} ครั้ง เป็นเงิน ${summary.totalExpense.toLocaleString()} บาท</p>${expenseHTML} <hr> ${summaryLineHTML} ${totalBalanceLine} <p>ข้อความเพิ่ม : <span style="color: orange;">${remark}</span></p> ${recordsHTML}`;
     }
 
-function exportSummaryToXlsx(summaryResult, title, dateString, remark, transactionDaysInfo = null, periodName) {
-    const { summary, periodRecords, totalBalance } = summaryResult;
-    
-    // สร้างเวิร์กบุ๊กใหม่
-    const wb = XLSX.utils.book_new();
-    
-    // สร้างข้อมูลสำหรับชีต
-    let excelData = [];
-    
-    // ส่วนหัวเอกสาร
-    const summaryDateTime = new Date().toLocaleString("th-TH", { 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric', 
-        hour: '2-digit', 
-        minute: '2-digit'
-    }) + ' น.';
-    
-    // เพิ่มข้อมูลส่วนหัว
-    excelData.push(['สรุปข้อมูลบัญชี']);
-    excelData.push(['ชื่อบัญชี:', currentAccount]);
-    excelData.push(['สรุปเมื่อวันที่:', summaryDateTime]);
-    excelData.push([`${title} :`, dateString]);
-    excelData.push([]);
-    
-    // ข้อมูลวันทำธุรกรรม (ถ้ามี)
-    if (transactionDaysInfo) {
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = transactionDaysInfo;
-        const pElements = tempDiv.querySelectorAll('p');
-        pElements.forEach(p => {
-            excelData.push([p.innerText]);
-        });
-        excelData.push([]);
-    }
-    
-    // รายรับ
-    excelData.push(['รายรับ :', `${summary.incomeCount} ครั้ง เป็นเงิน ${summary.totalIncome.toLocaleString()} บาท`]);
-    for (const type in summary.income) {
-        excelData.push([`- ${type} : ${summary.income[type].count} ครั้ง เป็นเงิน ${summary.income[type].amount.toLocaleString()} บาท`]);
-    }
-    excelData.push([]);
-    
-    // รายจ่าย
-    excelData.push(['รายจ่าย :', `${summary.expenseCount} ครั้ง เป็นเงิน ${summary.totalExpense.toLocaleString()} บาท`]);
-    for (const type in summary.expense) {
-        excelData.push([`- ${type} : ${summary.expense[type].count} ครั้ง เป็นเงิน ${summary.expense[type].amount.toLocaleString()} บาท`]);
-    }
-    excelData.push([]);
-    
-    // สรุปยอด
-    const netAmount = summary.totalIncome - summary.totalExpense;
-    let comparisonText = '';
-    let comparisonColor = 'black';
-    
-    if (summary.totalIncome > summary.totalExpense) {
-        comparisonText = `รายได้มากกว่ารายจ่าย = ${netAmount.toLocaleString()} บาท`;
-        comparisonColor = 'blue';
-    } else if (summary.totalIncome < summary.totalExpense) {
-        comparisonText = `รายจ่ายมากกว่ารายได้ = ${Math.abs(netAmount).toLocaleString()} บาท`;
-        comparisonColor = 'red';
-    } else {
-        comparisonText = 'รายได้เท่ากับรายจ่าย';
-    }
-    
-    if (summary.totalIncome === 0 && summary.totalExpense === 0) {
-        excelData.push(['สรุป :', 'ไม่มีธุรกรรมการเงิน']);
-    } else {
-        excelData.push(['สรุป :', comparisonText]);
-    }
-    
-    // ยอดเงินคงเหลือ
-    if (periodName === 'ทั้งหมด' || periodName.includes('ถึง')) {
-        excelData.push(['เงินในบัญชีถึงวันนี้มี =', `${totalBalance.toLocaleString()} บาท`]);
-    } else {
-        excelData.push(['เงินคงเหลือในบัญชีทั้งหมด =', `${totalBalance.toLocaleString()} บาท`]);
-    }
-    
-    // หมายเหตุ
-    excelData.push(['ข้อความเพิ่ม :', remark]);
-    excelData.push([]);
-    
-    // รายการธุรกรรม (ถ้ามี)
-    if (periodRecords.length > 0) {
-        excelData.push(['--- รายการธุรกรรม ---']);
-        excelData.push(['วันที่', 'เวลา', 'ประเภท', 'รายละเอียด', 'จำนวนเงิน (บาท)']);
-        
-        periodRecords.forEach(record => {
-            const d = new Date(record.dateTime);
-            const date = d.toLocaleDateString('th-TH', { 
-                day: '2-digit', 
-                month: '2-digit', 
-                year: 'numeric' 
-            });
-            const hours = String(d.getHours()).padStart(2, '0');
-            const minutes = String(d.getMinutes()).padStart(2, '0');
-            const time = `${hours}.${minutes} น.`;
-            
-            excelData.push([
-                date, 
-                time, 
-                record.type, 
-                record.description, 
-                record.amount.toLocaleString()
-            ]);
-        });
-    }
-    
-    // สร้างชีตจากข้อมูล
-    const ws = XLSX.utils.aoa_to_sheet(excelData);
-    
-    // ตั้งค่าความกว้างของคอลัมน์
-    const colWidths = [
-        {wch: 15}, // คอลัมน์ A
-        {wch: 30}, // คอลัมน์ B
-        {wch: 15}, // คอลัมน์ C
-        {wch: 30}, // คอลัมน์ D
-        {wch: 20}  // คอลัมน์ E
-    ];
-    ws['!cols'] = colWidths;
-    
-    // ตั้งค่าหน้ากระดาษสำหรับพิมพ์ (เหมือนกับ PDF)
-    ws['!pageSetup'] = {
-        orientation: 'portrait',
-        paperSize: 9, // A4
-        fitToPage: true,
-        fitToWidth: 1,
-        fitToHeight: 0,
-        margins: {
-            left: 0.7, right: 0.7,
-            top: 0.75, bottom: 0.75,
-            header: 0.3, footer: 0.3
+    function buildPdfSummaryHtml(context) {
+        const { summaryResult, title, dateString, remark, transactionDaysInfo, type, thaiDateString, headerLine1, headerLine2, headerLine3 } = context;
+        const { summary, periodRecords, totalBalance } = summaryResult;
+        let incomeHTML = ''; for (const type in summary.income) { incomeHTML += `<p style="margin-left: 15px;">- ${type} : ${summary.income[type].count} ครั้ง เป็นเงิน ${summary.income[type].amount.toLocaleString()} บาท</p>`; }
+        let expenseHTML = ''; for (const type in summary.expense) { expenseHTML += `<p style="margin-left: 15px;">- ${type} : ${summary.expense[type].count} ครั้ง เป็นเงิน ${summary.expense[type].amount.toLocaleString()} บาท</p>`; }
+        let recordsHTML = '';
+        if (periodRecords.length > 0) {
+            recordsHTML = ` <div style="margin-top: 20px;"> <h4>รายละเอียดธุรกรรม</h4> <table style="width: 100%; border-collapse: collapse; margin-top: 10px;"> <thead><tr style="background-color: #f2f2f2;"><th>วันเดือนปี</th><th>เวลา</th><th>ประเภท</th><th>รายละเอียด</th><th>จำนวนเงิน</th></tr></thead> <tbody> ${periodRecords.map(record => {
+                const recordDate = new Date(record.dateTime);
+                const formattedDate = recordDate.toLocaleDateString('th-TH', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                const [date, time] = record.dateTime.split(" ");
+                const [hours, minutes] = time.split(":");
+                const isIncome = accountTypes.get(currentAccount)["รายรับ"].includes(record.type); const color = isIncome ? "#4CAF50" : "#F44336";
+                return `<tr><td>${formattedDate}</td><td>${hours}.${minutes}</td><td>${record.type}</td><td>${record.description}</td><td style="color: ${color}; font-weight: bold;">${record.amount.toLocaleString()}</td></tr>`;
+            }).join('')} </tbody> </table> </div>`;
         }
-    };
-    
-    // เพิ่มหัวเรื่องให้กับเอกสาร
-    if (!ws['!merges']) ws['!merges'] = [];
-    ws['!merges'].push({s: {r: 0, c: 0}, e: {r: 0, c: 4}});
-    
-    // เพิ่มชีตลงในเวิร์กบุ๊ก
-    XLSX.utils.book_append_sheet(wb, ws, "สรุปข้อมูลบัญชี");
-    
-    // สร้างชื่อไฟล์
-    const fileName = `สรุป_${currentAccount}_${periodName}_${new Date().getTime()}.xlsx`;
-    
-    // ส่งออกไฟล์
-    XLSX.writeFile(wb, fileName);
-}
-
-// เพิ่มฟังก์ชันสำหรับจัดรูปแบบเซลล์ใน Excel
-function applyExcelStyles(ws, data) {
-    // กำหนดสไตล์ให้กับส่วนหัว
-    if (!ws['!merges']) ws['!merges'] = [];
-    
-    // รวมเซลล์สำหรับหัวเรื่องหลัก
-    ws['!merges'].push({s: {r: 0, c: 0}, e: {r: 0, c: 4}});
-    
-    // กำหนดความกว้างคอลัมน์
-    if (!ws['!cols']) ws['!cols'] = [];
-    ws['!cols'][0] = {wch: 25};
-    ws['!cols'][1] = {wch: 35};
-    ws['!cols'][2] = {wch: 15};
-    ws['!cols'][3] = {wch: 30};
-    ws['!cols'][4] = {wch: 20};
-    
-    return ws;
-}
-
-// เรียกใช้ฟังก์ชันจัดรูปแบบหลังจากสร้าง worksheet
-// ในฟังก์ชัน exportSummaryToXlsx ให้เพิ่มบรรทัดนี้ก่อนเพิ่มชีตลงในเวิร์กบุ๊ก:
-// ws = applyExcelStyles(ws, excelData);
-function closeFormatModal() {
-    document.getElementById('formatSelectionModal').style.display = 'none';
-}
-function buildPdfSummaryHtml(context) {
-    const { summaryResult, title, dateString, remark, transactionDaysInfo, type, thaiDateString, headerLine1, headerLine2, headerLine3 } = context;
-    const { summary, periodRecords, totalBalance } = summaryResult;
-    
-    // เพิ่ม style line-height: 0.5; ในส่วนของรายรับ
-    let incomeHTML = ''; 
-    for (const type in summary.income) { 
-        incomeHTML += `<p style="margin-left: 15px; line-height: 0.5;">- ${type} : ${summary.income[type].count} ครั้ง เป็นเงิน ${summary.income[type].amount.toLocaleString()} บาท</p>`; 
+        let comparisonText = ''; let comparisonColor = ''; let differenceAmount = 0;
+        if (summary.totalIncome > summary.totalExpense) {
+            differenceAmount = summary.totalIncome - summary.totalExpense;
+            comparisonText = `รายได้มากกว่ารายจ่าย = ${differenceAmount.toLocaleString()} บาท`;
+            comparisonColor = 'blue';
+        } else if (summary.totalIncome < summary.totalExpense) {
+            differenceAmount = summary.totalExpense - summary.totalIncome;
+            comparisonText = `รายจ่ายมากกว่ารายได้ = ${differenceAmount.toLocaleString()} บาท`;
+            comparisonColor = 'red';
+        } else {
+            comparisonText = 'รายได้เท่ากับรายจ่าย';
+            comparisonColor = 'black';
+        }
+        let summaryLineHTML;
+        if (summary.totalIncome === 0 && summary.totalExpense === 0) {
+             summaryLineHTML = `<p style="color: green; font-weight: bold;">${headerLine1} ไม่มีธุรกรรมการเงิน</p>`;
+        } else {
+             summaryLineHTML = `<p style="color: ${comparisonColor}; font-weight: bold;">${headerLine1} ${comparisonText}</p>`;
+        }
+        let totalBalanceLine;
+        if (type === 'range' || type === 'all') {
+            totalBalanceLine = `<p><b>${headerLine2} = </b><b style="color: ${totalBalance >= 0 ? 'green' : 'red'}; font-size: 1.1em;">${totalBalance.toLocaleString()}</b> บาท</p>`
+        } else {
+            totalBalanceLine = `<p><b>เงินในบัญชีถึงวันนี้มี = </b><b style="color: ${totalBalance >= 0 ? 'green' : 'red'}; font-size: 1.1em;">${totalBalance.toLocaleString()}</b> บาท</p>`
+        }
+        const summaryDateTime = new Date().toLocaleString("th-TH", { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'}) + ' น.';
+        return ` <p><strong>ชื่อบัญชี:</strong> ${currentAccount}</p> <p><strong>สรุปเมื่อวันที่ : </strong> ${summaryDateTime}</p> <p><strong>${title} : </strong> ${thaiDateString}</p> ${transactionDaysInfo ? transactionDaysInfo : ''} <hr> <p><strong>รายรับ : </strong> ${summary.incomeCount} ครั้ง เป็นเงิน ${summary.totalIncome.toLocaleString()} บาท</p>${incomeHTML} <hr> <p><strong>รายจ่าย : </strong> ${summary.expenseCount} ครั้ง เป็นเงิน ${summary.totalExpense.toLocaleString()} บาท</p>${expenseHTML} <hr> ${summaryLineHTML} ${totalBalanceLine} <p><b>ข้อความเพิ่ม : </b><span style="color: orange;">${remark}</span></p> ${recordsHTML}`;
     }
-    
-    // เพิ่ม style line-height: 0.5; ในส่วนของรายจ่าย
-    let expenseHTML = ''; 
-    for (const type in summary.expense) { 
-        expenseHTML += `<p style="margin-left: 15px; line-height: 0.5;">- ${type} : ${summary.expense[type].count} ครั้ง เป็นเงิน ${summary.expense[type].amount.toLocaleString()} บาท</p>`; 
-    }
-    
-    let recordsHTML = '';
-    if (periodRecords.length > 0) {
-        recordsHTML = ` <div style="margin-top: 20px;"> <h4>รายละเอียดธุรกรรม</h4> <table style="width: 100%; border-collapse: collapse; margin-top: 10px;"> <thead><tr style="background-color: #f2f2f2;"><th>วันเดือนปี</th><th>เวลา</th><th>ประเภท</th><th>รายละเอียด</th><th>จำนวนเงิน</th></tr></thead> <tbody> ${periodRecords.map(record => {
-            const recordDate = new Date(record.dateTime);
-            const formattedDate = recordDate.toLocaleDateString('th-TH', { day: '2-digit', month: '2-digit', year: 'numeric' });
-            const [date, time] = record.dateTime.split(" ");
-            const [hours, minutes] = time.split(":");
-            const isIncome = accountTypes.get(currentAccount)["รายรับ"].includes(record.type); const color = isIncome ? "#4CAF50" : "#F44336";
-            return `<tr><td>${formattedDate}</td><td>${hours}.${minutes}</td><td>${record.type}</td><td>${record.description}</td><td style="color: ${color}; font-weight: bold;">${record.amount.toLocaleString()}</td></tr>`;
-        }).join('')} </tbody> </table> </div>`;
-    }
-    
-    let comparisonText = ''; let comparisonColor = ''; let differenceAmount = 0;
-    if (summary.totalIncome > summary.totalExpense) {
-        differenceAmount = summary.totalIncome - summary.totalExpense;
-        comparisonText = `รายได้มากกว่ารายจ่าย = ${differenceAmount.toLocaleString()} บาท`;
-        comparisonColor = 'blue';
-    } else if (summary.totalIncome < summary.totalExpense) {
-        differenceAmount = summary.totalExpense - summary.totalIncome;
-        comparisonText = `รายจ่ายมากกว่ารายได้ = ${differenceAmount.toLocaleString()} บาท`;
-        comparisonColor = 'red';
-    } else {
-        comparisonText = 'รายได้เท่ากับรายจ่าย';
-        comparisonColor = 'black';
-    }
-    
-    let summaryLineHTML;
-    if (summary.totalIncome === 0 && summary.totalExpense === 0) {
-        summaryLineHTML = `<p style="color: green; font-weight: bold; line-height: 0.5;">${headerLine1} ไม่มีธุรกรรมการเงิน</p>`;
-    } else {
-        summaryLineHTML = `<p style="color: ${comparisonColor}; font-weight: bold; line-height: 0.5;">${headerLine1} ${comparisonText}</p>`;
-    }
-    
-    let totalBalanceLine;
-    if (type === 'range' || type === 'all') {
-        totalBalanceLine = `<p style="line-height: 0.5;"><b>${headerLine2} = </b><b style="color: ${totalBalance >= 0 ? 'green' : 'red'}; font-size: 1.1em;">${totalBalance.toLocaleString()}</b> บาท</p>`
-    } else {
-        totalBalanceLine = `<p style="line-height: 0.5;"><b>เงินในบัญชีถึงวันนี้มี = </b><b style="color: ${totalBalance >= 0 ? 'green' : 'red'}; font-size: 1.1em;">${totalBalance.toLocaleString()}</b> บาท</p>`
-    }
-    
-    const summaryDateTime = new Date().toLocaleString("th-TH", { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'}) + ' น.';
-    
-    return ` 
-        <p style="line-height: 0.5;"><strong>ชื่อบัญชี:</strong> ${currentAccount}</p> 
-        <p style="line-height: 0.5;"><strong>สรุปเมื่อวันที่ : </strong> ${summaryDateTime}</p> 
-        <p style="line-height: 0.5;"><strong>${title} : </strong> ${thaiDateString}</p> 
-        ${transactionDaysInfo ? transactionDaysInfo.replace(/<p/g, '<p style="line-height: 0.5;"') : ''} 
-        <hr> 
-        <p style="line-height: 0.5;"><strong>รายรับ : </strong> ${summary.incomeCount} ครั้ง เป็นเงิน ${summary.totalIncome.toLocaleString()} บาท</p>
-        ${incomeHTML} 
-        <hr> 
-        <p style="line-height: 0.5;"><strong>รายจ่าย : </strong> ${summary.expenseCount} ครั้ง เป็นเงิน ${summary.totalExpense.toLocaleString()} บาท</p>
-        ${expenseHTML} 
-        <hr> 
-        ${summaryLineHTML} 
-        ${totalBalanceLine} 
-        <p style="line-height: 0.5;"><b>ข้อความเพิ่ม : </b><span style="color: orange;">${remark}</span></p> 
-        ${recordsHTML}
-    `;
-}
     
     function exportSummaryToCsv(summaryResult, title, dateString, remark, transactionDaysInfo = null, periodName) {
         const { summary, periodRecords, totalBalance } = summaryResult; 
@@ -1711,15 +1460,7 @@ function buildPdfSummaryHtml(context) {
 
     function closeFormatModal() { document.getElementById('formatSelectionModal').style.display = 'none'; }
     function closeExportSingleAccountModal() { document.getElementById('exportSingleAccountModal').style.display = 'none'; }
-function saveToFile() { 
-    closeExportOptionsModal(); 
-    if (accounts.length === 0) { 
-        alert("ไม่มีบัญชีให้บันทึก"); 
-        return; 
-    } 
-    // เปิด modal สำหรับเลือกรูปแบบไฟล์
-    document.getElementById('formatSelectionModal').style.display = 'flex'; 
-}
+    function saveToFile() { closeExportOptionsModal(); if (accounts.length === 0) { alert("ไม่มีบัญชีให้บันทึก"); return; } document.getElementById('formatSelectionModal').style.display = 'flex'; }
     
     function saveToLocal(fromPasswordSave = false) {
         const dataToSave = {
