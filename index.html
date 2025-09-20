@@ -1496,17 +1496,44 @@ function buildPdfSummaryHtml(context) {
         expenseHTML += `<p style="margin-left: 15px; line-height: 0.5;">- ${type} : ${summary.expense[type].count} ครั้ง เป็นเงิน ${summary.expense[type].amount.toLocaleString()} บาท</p>`; 
     }
     
-    let recordsHTML = '';
-    if (periodRecords.length > 0) {
-        recordsHTML = ` <div style="margin-top: 20px;"> <h4>รายละเอียดธุรกรรม</h4> <table style="width: 100%; border-collapse: collapse; margin-top: 10px;"> <thead><tr style="background-color: #f2f2f2;"><th>วันเดือนปี</th><th>เวลา</th><th>ประเภท</th><th>รายละเอียด</th><th>จำนวนเงิน</th></tr></thead> <tbody> ${periodRecords.map(record => {
-            const recordDate = new Date(record.dateTime);
-            const formattedDate = recordDate.toLocaleDateString('th-TH', { day: '2-digit', month: '2-digit', year: 'numeric' });
-            const [date, time] = record.dateTime.split(" ");
-            const [hours, minutes] = time.split(":");
-            const isIncome = accountTypes.get(currentAccount)["รายรับ"].includes(record.type); const color = isIncome ? "#4CAF50" : "#F44336";
-            return `<tr><td>${formattedDate}</td><td>${hours}.${minutes}</td><td>${record.type}</td><td>${record.description}</td><td style="color: ${color}; font-weight: bold;">${record.amount.toLocaleString()}</td></tr>`;
-        }).join('')} </tbody> </table> </div>`;
-    }
+ let recordsHTML = '';
+if (periodRecords.length > 0) {
+    recordsHTML = ` 
+    <div style="margin-top: 20px;"> 
+        <h4>รายละเอียดธุรกรรม</h4> 
+        <table style="width: 100%; border-collapse: collapse; margin-top: 10px; text-align: center;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th style="width: 15%; padding: 4px; border: 1px solid #ddd;">วันเดือนปี</th>
+                    <th style="width: 10%; padding: 4px; border: 1px solid #ddd;">เวลา</th>
+                    <th style="width: 15%; padding: 4px; border: 1px solid #ddd;">ประเภท</th>
+                    <th style="width: 30%; padding: 4px; border: 1px solid #ddd;">รายละเอียด</th>
+                    <th style="width: 15%; padding: 4px; border: 1px solid #ddd;">จำนวนเงิน</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${periodRecords.map(record => {
+                    const recordDate = new Date(record.dateTime);
+                    const formattedDate = recordDate.toLocaleDateString('th-TH', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                    const [date, time] = record.dateTime.split(" ");
+                    const [hours, minutes] = time.split(":");
+                    const isIncome = accountTypes.get(currentAccount)["รายรับ"].includes(record.type); 
+                    const color = isIncome ? "#4CAF50" : "#F44336";
+                    
+                    return `
+                        <tr>
+                            <td style="padding: 4px; border: 1px solid #ddd; word-wrap: break-word;">${formattedDate}</td>
+                            <td style="padding: 4px; border: 1px solid #ddd; word-wrap: break-word;">${hours}.${minutes}</td>
+                            <td style="padding: 4px; border: 1px solid #ddd; word-wrap: break-word;">${record.type}</td>
+                            <td style="padding: 4px; border: 1px solid #ddd; word-wrap: break-word;">${record.description}</td>
+                            <td style="padding: 4px; border: 1px solid #ddd; color: ${color}; font-weight: bold; word-wrap: break-word;">${record.amount.toLocaleString()}</td>
+                        </tr>`;
+                }).join('')} 
+            </tbody> 
+        </table> 
+    </div>`;
+}
+
     
     let comparisonText = ''; let comparisonColor = ''; let differenceAmount = 0;
     if (summary.totalIncome > summary.totalExpense) {
