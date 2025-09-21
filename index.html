@@ -1822,7 +1822,6 @@ function saveToFile() {
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a'); a.href = url; a.download = fullFileName; a.click();
             URL.revokeObjectURL(url);
-            alert(`บันทึกข้อมูลทั้งหมดลงในไฟล์ "${fullFileName}" เรียบร้อยแล้ว`);
         } else if (formatLower === 'csv') {
             const fullFileName = `${fileName}_${dateTimeString}.csv`;
             let csvData = [];
@@ -1889,7 +1888,6 @@ function saveToFile() {
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a'); a.href = url; a.download = fullFileName; a.click();
             URL.revokeObjectURL(url);
-            alert(`บันทึกบัญชี "${currentAccount}" เป็น JSON เรียบร้อย\n\nไฟล์: ${fullFileName}`);
         } else if (format === 'csv') {
             const fullFileName = `${fileName}_${dateTimeString}.csv`;
             initializeAccountTypes(currentAccount);
