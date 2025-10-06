@@ -1801,7 +1801,7 @@ function saveToFile() {
     async function handleSaveAs(format) {
         closeFormatModal();
         const formatLower = format.toLowerCase().trim();
-        const fileName = prompt("กรุณากรอกชื่อไฟล์สำหรับสำรองข้อมูล (ไม่ต้องใส่นามสกุล):", "backup_all");
+        const fileName = prompt("กรุณากรอกชื่อไฟล์สำหรับสำรองข้อมูล (ไม่ต้องใส่นามสกุล):", "สำรองทุกบัญชี");
         if (!fileName) return;
         const now = new Date();
         const dateTimeString = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}_${String(now.getHours()).padStart(2, '0')}${String(now.getMinutes()).padStart(2, '0')}`;
