@@ -1,0 +1,39 @@
+{
+  "name": "บัญชีรายรับรายจ่าย",
+  "short_name": "บัญชี",
+  "description": "แอปพลิเคชันบันทึกรายรับรายจ่ายส่วนตัว",
+  "start_url": "./index.html",
+  "id": "./",
+  "display": "standalone",
+  "background_color": "#FAFAD2",
+  "theme_color": "#4CAF50",
+  "orientation": "portrait",
+  "categories": ["finance", "productivity"],
+  "lang": "th-TH",
+  "scope": "./",
+  
+  "icons": [
+    {
+      "src": "./icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  
+  "screenshots": [
+    {
+      "src": "./screenshot-mobile.png",
+      "sizes": "375x667",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "หน้าจอหลักแอปบัญชี"
+    }
+  ]
+}
