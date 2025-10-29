@@ -713,9 +713,9 @@ function addEntry() {
     
     initializeAccountTypes(currentAccount);
     const types = accountTypes.get(currentAccount);
-    let entryCategory = 'expense';
+    let entryCategory = 'expense'; // เริ่มต้นเป็นรายจ่าย
     if (types["รายรับ"].includes(typeText)) {
-        entryCategory = 'income';
+        entryCategory = 'income'; // เปลี่ยนเป็นรายรับถ้าพบในรายรับ
     }
     
     if (editingIndex !== null) {
@@ -733,7 +733,12 @@ function addEntry() {
         if (selectedCheckboxes.length > 0) {
             showToast(`✓ เพิ่มรายการ "${description}" ใน ${selectedCheckboxes.length + 1} บัญชีสำเร็จ`, 'success');
         } else {
-            showToast(`✓ เพิ่มรายการ "${description}" สำเร็จ`, 'success');
+            // ใช้ entryCategory เพื่อกำหนดสีของ Toast
+            if (entryCategory === 'income') {
+                showToast(`💰 เพิ่มรายรับ "${description}" สำเร็จ`, 'success');
+            } else {
+                showToast(`💸 เพิ่มรายจ่าย "${description}" สำเร็จ`, 'error');
+            }
         }
     }
     
@@ -746,7 +751,7 @@ function addEntry() {
     document.querySelectorAll('#multiAccountCheckboxes input:checked').forEach(checkbox => {
         checkbox.checked = false;
     });
-    saveDataAndShowToast(entryCategory);
+    saveDataAndShowToast(entryCategory); // ส่งประเภทการบันทึกไปด้วย
     updateMultiAccountSelector();
 }
 
@@ -1603,16 +1608,16 @@ function saveDataAndShowToast(entryCategory = 'neutral') {
         return; 
     } 
     
-    // ใช้ฟังก์ชัน showToast แทนการจัดการ toast โดยตรง
+    // กำหนดข้อความและสีตามประเภทการบันทึก
     let message = '✓ บันทึกข้อมูลสำเร็จแล้ว';
     let type = 'info';
     
     if (entryCategory === 'income') { 
-        message = '✓ บันทึกรายรับสำเร็จ';
-        type = 'success';
+        message = '💰 บันทึกรายรับสำเร็จ';
+        type = 'success'; // สีเขียว
     } else if (entryCategory === 'expense') { 
-        message = '✓ บันทึกรายจ่ายสำเร็จ';
-        type = 'success';
+        message = '💸 บันทึกรายจ่ายสำเร็จ'; 
+        type = 'error'; // สีแดง
     }
     
     showToast(message, type);
