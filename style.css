@@ -11,6 +11,8 @@ body {
     -webkit-text-size-adjust: 100%; 
     -ms-text-size-adjust: 100%; 
     text-size-adjust: 100%; 
+    min-height: 100vh;
+    width: 100%;
 }
 
 h2 { 
@@ -43,6 +45,48 @@ h2 {
     align-items: center;
     width: 100%;
     max-width: 600px;
+}
+
+/* ===== POPUP STYLES FINAL CORRECTION ===== */
+.popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 0 20px 0; /* MODIFIED: Removed left/right padding */
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.popup-content {
+    background-color: #FFFFD1;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    width: 100%;
+    max-width: 600px;
+    padding: 25px 5px;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.result-container-popup { 
+    border: 1.5px solid #4CAF50; 
+    background-color: #FFFFD1; 
+    margin: 0; 
+    padding: 15px 3px; 
+    border-radius: 15px; 
+    text-align: center; 
+    box-shadow: 0 4px 10px rgba(0, 128, 0, 0.2); 
+    position: relative; 
+    min-height: 300px; 
+    box-sizing: border-box; 
+    overflow: hidden; 
 }
 
 /* ===== SECTION HEADERS ===== */
@@ -896,6 +940,7 @@ footer div {
     .container { 
         padding: 5px; 
         margin: 10px auto;
+        width: 98%;
     } 
     
     h2 { 
@@ -988,6 +1033,23 @@ footer div {
     .centered-date-form.horizontal .centered-date-group input {
         padding: 8px;
         font-size: 14px;
+    }
+    
+    /* ปรับปรุง popup สำหรับมือถือ */
+    .popup-overlay {
+        padding: 20px 0 10px 0;
+        align-items: flex-start;
+    }
+    
+    .popup-content {
+        width: 95%;
+        margin: 0 auto;
+        padding: 20px 5px;
+    }
+    
+    .result-container-popup {
+        min-height: 250px;
+        padding: 10px 3px;
     }
 }
 
@@ -1129,6 +1191,7 @@ footer div {
 .header-summary {
     background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
 }
+
 @media print {
     .toast-notification {
         display: none !important;
