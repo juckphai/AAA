@@ -1,6 +1,6 @@
 // กำหนดชื่อ Cache
-const staticCacheName = 'account-app-static-v49';
-const dynamicCacheName = 'account-app-dynamic-v49';
+const staticCacheName = 'account-app-static-v69';
+const dynamicCacheName = 'account-app-dynamic-v69';
 
 // ไฟล์ที่ต้องการ cache
 const assets = [
