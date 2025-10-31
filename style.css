@@ -29,7 +29,7 @@ h2 {
     padding: 10px; 
     border-radius: 10px; 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-    width: 98%; 
+    width: 95%; 
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -475,20 +475,19 @@ input[type=number] {
 }
 
 /* ===== SUMMARY STYLES ===== */
-.summaryResult {
-    font-size: clamp(12px, 2.2vw, 15px);
-    font-weight: normal;
-    color: blue;
+.summaryResult { 
+    font-size: clamp(12px, 2.2vw, 15px); 
+    font-weight: normal; 
+    color: blue; 
     background-color: #FAFAD2;
-    border: 1px solid #4CAF50;
-    border-radius: 5px;
+    border: 1px solid #4CAF50; 
+    border-radius: 5px; 
     padding: 10px 5px;
-    width: 100%; /* ✅ ให้ขยายเต็มเท่ากับพื้นหลังหรือ parent */
-    box-sizing: border-box; /* ✅ รวม border + padding ใน width เดียวกัน */
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-    line-height: 0.5;
-    margin: 0; /* ป้องกันไม่ให้ขอบเว้นออก */
+    width: 100%; 
+    margin: 0; 
+    text-align: center; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25); 
+    line-height: 0.5; 
 }
 
 .summaryResult table td, .summaryResult table th { 
@@ -535,14 +534,13 @@ input[type=number] {
     background-color: #FAFAD2; 
     padding: 10px; 
     border-radius: 10px; 
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3); 
     display: flex; 
     flex-direction: column; 
     align-items: center; 
     margin: auto 0; 
     width: 100%; 
-    max-width: 600px; /* ✅ เปลี่ยนจาก 800px เป็น 600px เพื่อให้เท่ากับเมนูหลัก */
-    border: 2px solid #4CAF50; /* ✅ เพิ่มกรอบสีเขียว */
-    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    max-width: 820px; 
 }
 
 .modal-close-btn { 
@@ -569,7 +567,7 @@ input[type=number] {
     align-items: center;
     width: 100%;
     margin-top: 10px;
-    max-width: 800px;
+    max-width: 600px;
     background-color: #f0f0f0;
     padding: 10px;
     border-radius: 8px;
@@ -597,13 +595,12 @@ input[type=number] {
 
 .format-modal-content {
     background-color: #fff;
-    padding: 10px 20px;
+    padding: 20px 30px;
     border-radius: 15px;
     text-align: center;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    width: 100%;
-    max-width: 600px; /* ✅ เปลี่ยนจาก 800px เป็น 600px */
-    border: 2px solid #4CAF50; /* ✅ เพิ่มกรอบสีเขียว */
+    width: 90%;
+    max-width: 400px;
 }
 
 .format-modal-buttons {
@@ -666,47 +663,6 @@ input[type=number] {
 
 .format-modal-buttons .btn-xlsx:hover { 
     background-color: #0E6A37; 
-}
-
-/* ✅ เพิ่มสไตล์สำหรับกรอบสีเขียวใน modal อื่นๆ */
-#summaryModal .modal-content-container {
-    border: 2px solid #4CAF50;
-}
-
-#exportOptionsModal .format-modal-content,
-#exportSingleAccountModal .format-modal-content,
-#summaryOutputModal .format-modal-content,
-#dateRangeExportModal .format-modal-content,
-#singleDateExportModal .format-modal-content,
-#formatSelectionModal .format-modal-content,
-#singleDateExportFormatModal .format-modal-content {
-    border: 2px solid #4CAF50;
-}
-
-/* ✅ ปรับปรุงการแสดงผลบนมือถือ */
-@media screen and (max-width: 600px) {
-    .modal-content-container {
-        max-width: 98%; /* ✅ บนมือถือให้กว้าง 98% ของหน้าจอ */
-        margin: 10px;
-        padding: 8px;
-    }
-    
-    .format-modal-content {
-        max-width: 98%; /* ✅ บนมือถือให้กว้าง 98% ของหน้าจอ */
-        margin: 10px;
-        padding: 8px 15px;
-    }
-}
-
-/* ✅ ปรับปรุงการแสดงผลบนเดสก์ท็อป */
-@media screen and (min-width: 601px) {
-    .modal-content-container {
-        max-width: 600px; /* ✅ บนเดสก์ท็อปให้กว้าง 600px เท่ากับเมนูหลัก */
-    }
-    
-    .format-modal-content {
-        max-width: 600px; /* ✅ บนเดสก์ท็อปให้กว้าง 600px เท่ากับเมนูหลัก */
-    }
 }
 
 /* ===== TOAST NOTIFICATION ===== */
@@ -1173,7 +1129,6 @@ footer div {
 .header-summary {
     background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
 }
-
 @media print {
     .toast-notification {
         display: none !important;
