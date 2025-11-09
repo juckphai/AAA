@@ -713,9 +713,9 @@ function addEntry() {
     
     initializeAccountTypes(currentAccount);
     const types = accountTypes.get(currentAccount);
-    let entryCategory = 'expense'; // เริ่มต้นเป็นรายจ่าย
+    let entryCategory = 'expense';
     if (types["รายรับ"].includes(typeText)) {
-        entryCategory = 'income'; // เปลี่ยนเป็นรายรับถ้าพบในรายรับ
+        entryCategory = 'income';
     }
     
     if (editingIndex !== null) {
@@ -733,12 +733,7 @@ function addEntry() {
         if (selectedCheckboxes.length > 0) {
             showToast(`✓ เพิ่มรายการ "${description}" ใน ${selectedCheckboxes.length + 1} บัญชีสำเร็จ`, 'success');
         } else {
-            // ใช้ entryCategory เพื่อกำหนดสีของ Toast
-            if (entryCategory === 'income') {
-                showToast(`💰 เพิ่มรายรับ "${description}" สำเร็จ`, 'success');
-            } else {
-                showToast(`💸 เพิ่มรายจ่าย "${description}" สำเร็จ`, 'error');
-            }
+            showToast(`✓ เพิ่มรายการ "${description}" สำเร็จ`, 'success');
         }
     }
     
@@ -751,7 +746,7 @@ function addEntry() {
     document.querySelectorAll('#multiAccountCheckboxes input:checked').forEach(checkbox => {
         checkbox.checked = false;
     });
-    saveDataAndShowToast(entryCategory); // ส่งประเภทการบันทึกไปด้วย
+    saveDataAndShowToast(entryCategory);
     updateMultiAccountSelector();
 }
 
@@ -1608,16 +1603,16 @@ function saveDataAndShowToast(entryCategory = 'neutral') {
         return; 
     } 
     
-    // กำหนดข้อความและสีตามประเภทการบันทึก
+    // ใช้ฟังก์ชัน showToast แทนการจัดการ toast โดยตรง
     let message = '✓ บันทึกข้อมูลสำเร็จแล้ว';
     let type = 'info';
     
     if (entryCategory === 'income') { 
-        message = '💰 บันทึกรายรับสำเร็จ';
-        type = 'success'; // สีเขียว
+        message = '✓ บันทึกรายรับสำเร็จ';
+        type = 'success';
     } else if (entryCategory === 'expense') { 
-        message = '💸 บันทึกรายจ่ายสำเร็จ'; 
-        type = 'error'; // สีแดง
+        message = '✓ บันทึกรายจ่ายสำเร็จ';
+        type = 'success';
     }
     
     showToast(message, type);
