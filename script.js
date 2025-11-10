@@ -23,17 +23,23 @@ function showToast(message, type = 'info') {
     let backgroundColor = '#007bff'; // เริ่มต้นสีน้ำเงิน
     switch(type) {
         case 'success':
-            backgroundColor = '#28a745';
+            backgroundColor = '#28a745'; // สีเขียว
             break;
         case 'error':
-            backgroundColor = '#dc3545';
+            backgroundColor = '#dc3545'; // สีแดง
             break;
         case 'warning':
-            backgroundColor = '#ffc107';
+            backgroundColor = '#ffc107'; // สีเหลือง
+            break;
+        case 'income':
+            backgroundColor = '#28a745'; // สีเขียวสำหรับรายรับ
+            break;
+        case 'expense':
+            backgroundColor = '#dc3545'; // สีแดงสำหรับรายจ่าย
             break;
         case 'info':
         default:
-            backgroundColor = '#007bff';
+            backgroundColor = '#007bff'; // สีน้ำเงิน
             break;
     }
     
@@ -1659,16 +1665,17 @@ function setupDateRangeModal() {
     document.getElementById('dateRangeAccountName').textContent = currentAccount;
     
     const accountRecords = records.filter(record => record.account === currentAccount);
-    let startDateValue = new Date().toISOString().slice(0, 10);
     
-    if (accountRecords.length > 0) {
-        const dates = accountRecords.map(record => parseLocalDateTime(record.dateTime));
-        const minDate = new Date(Math.min(...dates));
-        startDateValue = minDate.toISOString().slice(0, 10);
-    }
+    // วันที่สิ้นสุดเป็นวันปัจจุบัน
+    const endDateValue = new Date().toISOString().slice(0, 10);
+    
+    // วันที่เริ่มต้นเป็น 2 วันที่ผ่านมา
+    const startDate = new Date();
+    startDate.setDate(startDate.getDate() - 2); // ลบ 2 วัน
+    const startDateValue = startDate.toISOString().slice(0, 10);
     
     document.getElementById('exportStartDate').value = startDateValue;
-    document.getElementById('exportEndDate').value = new Date().toISOString().slice(0, 10);
+    document.getElementById('exportEndDate').value = endDateValue;
 }
 
 function processDateRangeExport() {
@@ -1772,10 +1779,10 @@ function saveDataAndShowToast(entryCategory = 'neutral') {
     
     if (entryCategory === 'income') { 
         message = '✓ บันทึกรายรับสำเร็จ';
-        type = 'success';
+        type = 'income'; // เปลี่ยนจาก 'success' เป็น 'income'
     } else if (entryCategory === 'expense') { 
         message = '✓ บันทึกรายจ่ายสำเร็จ';
-        type = 'success';
+        type = 'expense'; // เปลี่ยนจาก 'success' เป็น 'expense'
     }
     
     showToast(message, type);
