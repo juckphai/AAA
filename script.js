@@ -848,6 +848,7 @@ function addEntry() {
     const amount = parseFloat(document.getElementById('amount').value);
     let datePart, timePart;
     
+    // ใช้ค่าจาก input หรือใช้ค่าวันที่เวลาปัจจุบันถ้าไม่มีค่า
     if (!entryDateInput || !entryTimeInput) {
         const now = new Date();
         const y = now.getFullYear();
@@ -909,8 +910,8 @@ function addEntry() {
     displayRecords();
     document.getElementById('description').value = '';
     document.getElementById('amount').value = '';
-    document.getElementById('entryDate').value = '';
-    document.getElementById('entryTime').value = '';
+    // รีเซ็ตเป็นค่าวันที่เวลาปัจจุบันหลังจากเพิ่มรายการ
+    setCurrentDateTime();
     typeInput.value = '';
     document.querySelectorAll('#multiAccountCheckboxes input:checked').forEach(checkbox => {
         checkbox.checked = false;
@@ -2778,7 +2779,24 @@ function filterRecordsByDateRange(startDate, endDate) {
 function showNoDataAlert(startDateStr, endDateStr) {
     showToast(`❌ ไม่พบข้อมูลในบัญชี "${currentAccount}" ระหว่างวันที่ ${startDateStr} ถึง ${endDateStr}`, 'error');
 }
+// ==============================================
+// ฟังก์ชันตั้งค่าวันที่และเวลาปัจจุบัน
+// ==============================================
 
+function setCurrentDateTime() {
+    const now = new Date();
+    
+    // ตั้งค่าวันที่ (รูปแบบ YYYY-MM-DD)
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    document.getElementById('entryDate').value = `${year}-${month}-${day}`;
+    
+    // ตั้งค่าเวลา (รูปแบบ HH:MM)
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    document.getElementById('entryTime').value = `${hours}:${minutes}`;
+}
 // ==============================================
 // ฟังก์ชันเริ่มต้น
 // ==============================================
@@ -2787,6 +2805,9 @@ window.onload = function () {
     document.getElementById('detailsSection').style.display = 'none';
     loadFromLocal();
     toggleSection('account-section');
+    
+    // ตั้งค่าวันที่และเวลาปัจจุบันเมื่อโหลดหน้าเว็บ
+    setCurrentDateTime();
     
     document.getElementById('backup-password-form').addEventListener('submit', saveBackupPassword);
     document.getElementById('show-backup-password').addEventListener('change', (e) => {
