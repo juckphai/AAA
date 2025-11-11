@@ -133,6 +133,12 @@
         font-size: 14px;
       }
     }
+
+    /* สไตล์สำหรับไอคอนในปุ่ม */
+    .button-icon {
+      margin-right: 8px;
+      font-size: 16px;
+    }
   </style>
 </head>
 
@@ -160,8 +166,8 @@
                 <input type="file" id="fileInput" onchange="loadFromFile(event)" style="display: none;" accept=".json,application/json,.csv,text/csv,.xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
                 <button type="button" onclick="document.getElementById('fileInput').click()" 
                         class="action-button" 
-                         style="width: 50%; height: 50px; padding: 5px; font-size: 16px; background-color: #196B24; color: #FFFFFF; border: 5px solid #FFFFFF; border-radius: 30px; cursor: pointer; margin: 0 auto;">
-                  โหลดข้อมูลบัญชี
+                         style="width: 70%; height: 50px; padding: 3px; font-size: 14px; background-color: #196B24; color: #FFFFFF; border: 5px solid #FFFFFF; border-radius: 30px; cursor: pointer; margin: 0 auto;">
+                  📂 โหลดข้อมูลบัญชี
                 </button>
               </div>
             </div>
@@ -173,7 +179,7 @@
               
               <!-- เมนูใหญ่ 1: จัดการบัญชี -->
               <div class="section-header main-section-header header-account" onclick="toggleMainSection('account-section')">
-                <span>เลือกและจัดการบัญชี</span>
+                <span>🏦 เลือกและจัดการบัญชี</span>
                 <span class="arrow">▶</span>
               </div>
               <div id="account-section" class="section-content main-section-content">
@@ -181,7 +187,7 @@
                 <select id="accountSelect" onchange="changeAccount()"></select>
                 
                 <div class="sub-section-header" onclick="toggleSubSection('manage-account-submenu')">
-                  <span>จัดการบัญชี</span>
+                  <span>⚙️ จัดการบัญชี</span>
                   <span class="arrow">▶</span>
                 </div>
                 <div id="manage-account-submenu" class="section-content sub-section-content">
@@ -195,17 +201,17 @@
             
               <!-- เมนูใหญ่ 2: เพิ่มข้อมูล -->
 <div class="section-header main-section-header header-add-data" onclick="toggleMainSection('add-data-section')">
-  <span>เพิ่มข้อมูล</span>
+  <span>📝 เพิ่มข้อมูล</span>
   <span class="arrow">▶</span>
 </div>
 <div id="add-data-section" class="section-content main-section-content">
   <div class="entry-form">
     <div class="entry-group date-time-group">
-      <label for="entryDate">วันที่</label>
+      <label for="entryDate">📅 วันที่</label>
       <input type="date" id="entryDate">
     </div>
     <div class="entry-group date-time-group">
-      <label for="entryTime">เวลา</label>
+      <label for="entryTime">⏰ เวลา</label>
       <input type="time" id="entryTime">
     </div>
   </div>
@@ -213,12 +219,12 @@
   <!-- จำนวนเงินและประเภทในแถวเดียวกัน -->
   <div class="amount-type-group">
     <div class="entry-group amount-group">
-      <label for="amount">จำนวนเงิน</label>
+      <label for="amount">💰 จำนวนเงิน</label>
       <input type="number" id="amount" required>
     </div>
     
     <div class="entry-group type-group">
-      <label for="type">ประเภท</label>
+      <label for="type">📊 ประเภท</label>
       <input list="typeList" id="type" required placeholder="เลือกหรือพิมพ์ประเภท" style="height: 40px;" onfocus="showAllTypes(this)" onblur="restoreType(this)">
       <datalist id="typeList"></datalist>
     </div>
@@ -226,7 +232,7 @@
 
   <!-- ส่วนจัดการประเภท -->
   <div class="sub-section-header" onclick="toggleSubSection('manage-types-submenu')" style="margin-top:10px;">
-    <span>จัดการประเภท</span>
+    <span>🏷️ จัดการประเภท</span>
     <span class="arrow">▶</span>
   </div>
 
@@ -239,20 +245,20 @@
   </div>
 
   <div class="entry-group">
-    <label for="description">รายละเอียด</label>
+    <label for="description">📄 รายละเอียด</label>
     <input type="text" id="description" required>
   </div>
   
   <!-- SECTION เติมข้อมูล -->
   <div class="sub-section-header" onclick="toggleSubSection('import-data-main-submenu')">
-    <span>เติมข้อมูล</span>
+    <span>🔄 เติมข้อมูล</span>
     <span class="arrow">▶</span>
   </div>
   <div id="import-data-main-submenu" class="section-content sub-section-content">
     
     <!-- เติมข้อมูลจากบัญชีอื่น -->
     <div id="import-from-account-section">
-      <label class="summary-subsection-header" style="color: #673ab7; margin-bottom: 10px;">เติมข้อมูลจากบัญชีอื่น</label>
+      <label class="summary-subsection-header" style="color: #673ab7; margin-bottom: 10px;">🔄 เติมข้อมูลจากบัญชีอื่น</label>
       <div class="entry-form">
         <div class="entry-group">
           <label for="importAccountSelect">เลือกบัญชีต้นทาง</label>
@@ -264,26 +270,26 @@
         </div>
       </div>
       <div class="button-container" style="text-align: center; margin-top: 10px;">
-        <button type="button" onclick="importEntriesFromAccount()" style="background-color: #673ab7;">ดึงข้อมูลมาเติม</button>
+        <button type="button" onclick="importEntriesFromAccount()" style="background-color: #673ab7;">🔄 ดึงข้อมูลมาเติม</button>
       </div>
     </div>
 
     <!-- เติมข้อมูลจากไฟล์ -->
     <div id="import-from-file-section" style="border-top: 1px solid #ccc; margin-top: 15px; padding-top: 15px;">
-      <label class="summary-subsection-header" style="color: #009688; margin-bottom: 10px;">เติมข้อมูลจากไฟล์ (รายวัน)</label>
+      <label class="summary-subsection-header" style="color: #009688; margin-bottom: 10px;">📁 เติมข้อมูลจากไฟล์ (รายวัน)</label>
       <p style="text-align:center; color:#333; margin-bottom:10px;">
         ใช้สำหรับนำเข้าไฟล์ที่ได้จากการ "บันทึกเฉพาะวันที่เลือก" เพื่อเติมข้อมูลลงในบัญชีปัจจุบัน
       </p>
       <input type="file" id="mergeFileInput" onchange="importFromFileForMerging(event)" style="display: none;" accept=".json,application/json,.csv,text/csv">
       <div class="button-container" style="text-align: center;">
-        <button type="button" onclick="document.getElementById('mergeFileInput').click()" style="background-color: #009688;">เลือกไฟล์ข้อมูลรายวัน</button>
+        <button type="button" onclick="document.getElementById('mergeFileInput').click()" style="background-color: #009688;">📁 เลือกไฟล์ข้อมูลรายวัน</button>
       </div>
     </div>
   </div>
 
   <div class="entry-group" id="multiAccountSelector" style="display: none; margin-top: 10px;">
     <div class="sub-section-header" onclick="toggleSubSection('multi-account-submenu')">
-      <span>เพิ่มรายการนี้ในบัญชีอื่นด้วย</span>
+      <span>👥 เพิ่มรายการนี้ในบัญชีอื่นด้วย</span>
       <span class="arrow">▶</span>
     </div>
     <div id="multi-account-submenu" class="section-content sub-section-content">
@@ -293,22 +299,22 @@
   </div>
 
   <div class="button-container" style="text-align: center; margin-top: 20px;">
-    <button type="button" onclick="addEntry()" style="background-color: #e91e63;">เพิ่มข้อมูล</button>
+    <button type="button" onclick="addEntry()" style="background-color: #e91e63;">➕ เพิ่มข้อมูล</button>
   </div>
 </div>
               
               <!-- เมนูใหญ่ 3: จัดการข้อมูล -->
               <div class="section-header main-section-header header-actions" onclick="toggleMainSection('other-actions-section')">
-                <span>จัดการข้อมูล</span>
+                <span>🔧 จัดการข้อมูล</span>
                 <span class="arrow">▶</span>
               </div>
               <div id="other-actions-section" class="section-content main-section-content">
                 <div class="button-container" style="display: flex; gap: 10px; margin-top: 10px;">
-                  <button onclick="toggleRecordsVisibility()" style="flex: 1; background-color: #607d8b;">แสดง/ซ่อนรายการ</button>
+                  <button onclick="toggleRecordsVisibility()" style="flex: 1; background-color: #607d8b;">👁️ แสดง/ซ่อนรายการ</button>
                 </div>
                 
                 <div class="sub-section-header" onclick="toggleSubSection('backup-password-submenu')">
-                  <span>ตั้งรหัสผ่านไฟล์สำรอง (JSON)</span>
+                  <span>🔒 ตั้งรหัสผ่านไฟล์สำรอง (JSON)</span>
                   <span class="arrow">▶</span>
                 </div>
                 <div id="backup-password-submenu" class="section-content sub-section-content">
@@ -324,24 +330,24 @@
                     </div>
                     <div class="entry-group" style="margin-bottom:10px;">
                       <label style="font-weight: normal; cursor: pointer; text-align:left; display:inline-flex; align-items:center; gap: 5px;">
-                        <input type="checkbox" id="show-backup-password" style="width:auto;"> แสดงรหัสผ่าน
+                        <input type="checkbox" id="show-backup-password" style="width:auto;"> 👁️ แสดงรหัสผ่าน
                       </label>
                     </div>
                     <div class="button-container">
-                      <button type="submit" style="background-color: #28a745;">บันทึกรหัสผ่าน</button>
+                      <button type="submit" style="background-color: #28a745;">💾 บันทึกรหัสผ่าน</button>
                     </div>
                   </form>
                   <p id="password-status" style="font-weight: bold; margin-top: 15px; text-align:center;"></p>
                 </div>
                 
                 <div class="button-container" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
-                  <button type="button" onclick="saveToLocal()" style="flex: 1; background-color: #17a2b8;">บันทึกชั่วคราว</button>
-                  <button type="button" onclick="openExportOptionsModal()" style="flex: 1; background-color: #0d47a1;">บันทึกข้อมูล</button>
+                  <button type="button" onclick="saveToLocal()" style="flex: 1; background-color: #17a2b8;">💾 บันทึกชั่วคราว</button>
+                  <button type="button" onclick="openExportOptionsModal()" style="flex: 1; background-color: #0d47a1;">💾 บันทึกข้อมูล</button>
                 </div>
                 
                 <!-- ส่วนลบข้อมูลตามวันที่เลือก - ปรับให้อยู่กึ่งกลาง -->
                 <div class="summary-subsection" style="text-align: center;">
-                  <label class="summary-subsection-header" style="color: #c0392b;">ลบข้อมูลตามวันที่เลือก (ในบัญชีนี้)</label>
+                  <label class="summary-subsection-header" style="color: #c0392b;">🗑️ ลบข้อมูลตามวันที่เลือก (ในบัญชีนี้)</label>
                   <div class="centered-date-form">
                     <div class="centered-date-group">
                       <label for="deleteByDateInput">เลือกวันที่ต้องการลบ:</label>
@@ -349,31 +355,31 @@
                     </div>
                   </div>
                   <div class="button-container" style="text-align: center; margin-top: 10px;">
-                    <button type="button" onclick="deleteRecordsByDate()" style="background-color: #dc3545;">ลบข้อมูลวันที่เลือก</button>
+                    <button type="button" onclick="deleteRecordsByDate()" style="background-color: #dc3545;">🗑️ ลบข้อมูลวันที่เลือก</button>
                   </div>
                 </div>
               </div>
             
               <!-- เมนูใหญ่ 4: สรุปข้อมูล -->
               <div class="section-header main-section-header header-summary" onclick="toggleMainSection('summary-main-section')">
-                <span>สรุปข้อมูล</span>
+                <span>📊 สรุปข้อมูล</span>
                 <span class="arrow">▶</span>
               </div>
               <div id="summary-main-section" class="section-content main-section-content">
                 <div class="summary-subsection">
                   <div class="button-container" style="margin: 0;">
-                    <button type="button" onclick="summarizeToday()" style="background-color: #ff9800; color: #FFFFFF;">สรุปวันนี้</button>
+                    <button type="button" onclick="summarizeToday()" style="background-color: #ff9800; color: #FFFFFF;">📅 สรุปวันนี้</button>
                   </div>
                 </div>
                 <div class="summary-subsection">
                   <div class="button-container" style="margin: 0;">
-                    <button type="button" onclick="summarizeAll()" style="background-color: #673ab7; color: #FFFFFF;">สรุปข้อมูลทั้งหมด</button>
+                    <button type="button" onclick="summarizeAll()" style="background-color: #673ab7; color: #FFFFFF;">📈 สรุปข้อมูลทั้งหมด</button>
                   </div>
                 </div>
                 
                 <!-- ส่วนสรุปวันที่เลือก - ปรับให้อยู่กึ่งกลาง -->
                 <div class="summary-subsection" style="text-align: center;">
-                  <label class="summary-subsection-header">สรุปวันที่เลือก</label>
+                  <label class="summary-subsection-header">📅 สรุปวันที่เลือก</label>
                   <div class="centered-date-form">
                     <div class="centered-date-group">
                       <label for="customDayMonth">วันที่:</label>
@@ -381,13 +387,13 @@
                     </div>
                   </div>
                   <div class="button-container" style="text-align: center; margin-top: 10px;">
-                    <button type="button" onclick="summarizeByDayMonth()" style="background-color: #03a9f4;">สรุปวันที่เลือก</button>
+                    <button type="button" onclick="summarizeByDayMonth()" style="background-color: #03a9f4;">📊 สรุปวันที่เลือก</button>
                   </div>
                 </div>
                 
                 <!-- ส่วนสรุปวันที่ถึงวันที่ - ปรับให้อยู่กึ่งกลาง -->
                 <div class="summary-subsection" style="text-align: center;">
-                  <label class="summary-subsection-header">สรุปวันที่ถึงวันที่</label>
+                  <label class="summary-subsection-header">📆 สรุปวันที่ถึงวันที่</label>
                   <div class="centered-date-form horizontal">
                     <div class="centered-date-group">
                       <label for="startDate">จากวันที่:</label>
@@ -399,7 +405,7 @@
                     </div>
                   </div>
                   <div class="button-container" style="text-align: center; margin-top: 10px;">
-                    <button type="button" onclick="summarize()" style="background-color: #009688;">สรุปวันที่ถึงวันที่</button>
+                    <button type="button" onclick="summarize()" style="background-color: #009688;">📊 สรุปวันที่ถึงวันที่</button>
                   </div>
                 </div>
               </div>
@@ -411,12 +417,12 @@
         <table id="recordTable" style="min-width: 600px;">
           <thead>
             <tr style="background-color: #f2f2f2;">
-              <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">วันเดือนปี</th>
-              <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">เวลา</th>
-              <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">ประเภท</th>
-              <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">รายละเอียด</th>
-              <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">จำนวนเงิน</th>
-              <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">การจัดการ</th>
+              <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">📅 วันเดือนปี</th>
+              <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">⏰ เวลา</th>
+              <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">📊 ประเภท</th>
+              <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">📄 รายละเอียด</th>
+              <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">💰 จำนวนเงิน</th>
+              <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">🔧 การจัดการ</th>
             </tr>
           </thead>
           <tbody id="recordBody" style="font-size: 14px;"></tbody>
@@ -431,18 +437,18 @@
       <!-- เนื้อหาการสรุปจะถูกใส่ที่นี่โดย JavaScript -->
     </div>
     <div class="modal-controls">
-      <button id="saveSummaryAsImageBtn" class="modal-close-btn" style="background-color: #007bff; margin-bottom: 15px;">บันทึกเป็นรูปภาพ</button>
+      <button id="saveSummaryAsImageBtn" class="modal-close-btn" style="background-color: #007bff; margin-bottom: 15px;">🖼️ บันทึกเป็นรูปภาพ</button>
       <div class="control-group">
-        <label for="summaryFontSizeSlider">ปรับขนาดตัวอักษร:</label>
+        <label for="summaryFontSizeSlider">📏 ปรับขนาดตัวอักษร:</label>
         <input type="range" id="summaryFontSizeSlider" min="0.5" max="1.5" step="0.05" value="1.0">
         <span id="summaryFontSizeValue">ขนาด: 100%</span>
       </div>
       <div class="control-group">
-        <label for="summaryLineHeightSlider">ปรับขนาดของบรรทัด:</label>
+        <label for="summaryLineHeightSlider">📏 ปรับขนาดของบรรทัด:</label>
         <input type="range" id="summaryLineHeightSlider" min="0.01" max="1.5" step="0.01" value="0.5">
         <span id="summaryLineHeightValue">ความสูงของบรรทัด: 0.5</span>
       </div>
-      <button onclick="closeSummaryModal()" class="modal-close-btn">ปิดหน้าต่างนี้</button>
+      <button onclick="closeSummaryModal()" class="modal-close-btn">❌ ปิดหน้าต่างนี้</button>
     </div>
   </div>
 </div>
@@ -450,11 +456,11 @@
 <!-- Modal สำหรับเลือกรูปแบบไฟล์ (บัญชีที่เลือก) -->
 <div id="exportSingleAccountModal" class="modal-overlay">
   <div class="format-modal-content">
-    <h3>เลือกรูปแบบไฟล์สำหรับบัญชีที่เลือก</h3>
+    <h3>📁 เลือกรูปแบบไฟล์สำหรับบัญชีที่เลือก</h3>
     <div class="format-modal-buttons">
-      <button class="btn-json" onclick="handleExportSelectedAs('json')">JSON (.json)</button>
-      <button class="btn-csv" onclick="handleExportSelectedAs('csv')">CSV (.csv)</button>
-      <button class="btn-cancel" onclick="closeExportSingleAccountModal()">ยกเลิก</button>
+      <button class="btn-json" onclick="handleExportSelectedAs('json')">📄 JSON (.json)</button>
+      <button class="btn-csv" onclick="handleExportSelectedAs('csv')">📊 CSV (.csv)</button>
+      <button class="btn-cancel" onclick="closeExportSingleAccountModal()">❌ ยกเลิก</button>
     </div>
   </div>
 </div>
@@ -462,12 +468,12 @@
 <!-- Modal สำหรับเลือกรูปแบบการแสดงผลสรุป -->
 <div id="summaryOutputModal" class="modal-overlay">
   <div class="format-modal-content">
-    <h3>เลือกรูปแบบการแสดงผลสรุป</h3>
+    <h3>📊 เลือกรูปแบบการแสดงผลสรุป</h3>
     <div class="format-modal-buttons">
-      <button class="btn-display" onclick="handleSummaryOutput('display')">แสดงบนจอ</button>
-      <button class="btn-xlsx" onclick="handleSummaryOutput('xlsx')">บันทึกเป็น XLSX</button>
-      <button class="btn-pdf" onclick="handleSummaryOutput('pdf')">บันทึกเป็น PDF</button>
-      <button class="btn-cancel" onclick="closeSummaryOutputModal()">ยกเลิก</button>
+      <button class="btn-display" onclick="handleSummaryOutput('display')">📺 แสดงบนจอ</button>
+      <button class="btn-xlsx" onclick="handleSummaryOutput('xlsx')">📊 บันทึกเป็น XLSX</button>
+      <button class="btn-pdf" onclick="handleSummaryOutput('pdf')">📄 บันทึกเป็น PDF</button>
+      <button class="btn-cancel" onclick="closeSummaryOutputModal()">❌ ยกเลิก</button>
     </div>
   </div>
 </div>
@@ -475,13 +481,13 @@
 <!-- Modal สำหรับเลือกประเภทการบันทึกข้อมูล -->
 <div id="exportOptionsModal" class="modal-overlay">
   <div class="format-modal-content">
-    <h3>เลือกประเภทการบันทึกข้อมูล</h3>
+    <h3>💾 เลือกประเภทการบันทึกข้อมูล</h3>
     <div class="format-modal-buttons">
-      <button onclick="saveToFile()" style="background-color: #0d47a1;">บันทึกข้อมูลทั้งหมด (ทุกบัญชี)</button>
-      <button onclick="exportSelectedAccount()" style="background-color: #ff9800;">บันทึกบัญชีที่เลือก (ทั้งหมด)</button>
-      <button onclick="initiateSingleDateExport()" style="background-color: #009688;">บันทึกเฉพาะวันที่เลือก (บัญชีนี้)</button>
-      <button onclick="initiateDateRangeExport()" style="background-color: #8e44ad;">บันทึกตามช่วงวันที่ (บัญชีนี้)</button>
-      <button class="btn-cancel" onclick="closeExportOptionsModal()">ยกเลิก</button>
+      <button onclick="saveToFile()" style="background-color: #0d47a1;">💾 บันทึกข้อมูลทั้งหมด (ทุกบัญชี)</button>
+      <button onclick="exportSelectedAccount()" style="background-color: #ff9800;">💾 บันทึกบัญชีที่เลือก (ทั้งหมด)</button>
+      <button onclick="initiateSingleDateExport()" style="background-color: #009688;">📅 บันทึกเฉพาะวันที่เลือก (บัญชีนี้)</button>
+      <button onclick="initiateDateRangeExport()" style="background-color: #8e44ad;">📆 บันทึกตามช่วงวันที่ (บัญชีนี้)</button>
+      <button class="btn-cancel" onclick="closeExportOptionsModal()">❌ ยกเลิก</button>
     </div>
   </div>
 </div>
@@ -489,7 +495,7 @@
 <!-- Modal สำหรับเลือกช่วงวันที่ -->
 <div id="dateRangeExportModal" class="modal-overlay">
   <div class="format-modal-content">
-    <h3>เลือกช่วงวันที่ที่ต้องการบันทึก</h3>
+    <h3>📆 เลือกช่วงวันที่ที่ต้องการบันทึก</h3>
     <p>ข้อมูลจากบัญชี: <strong id="dateRangeAccountName"></strong></p>
     <div class="entry-form" style="margin-bottom: 20px;">
       <div class="entry-group">
@@ -502,8 +508,8 @@
       </div>
     </div>
     <div class="format-modal-buttons">
-      <button class="btn-display" onclick="processDateRangeExport()">บันทึกเป็น JSON</button>
-      <button class="btn-cancel" onclick="closeDateRangeExportModal()">ยกเลิก</button>
+      <button class="btn-display" onclick="processDateRangeExport()">💾 บันทึกเป็น JSON</button>
+      <button class="btn-cancel" onclick="closeDateRangeExportModal()">❌ ยกเลิก</button>
     </div>
   </div>
 </div>
@@ -511,7 +517,7 @@
 <!-- Modal สำหรับเลือกวันที่เดียว -->
 <div id="singleDateExportModal" class="modal-overlay">
   <div class="format-modal-content">
-    <h3>เลือกวันที่ต้องการบันทึก</h3>
+    <h3>📅 เลือกวันที่ต้องการบันทึก</h3>
     <p>ข้อมูลจากบัญชี: <strong id="singleDateAccountName"></strong></p>
     <div class="entry-form" style="margin-bottom: 20px;">
       <div class="entry-group">
@@ -520,8 +526,8 @@
       </div>
     </div>
     <div class="format-modal-buttons">
-      <button class="btn-display" onclick="processSingleDateExport()">ดำเนินการต่อ</button>
-      <button class="btn-cancel" onclick="closeSingleDateExportModal()">ยกเลิก</button>
+      <button class="btn-display" onclick="processSingleDateExport()">➡️ ดำเนินการต่อ</button>
+      <button class="btn-cancel" onclick="closeSingleDateExportModal()">❌ ยกเลิก</button>
     </div>
   </div>
 </div>
@@ -529,11 +535,11 @@
 <!-- Modal สำหรับเลือกรูปแบบไฟล์สำหรับบันทึกทั้งหมด -->
 <div id="formatSelectionModal" class="modal-overlay">
   <div class="format-modal-content">
-    <h3>เลือกรูปแบบไฟล์สำหรับบันทึกทั้งหมด</h3>
+    <h3>📁 เลือกรูปแบบไฟล์สำหรับบันทึกทั้งหมด</h3>
     <div class="format-modal-buttons">
-      <button class="btn-json" onclick="handleSaveAs('json')">JSON (.json)</button>
-      <button class="btn-csv" onclick="handleSaveAs('csv')">CSV (.csv)</button>
-      <button class="btn-cancel" onclick="closeFormatModal()">ยกเลิก</button>
+      <button class="btn-json" onclick="handleSaveAs('json')">📄 JSON (.json)</button>
+      <button class="btn-csv" onclick="handleSaveAs('csv')">📊 CSV (.csv)</button>
+      <button class="btn-cancel" onclick="closeFormatModal()">❌ ยกเลิก</button>
     </div>
   </div>
 </div>
@@ -541,11 +547,11 @@
 <!-- Modal สำหรับเลือกรูปแบบไฟล์สำหรับบันทึกวันที่เดียว -->
 <div id="singleDateExportFormatModal" class="modal-overlay">
   <div class="format-modal-content">
-    <h3>เลือกรูปแบบไฟล์ที่จะบันทึก</h3>
+    <h3>📁 เลือกรูปแบบไฟล์ที่จะบันทึก</h3>
     <div class="format-modal-buttons">
-      <button class="btn-json" onclick="handleSingleDateExportAs('json')">JSON (.json)</button>
-      <button class="btn-csv" onclick="handleSingleDateExportAs('csv')">CSV (.csv)</button>
-      <button class="btn-cancel" onclick="closeSingleDateExportFormatModal()">ยกเลิก</button>
+      <button class="btn-json" onclick="handleSingleDateExportAs('json')">📄 JSON (.json)</button>
+      <button class="btn-csv" onclick="handleSingleDateExportAs('csv')">📊 CSV (.csv)</button>
+      <button class="btn-cancel" onclick="closeSingleDateExportFormatModal()">❌ ยกเลิก</button>
     </div>
   </div>
 </div>

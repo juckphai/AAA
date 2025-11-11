@@ -1155,3 +1155,56 @@ footer div {
         padding: 0 !important;
     }
 }
+/* ===== ICON STYLES ===== */
+.button-icon {
+  margin-right: clamp(4px, 0.5vw, 8px);
+  font-size: clamp(12px, 1vw, 16px);
+}
+
+/* ปรับแต่งไอคอนในปุ่ม */
+.button-group button .button-icon,
+.button-container button .button-icon,
+.action-button .button-icon {
+  margin-right: clamp(4px, 0.5vw, 6px);
+  font-size: clamp(10px, 0.9vw, 14px);
+}
+
+/* ปรับแต่งไอคอนในส่วนหัว */
+.section-header .button-icon,
+.main-section-header .button-icon,
+.sub-section-header .button-icon {
+  margin-right: clamp(4px, 0.6vw, 8px);
+  font-size: clamp(12px, 1vw, 16px);
+}
+
+/* ปรับแต่งไอคอนในตาราง */
+#recordTable th .button-icon {
+  margin-right: clamp(3px, 0.4vw, 5px);
+  font-size: clamp(10px, 0.9vw, 14px);
+}
+
+/* ปรับแต่งไอคอนใน modal */
+.format-modal-buttons button .button-icon {
+  margin-right: clamp(4px, 0.6vw, 8px);
+  font-size: clamp(12px, 1vw, 16px);
+}
+
+/* ปรับแต่งไอคอนในปุ่มย้อนกลับและไฟล์ */
+.back-button .button-icon,
+.file-button .button-icon {
+  margin-right: clamp(4px, 0.6vw, 8px);
+  font-size: clamp(12px, 1vw, 16px);
+}
+
+/* ปรับแต่งไอคอนในปุ่ม action */
+.action-button .button-icon {
+  margin-right: clamp(3px, 0.5vw, 6px);
+  font-size: clamp(10px, 0.9vw, 14px);
+}
+
+/* ปรับแต่งไอคอนในปุ่ม modal */
+.modal-close-btn .button-icon {
+  margin-right: clamp(4px, 0.6vw, 8px);
+  font-size: clamp(12px, 1vw, 16px);
+}
+
