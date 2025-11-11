@@ -1,3 +1,4 @@
+
 /* ===== RESET & BASE STYLES ===== */
 *, *::before, *::after { 
     box-sizing: border-box; 
@@ -11,24 +12,25 @@ body {
     -webkit-text-size-adjust: 100%; 
     -ms-text-size-adjust: 100%; 
     text-size-adjust: 100%; 
+    font-size: clamp(14px, 2.5vw, 16px);
 }
 
 h2 { 
     text-align: center; 
     color: #333; 
-    margin-top: 30px; 
-    font-size: 28px; 
+    margin-top: clamp(20px, 5vw, 30px); 
+    font-size: clamp(20px, 6vw, 28px); 
 }
 
 /* ===== LAYOUT & CONTAINERS ===== */
 .container { 
-    max-width: 800px; 
-    margin: 20px auto; 
+    max-width: clamp(300px, 90vw, 800px); 
+    margin: clamp(10px, 3vw, 20px) auto; 
     background-color: #FAFAD2; 
-    border: 2px solid #ED01ED; 
-    padding: 10px; 
-    border-radius: 10px; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    border: clamp(1px, 0.3vw, 2px) solid #ED01ED; 
+    padding: clamp(5px, 2vw, 10px); 
+    border-radius: clamp(5px, 2vw, 10px); 
+    box-shadow: 0 clamp(2px, 1vw, 4px) clamp(4px, 2vw, 8px) rgba(0, 0, 0, 0.1); 
     width: 95%; 
     display: flex;
     flex-direction: column;
@@ -42,16 +44,16 @@ h2 {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    max-width: 600px;
+    max-width: clamp(280px, 85vw, 600px);
 }
 
 /* ===== SECTION HEADERS ===== */
 .section-header { 
     background-color: #4CAF50; 
     color: white; 
-    padding: 12px 15px; 
-    border-radius: 2px; 
-    margin-bottom: 10px; 
+    padding: clamp(8px, 2vw, 12px) clamp(10px, 3vw, 15px); 
+    border-radius: clamp(2px, 0.5vw, 5px); 
+    margin-bottom: clamp(5px, 2vw, 10px); 
     cursor: pointer; 
     display: flex; 
     justify-content: space-between; 
@@ -60,6 +62,7 @@ h2 {
     width: 100%;
     justify-content: center;
     text-align: center;
+    font-size: clamp(14px, 3vw, 18px);
 }
 
 .section-header:hover { 
@@ -68,6 +71,7 @@ h2 {
 
 .section-header .arrow { 
     transition: transform 0.3s; 
+    font-size: clamp(12px, 2.5vw, 16px);
 }
 
 .section-header.active .arrow { 
@@ -81,7 +85,7 @@ h2 {
 
 /* Section Header Variants */
 .header-account, .header-add-data, .header-actions, .header-summary { 
-    border: 2px solid #E97132; 
+    border: clamp(1px, 0.3vw, 2px) solid #E97132; 
 }
 
 .header-account { 
@@ -118,9 +122,9 @@ h2 {
 
 .header-import {
     background-color: #a7dca5;
-    border-radius: 15px;
-    padding-top: 8px;
-    padding-bottom: 8px;
+    border-radius: clamp(8px, 3vw, 15px);
+    padding-top: clamp(6px, 1.5vw, 8px);
+    padding-bottom: clamp(6px, 1.5vw, 8px);
 }
 
 .header-import:hover {
@@ -130,11 +134,11 @@ h2 {
 /* ===== SECTION CONTENT ===== */
 .section-content { 
     display: none; 
-    padding: 15px; 
-    border: 1px solid #ddd; 
-    border-radius: 20px; 
+    padding: clamp(10px, 3vw, 15px); 
+    border: clamp(1px, 0.3vw, 2px) solid #ddd; 
+    border-radius: clamp(10px, 4vw, 20px); 
     background-color: #f9f9f9; 
-    margin-bottom: 15px; 
+    margin-bottom: clamp(10px, 3vw, 15px); 
     transition: all 0.3s ease; 
     width: 100%;
 }
@@ -148,17 +152,17 @@ h2 {
 .main-section-header {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
-    padding: 15px;
-    margin: 10px 0;
-    border-radius: 10px;
+    padding: clamp(10px, 3vw, 15px);
+    margin: clamp(5px, 2vw, 10px) 0;
+    border-radius: clamp(5px, 2vw, 10px);
     cursor: pointer;
     font-weight: bold;
-    font-size: 18px;
+    font-size: clamp(14px, 3.5vw, 18px);
     display: flex;
     justify-content: space-between;
     align-items: center;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 clamp(2px, 1vw, 4px) clamp(3px, 1.5vw, 6px) rgba(0,0,0,0.1);
     width: 100%;
     justify-content: center;
     text-align: center;
@@ -167,7 +171,7 @@ h2 {
 .main-section-header:hover {
     background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
     transform: translateY(-2px);
-    box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+    box-shadow: 0 clamp(3px, 1.5vw, 6px) clamp(4px, 2vw, 8px) rgba(0,0,0,0.15);
 }
 
 .main-section-header.active {
@@ -180,11 +184,11 @@ h2 {
 
 .main-section-content {
     display: none;
-    padding: 15px;
+    padding: clamp(10px, 3vw, 15px);
     background: #f8f9fa;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    border-left: 4px solid #667eea;
+    border-radius: clamp(5px, 2vw, 8px);
+    margin-bottom: clamp(10px, 3vw, 15px);
+    border-left: clamp(2px, 1vw, 4px) solid #667eea;
     transition: all 0.3s ease;
     width: 100%;
 }
@@ -198,24 +202,25 @@ h2 {
 .sub-section-header {
     background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
     color: #333;
-    padding: 12px;
-    margin: 8px 0;
-    border-radius: 8px;
+    padding: clamp(8px, 2.5vw, 12px);
+    margin: clamp(4px, 1.5vw, 8px) 0;
+    border-radius: clamp(4px, 1.5vw, 8px);
     cursor: pointer;
     font-weight: bold;
     display: flex;
     justify-content: space-between;
     align-items: center;
     transition: all 0.3s ease;
-    border-left: 4px solid #667eea;
+    border-left: clamp(2px, 1vw, 4px) solid #667eea;
     width: 100%;
     justify-content: center;
     text-align: center;
+    font-size: clamp(12px, 2.8vw, 16px);
 }
 
 .sub-section-header:hover {
     background: linear-gradient(135deg, #fed6e3 0%, #a8edea 100%);
-    transform: translateX(5px);
+    transform: translateX(clamp(3px, 1vw, 5px));
 }
 
 .sub-section-header.active {
@@ -228,11 +233,11 @@ h2 {
 
 .sub-section-content { 
     display: none;
-    padding: 10px;
+    padding: clamp(8px, 2vw, 10px);
     background: white;
-    border-radius: 6px;
-    margin: 5px 0 15px 0;
-    border: 1px solid #e9ecef;
+    border-radius: clamp(3px, 1.5vw, 6px);
+    margin: clamp(3px, 1vw, 5px) 0 clamp(10px, 3vw, 15px) 0;
+    border: clamp(1px, 0.3vw, 2px) solid #e9ecef;
     transition: all 0.3s ease;
     width: 100%;
 }
@@ -250,9 +255,9 @@ h2 {
 /* ===== FORM STYLES ===== */
 .entry-form { 
     display: grid; 
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
-    gap: 15px; 
-    margin-bottom: 15px; 
+    grid-template-columns: repeat(auto-fit, minmax(clamp(150px, 40vw, 200px), 1fr)); 
+    gap: clamp(8px, 3vw, 15px); 
+    margin-bottom: clamp(10px, 3vw, 15px); 
     width: 100%;
     justify-content: center;
 }
@@ -260,7 +265,7 @@ h2 {
 .entry-group { 
     display: flex; 
     flex-direction: column; 
-    gap: 5px; 
+    gap: clamp(3px, 1vw, 5px); 
     align-items: center;
     text-align: center;
     width: 100%;
@@ -270,16 +275,17 @@ h2 {
     width: 100%;
     text-align: center;
     font-weight: bold;
-    margin-bottom: 5px;
+    margin-bottom: clamp(3px, 1vw, 5px);
+    font-size: clamp(12px, 2.5vw, 16px);
 }
 
 .entry-group input,
 .entry-group select {
     width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    padding: clamp(6px, 2vw, 10px);
+    font-size: clamp(12px, 3vw, 16px);
+    border: clamp(1px, 0.3vw, 2px) solid #ccc;
+    border-radius: clamp(3px, 1vw, 5px);
     background-color: #f9f9f9;
     text-align: center;
 }
@@ -287,17 +293,17 @@ h2 {
 label { 
     font-weight: bold; 
     color: #333; 
-    font-size: 16px; 
-    margin-bottom: 5px; 
+    font-size: clamp(12px, 2.5vw, 16px); 
+    margin-bottom: clamp(3px, 1vw, 5px); 
     text-align: center; 
 }
 
 select, input[type="text"], input[type="number"], input[type="date"], input[type="time"], input[type="password"] { 
     width: 100%; 
-    padding: 10px; 
-    font-size: 16px; 
-    border: 1px solid #ccc; 
-    border-radius: 5px; 
+    padding: clamp(6px, 2vw, 10px); 
+    font-size: clamp(12px, 3vw, 16px); 
+    border: clamp(1px, 0.3vw, 2px) solid #ccc; 
+    border-radius: clamp(3px, 1vw, 5px); 
     background-color: #f9f9f9; 
     text-align: center; 
 }
@@ -314,30 +320,32 @@ input[type=number] {
 
 .checkbox-container { 
     display: grid; 
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); 
-    gap: 10px; 
+    grid-template-columns: repeat(auto-fill, minmax(clamp(120px, 30vw, 150px), 1fr)); 
+    gap: clamp(6px, 2vw, 10px); 
     background-color: #e9ecef; 
-    padding: 10px; 
-    border-radius: 5px; 
-    border: 1px solid #ced4da; 
+    padding: clamp(6px, 2vw, 10px); 
+    border-radius: clamp(3px, 1vw, 5px); 
+    border: clamp(1px, 0.3vw, 2px) solid #ced4da; 
 }
 
 .checkbox-item { 
     display: flex; 
     align-items: center; 
-    gap: 5px; 
+    gap: clamp(3px, 1vw, 5px); 
     justify-content: center; 
+    font-size: clamp(11px, 2.2vw, 14px);
 }
 
 .checkbox-item input { 
     width: auto; 
+    transform: scale(clamp(0.8, 2vw, 1));
 }
 
 /* ===== TWO-COLUMN LAYOUT FOR AMOUNT AND TYPE ===== */
 .amount-type-group {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 15px;
+    gap: clamp(8px, 3vw, 15px);
     width: 100%;
 }
 
@@ -364,22 +372,23 @@ input[type=number] {
 /* ===== BUTTON STYLES ===== */
 .button-group, .button-container { 
     display: grid; 
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); 
-    gap: 10px; 
-    margin: 10px 0; 
+    grid-template-columns: repeat(auto-fit, minmax(clamp(120px, 30vw, 150px), 1fr)); 
+    gap: clamp(6px, 2vw, 10px); 
+    margin: clamp(8px, 2vw, 10px) 0; 
     width: 100%;
     justify-items: center;
 }
 
 .button-group button, .button-container button { 
-    padding: 8px; 
-    font-size: 16px; 
+    padding: clamp(6px, 2vw, 8px); 
+    font-size: clamp(12px, 3vw, 16px); 
     border: none; 
-    border-radius: 15px; 
+    border-radius: clamp(8px, 3vw, 15px); 
     background-color: #4caf50; 
     color: white; 
     cursor: pointer; 
     transition: background-color 0.3s ease, transform 0.2s ease; 
+    min-height: clamp(35px, 8vw, 45px);
 }
 
 .button-group button:hover, .button-container button:hover { 
@@ -388,17 +397,18 @@ input[type=number] {
 }
 
 .back-button, .file-button { 
-    font-size: 16px; 
-    padding: 12px 20px; 
-    border-radius: 20px; 
+    font-size: clamp(12px, 3vw, 16px); 
+    padding: clamp(8px, 2.5vw, 12px) clamp(15px, 4vw, 20px); 
+    border-radius: clamp(10px, 4vw, 20px); 
     border: none; 
     color: white; 
     cursor: pointer; 
     transition: background-color 0.3s, transform 0.2s; 
-    margin: 10px auto; 
+    margin: clamp(8px, 2vw, 10px) auto; 
     display: block; 
-    width: 60%; 
+    width: clamp(200px, 70vw, 300px); 
     max-width: 300px; 
+    min-height: clamp(40px, 9vw, 50px);
 }
 
 .back-button { 
@@ -419,21 +429,21 @@ input[type=number] {
 
 .file-actions { 
     display: flex; 
-    gap: 10px; 
+    gap: clamp(6px, 2vw, 10px); 
     align-items: center; 
     justify-content: center;
     width: 100%;
 }
 
 .action-button { 
-    padding: 10px 20px; 
-    height: 40px; 
-    min-width: 150px; 
+    padding: clamp(8px, 2.5vw, 10px) clamp(15px, 4vw, 20px); 
+    height: clamp(35px, 8vw, 40px); 
+    min-width: clamp(120px, 30vw, 150px); 
     border: none; 
-    border-radius: 20px; 
+    border-radius: clamp(10px, 4vw, 20px); 
     color: white; 
     cursor: pointer; 
-    font-size: 14px; 
+    font-size: clamp(11px, 2.5vw, 14px); 
     display: flex; 
     align-items: center; 
     justify-content: center; 
@@ -451,12 +461,13 @@ input[type=number] {
 #recordTable { 
     width: 100%; 
     border-collapse: collapse; 
-    margin: 10px auto; 
+    margin: clamp(8px, 2vw, 10px) auto; 
+    font-size: clamp(10px, 2.2vw, 14px);
 }
 
 #recordTable th, #recordTable td { 
-    border: 1px solid #ccc; 
-    padding: 8px; 
+    border: clamp(1px, 0.3vw, 2px) solid #ccc; 
+    padding: clamp(4px, 1.5vw, 8px); 
     line-height: 1.0; 
     text-align: center; 
     word-break: break-word; 
@@ -464,6 +475,8 @@ input[type=number] {
 
 #recordTable th { 
     background-color: #f4f4f4; 
+    font-size: clamp(11px, 2.5vw, 15px);
+    padding: clamp(6px, 1.8vw, 10px) clamp(4px, 1.5vw, 8px);
 }
 
 #recordTable tr:nth-child(even) { 
@@ -476,28 +489,29 @@ input[type=number] {
 
 /* ===== SUMMARY STYLES ===== */
 .summaryResult { 
-    font-size: clamp(12px, 2.2vw, 15px); 
+    font-size: clamp(10px, 2.2vw, 15px); 
     font-weight: normal; 
     color: blue; 
     background-color: #FAFAD2;
-    border: 1px solid #4CAF50; 
-    border-radius: 5px; 
-    padding: 10px 5px;
+    border: clamp(1px, 0.3vw, 2px) solid #4CAF50; 
+    border-radius: clamp(3px, 1vw, 5px); 
+    padding: clamp(6px, 2vw, 10px) clamp(3px, 1vw, 5px);
     width: 100%; 
     margin: 0; 
     text-align: center; 
-    box-shadow: 0 4px 12px rgba(0,0,0,0.25); 
-    line-height: 0.5; 
+    box-shadow: 0 clamp(2px, 1vw, 4px) clamp(6px, 3vw, 12px) rgba(0,0,0,0.25); 
+    line-height: 1.2; 
 }
 
 .summaryResult table td, .summaryResult table th { 
-    line-height: 0.5; 
+    line-height: 1.2; 
+    padding: clamp(3px, 1vw, 6px);
 }
 
 .summary-subsection { 
-    border-top: 1px solid #ccc; 
-    margin-top: 15px; 
-    padding-top: 15px; 
+    border-top: clamp(1px, 0.3vw, 2px) solid #ccc; 
+    margin-top: clamp(10px, 3vw, 15px); 
+    padding-top: clamp(10px, 3vw, 15px); 
 }
 
 .summary-subsection:first-child { 
@@ -508,9 +522,9 @@ input[type=number] {
 
 .summary-subsection-header { 
     display: block; 
-    margin-bottom: 10px; 
+    margin-bottom: clamp(8px, 2vw, 10px); 
     font-weight: bold; 
-    font-size: 1.1em; 
+    font-size: clamp(14px, 3vw, 18px); 
     color: #0056b3; 
 }
 
@@ -532,7 +546,7 @@ input[type=number] {
 
 .modal-content-container { 
     background-color: #FAFAD2; 
-    padding: 10px; 
+    padding: clamp(8px, 2vw, 10px); 
     border-radius: 0px; 
     box-shadow: none;
     display: flex; 
@@ -540,20 +554,20 @@ input[type=number] {
     align-items: center; 
     margin: auto 0; 
     width: 100%; 
-    max-width: 800px; 
+    max-width: clamp(280px, 90vw, 800px); 
 }
 
 .modal-close-btn { 
     background-color: #E97132; 
     color: white; 
-    padding: 12px 30px; 
+    padding: clamp(8px, 2.5vw, 12px) clamp(20px, 6vw, 30px); 
     border: none; 
     cursor: pointer; 
-    border-radius: 20px; 
-    font-size: 16px; 
-    margin-top: 10px; 
+    border-radius: clamp(10px, 4vw, 20px); 
+    font-size: clamp(12px, 3vw, 16px); 
+    margin-top: clamp(8px, 2vw, 10px); 
     transition: background-color 0.3s; 
-    width: 90%; 
+    width: clamp(200px, 80vw, 250px); 
     max-width: 250px; 
 }
 
@@ -566,10 +580,10 @@ input[type=number] {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    margin-top: 10px;
-    max-width: 600px;
+    margin-top: clamp(8px, 2vw, 10px);
+    max-width: clamp(250px, 85vw, 600px);
     background-color: #f0f0f0;
-    padding: 10px;
+    padding: clamp(8px, 2vw, 10px);
     border-radius: 0px;
 }
 
@@ -578,46 +592,47 @@ input[type=number] {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    margin-bottom: 15px;
+    margin-bottom: clamp(10px, 3vw, 15px);
 }
 
 .control-group label, .control-group span {
-    font-size: 16px;
+    font-size: clamp(12px, 2.5vw, 16px);
     color: #333;
-    margin-bottom: 8px;
+    margin-bottom: clamp(6px, 1.5vw, 8px);
 }
 
 .control-group input[type="range"] {
-    width: 80%;
+    width: clamp(200px, 70vw, 300px);
     max-width: 300px;
     margin: 0;
 }
 
 .format-modal-content {
     background-color: #fff;
-    padding: 20px 30px;
+    padding: clamp(15px, 4vw, 20px) clamp(20px, 5vw, 30px);
     border-radius: 0px;
     text-align: center;
     box-shadow: none;
     width: 100%;
-    max-width: 600px;
+    max-width: clamp(250px, 85vw, 600px);
 }
 
 .format-modal-buttons {
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    margin-top: 20px;
+    gap: clamp(10px, 3vw, 15px);
+    margin-top: clamp(15px, 4vw, 20px);
 }
 
 .format-modal-buttons button {
-    padding: 15px;
-    font-size: 16px;
+    padding: clamp(12px, 3vw, 15px);
+    font-size: clamp(12px, 3vw, 16px);
     border: none;
-    border-radius: 10px;
+    border-radius: clamp(5px, 2vw, 10px);
     color: white;
     cursor: pointer;
     transition: background-color 0.3s;
+    min-height: clamp(45px, 10vw, 55px);
 }
 
 .format-modal-buttons .btn-json { 
@@ -642,7 +657,7 @@ input[type=number] {
 
 .format-modal-buttons .btn-cancel { 
     background-color: #6c757d; 
-    margin-top: 10px;
+    margin-top: clamp(8px, 2vw, 10px);
 }
 
 .format-modal-buttons .btn-cancel:hover { 
@@ -668,22 +683,22 @@ input[type=number] {
 /* ===== TOAST NOTIFICATION ===== */
 .toast-notification { 
     position: fixed; 
-    bottom: 20px; 
-    right: 20px; 
-    padding: 12px 24px; 
+    bottom: clamp(10px, 3vw, 20px); 
+    right: clamp(10px, 3vw, 20px); 
+    padding: clamp(8px, 2.5vw, 12px) clamp(15px, 4vw, 24px); 
     color: white; 
-    border-radius: 30px; 
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
+    border-radius: clamp(15px, 6vw, 30px); 
+    box-shadow: 0 clamp(2px, 1vw, 4px) clamp(8px, 3vw, 15px) rgba(0,0,0,0.3); 
     z-index: 1001; 
     opacity: 0; 
     visibility: hidden; 
     transition: opacity 0.5s, visibility 0.5s, transform 0.5s; 
     transform: translateY(20px); 
     font-weight: bold;
-    font-size: 14px;
+    font-size: clamp(11px, 2.5vw, 14px);
     text-align: center;
-    min-width: 250px;
-    max-width: 400px;
+    min-width: clamp(200px, 60vw, 250px);
+    max-width: clamp(250px, 80vw, 400px);
     word-wrap: break-word;
 }
 
@@ -697,29 +712,30 @@ input[type=number] {
 .install-prompt { 
     background-color: #fff3cd; 
     color: #856404; 
-    border: 1px solid #ffeeba; 
-    border-radius: 10px; 
-    padding: 15px; 
-    margin: 15px 10px; 
+    border: clamp(1px, 0.3vw, 2px) solid #ffeeba; 
+    border-radius: clamp(5px, 2vw, 10px); 
+    padding: clamp(10px, 3vw, 15px); 
+    margin: clamp(10px, 3vw, 15px) clamp(8px, 2vw, 10px); 
     text-align: left; 
-    font-size: 14px; 
+    font-size: clamp(11px, 2.5vw, 14px); 
     position: relative; 
 }
 
 .install-prompt h4 { 
     margin-top: 0; 
+    font-size: clamp(12px, 3vw, 16px);
 }
 
 .install-prompt ul { 
-    padding-left: 20px; 
+    padding-left: clamp(15px, 4vw, 20px); 
     margin-bottom: 0; 
 }
 
 .install-prompt .close-prompt { 
     position: absolute; 
-    top: 10px; 
-    right: 15px; 
-    font-size: 20px; 
+    top: clamp(8px, 2vw, 10px); 
+    right: clamp(10px, 3vw, 15px); 
+    font-size: clamp(16px, 4vw, 20px); 
     font-weight: bold; 
     cursor: pointer; 
     color: #856404; 
@@ -855,24 +871,24 @@ input[type=number] {
 /* ===== FOOTER STYLING ===== */
 footer {
     text-align: center;
-    padding: 12px 15px;
-    margin: 20px auto 10px;
+    padding: clamp(8px, 2.5vw, 12px) clamp(10px, 3vw, 15px);
+    margin: clamp(15px, 4vw, 20px) auto clamp(8px, 2vw, 10px);
     background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
     color: white;
-    border-radius: 25px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    max-width: 600px;
+    border-radius: clamp(15px, 6vw, 25px);
+    box-shadow: 0 clamp(2px, 1vw, 4px) clamp(6px, 3vw, 12px) rgba(0,0,0,0.15);
+    max-width: clamp(280px, 85vw, 600px);
     width: 100%;
     position: relative;
     overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 8px;
-    font-size: clamp(0.7rem, 2.5vw, 0.9rem);
+    gap: clamp(4px, 1.5vw, 8px);
+    font-size: clamp(0.6rem, 2.2vw, 0.8rem);
     line-height: 1.3;
     white-space: normal;
-    border: 2px solid #ED01ED;
+    border: clamp(1px, 0.3vw, 2px) solid #ED01ED;
 }
 
 footer::before {
@@ -881,7 +897,7 @@ footer::before {
     top: 0;
     left: 0;
     right: 0;
-    height: 3px;
+    height: clamp(2px, 0.8vw, 3px);
     background: linear-gradient(90deg, #e91e63, #4CAF50, #00B0F0, #ED01ED, #ff9800);
 }
 
@@ -894,43 +910,43 @@ footer div {
 /* ===== RESPONSIVE STYLES ===== */
 @media screen and (max-width: 600px) { 
     .container { 
-        padding: 5px; 
-        margin: 10px auto;
+        padding: clamp(3px, 1.5vw, 5px); 
+        margin: clamp(5px, 2vw, 10px) auto;
     } 
     
     h2 { 
-        font-size: 24px; 
+        font-size: clamp(18px, 5vw, 24px); 
     } 
     
     .entry-form { 
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 8px;
+        gap: clamp(4px, 1.5vw, 8px);
     } 
     
     .button-group, .button-container { 
         grid-template-columns: 1fr; 
-        gap: 8px;
+        gap: clamp(4px, 1.5vw, 8px);
     } 
     
     .sub-section-content .button-group { 
         grid-template-columns: repeat(3, 1fr); 
-        gap: 5px; 
+        gap: clamp(3px, 1vw, 5px); 
     } 
     
     .sub-section-content .button-group button { 
-        padding: 10px 5px; 
-        font-size: 14px; 
+        padding: clamp(6px, 2vw, 10px) clamp(3px, 1vw, 5px); 
+        font-size: clamp(10px, 2.5vw, 14px); 
     } 
     
     .button-group button, .button-container button { 
-        padding: 14px; 
-        font-size: 16px; 
+        padding: clamp(10px, 3vw, 14px); 
+        font-size: clamp(12px, 3vw, 16px); 
     } 
     
     .file-actions { 
         flex-direction: column; 
-        padding: 0 10px; 
+        padding: 0 clamp(8px, 2vw, 10px); 
         align-items: stretch; 
     } 
     
@@ -946,7 +962,7 @@ footer div {
     /* ปรับแต่งกลุ่มจำนวนเงินและประเภทสำหรับมือถือ */
     .amount-type-group {
         grid-template-columns: 1fr 1fr;
-        gap: 8px;
+        gap: clamp(4px, 1.5vw, 8px);
     }
     
     .amount-group input,
@@ -959,13 +975,13 @@ footer div {
     }
     
     .date-time-group label {
-        font-size: 14px;
-        margin-bottom: 3px;
+        font-size: clamp(10px, 2.2vw, 14px);
+        margin-bottom: clamp(2px, 0.8vw, 3px);
     }
     
     .date-time-group input {
-        padding: 8px;
-        font-size: 14px;
+        padding: clamp(6px, 2vw, 8px);
+        font-size: clamp(10px, 2.2vw, 14px);
         width: 100%;
     }
     
@@ -973,21 +989,21 @@ footer div {
     .centered-date-form.horizontal {
         flex-direction: row;
         justify-content: center;
-        gap: 10px;
+        gap: clamp(6px, 2vw, 10px);
     }
     
     .centered-date-form.horizontal .centered-date-group {
-        max-width: 150px;
+        max-width: clamp(120px, 35vw, 150px);
         margin-bottom: 0;
     }
     
     .centered-date-form.horizontal .centered-date-group label {
-        font-size: 14px;
+        font-size: clamp(10px, 2.2vw, 14px);
     }
     
     .centered-date-form.horizontal .centered-date-group input {
-        padding: 8px;
-        font-size: 14px;
+        padding: clamp(6px, 2vw, 8px);
+        font-size: clamp(10px, 2.2vw, 14px);
     }
 }
 
@@ -995,7 +1011,7 @@ footer div {
 @media screen and (min-width: 601px) {
     .entry-form {
         grid-template-columns: 1fr 1fr;
-        gap: 15px;
+        gap: clamp(8px, 3vw, 15px);
     }
     
     .date-time-group,
@@ -1014,11 +1030,11 @@ footer div {
     .centered-date-form.horizontal {
         flex-direction: row;
         justify-content: center;
-        gap: 15px;
+        gap: clamp(8px, 3vw, 15px);
     }
     
     .centered-date-form.horizontal .centered-date-group {
-        max-width: 200px;
+        max-width: clamp(150px, 40vw, 200px);
         margin-bottom: 0;
     }
 }
@@ -1026,24 +1042,24 @@ footer div {
 /* Responsive design for footer */
 @media (max-width: 768px) {
     footer {
-        margin: 25px 10px 12px;
-        padding: 12px 15px;
-        border-radius: 25px;
-        max-width: calc(100% - 20px);
-        font-size: clamp(0.65rem, 2.2vw, 0.8rem);
-        gap: 6px;
+        margin: clamp(15px, 4vw, 25px) clamp(8px, 2vw, 10px) clamp(8px, 2vw, 12px);
+        padding: clamp(8px, 2.5vw, 12px) clamp(10px, 3vw, 15px);
+        border-radius: clamp(15px, 6vw, 25px);
+        max-width: calc(100% - clamp(16px, 4vw, 20px));
+        font-size: clamp(0.55rem, 2vw, 0.7rem);
+        gap: clamp(3px, 1.2vw, 6px);
         line-height: 1.4;
     }
 }
 
 @media (max-width: 480px) {
     footer {
-        margin: 20px 5px 10px;
-        padding: 10px 12px;
-        border-radius: 20px;
-        max-width: calc(100% - 10px);
-        font-size: clamp(0.6rem, 2vw, 0.75rem);
-        gap: 4px;
+        margin: clamp(10px, 3vw, 20px) clamp(3px, 1.5vw, 5px) clamp(5px, 2vw, 10px);
+        padding: clamp(6px, 2vw, 10px) clamp(8px, 2.5vw, 12px);
+        border-radius: clamp(10px, 4vw, 20px);
+        max-width: calc(100% - clamp(6px, 2vw, 10px));
+        font-size: clamp(0.5rem, 1.8vw, 0.65rem);
+        gap: clamp(2px, 1vw, 4px);
         line-height: 1.5;
     }
     
@@ -1056,9 +1072,9 @@ footer div {
 /* Responsive design for toast */
 @media (max-width: 600px) {
     .toast-notification {
-        right: 10px;
-        left: 10px;
-        bottom: 10px;
+        right: clamp(5px, 2vw, 10px);
+        left: clamp(5px, 2vw, 10px);
+        bottom: clamp(5px, 2vw, 10px);
         max-width: none;
         min-width: auto;
     }
@@ -1068,7 +1084,7 @@ footer div {
 @media (prefers-color-scheme: dark) {
     footer {
         background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+        box-shadow: 0 clamp(2px, 1vw, 4px) clamp(6px, 3vw, 12px) rgba(0,0,0,0.25);
     }
     
     footer::before {
@@ -1102,11 +1118,11 @@ footer div {
 /* Enhanced section headers for better compatibility */
 .section-header {
   cursor: pointer;
-  padding: 10px;
+  padding: clamp(8px, 2vw, 10px);
   background-color: #f5f5f5;
-  border: 1px solid #ddd;
-  margin: 5px 0;
-  border-radius: 5px;
+  border: clamp(1px, 0.3vw, 2px) solid #ddd;
+  margin: clamp(3px, 1vw, 5px) 0;
+  border-radius: clamp(3px, 1vw, 5px);
 }
 
 .section-header:hover {
@@ -1129,6 +1145,7 @@ footer div {
 .header-summary {
     background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
 }
+
 @media print {
     .toast-notification {
         display: none !important;
@@ -1155,56 +1172,102 @@ footer div {
         padding: 0 !important;
     }
 }
+
 /* ===== ICON STYLES ===== */
 .button-icon {
-  margin-right: clamp(4px, 0.5vw, 8px);
-  font-size: clamp(12px, 1vw, 16px);
+  margin-right: clamp(3px, 1vw, 6px);
+  font-size: clamp(10px, 2.2vw, 14px);
 }
 
 /* ปรับแต่งไอคอนในปุ่ม */
 .button-group button .button-icon,
 .button-container button .button-icon,
 .action-button .button-icon {
-  margin-right: clamp(4px, 0.5vw, 6px);
-  font-size: clamp(10px, 0.9vw, 14px);
+  margin-right: clamp(3px, 1vw, 5px);
+  font-size: clamp(9px, 2vw, 12px);
 }
 
 /* ปรับแต่งไอคอนในส่วนหัว */
 .section-header .button-icon,
 .main-section-header .button-icon,
 .sub-section-header .button-icon {
-  margin-right: clamp(4px, 0.6vw, 8px);
-  font-size: clamp(12px, 1vw, 16px);
+  margin-right: clamp(3px, 1.2vw, 6px);
+  font-size: clamp(10px, 2.2vw, 14px);
 }
 
 /* ปรับแต่งไอคอนในตาราง */
 #recordTable th .button-icon {
-  margin-right: clamp(3px, 0.4vw, 5px);
-  font-size: clamp(10px, 0.9vw, 14px);
+  margin-right: clamp(2px, 0.8vw, 4px);
+  font-size: clamp(9px, 2vw, 12px);
 }
 
 /* ปรับแต่งไอคอนใน modal */
 .format-modal-buttons button .button-icon {
-  margin-right: clamp(4px, 0.6vw, 8px);
-  font-size: clamp(12px, 1vw, 16px);
+  margin-right: clamp(3px, 1.2vw, 6px);
+  font-size: clamp(10px, 2.2vw, 14px);
 }
 
 /* ปรับแต่งไอคอนในปุ่มย้อนกลับและไฟล์ */
 .back-button .button-icon,
 .file-button .button-icon {
-  margin-right: clamp(4px, 0.6vw, 8px);
-  font-size: clamp(12px, 1vw, 16px);
+  margin-right: clamp(3px, 1.2vw, 6px);
+  font-size: clamp(10px, 2.2vw, 14px);
 }
 
 /* ปรับแต่งไอคอนในปุ่ม action */
 .action-button .button-icon {
-  margin-right: clamp(3px, 0.5vw, 6px);
-  font-size: clamp(10px, 0.9vw, 14px);
+  margin-right: clamp(2px, 1vw, 4px);
+  font-size: clamp(9px, 2vw, 12px);
 }
 
 /* ปรับแต่งไอคอนในปุ่ม modal */
 .modal-close-btn .button-icon {
-  margin-right: clamp(4px, 0.6vw, 8px);
-  font-size: clamp(12px, 1vw, 16px);
+  margin-right: clamp(3px, 1.2vw, 6px);
+  font-size: clamp(10px, 2.2vw, 14px);
 }
 
+/* ===== ENHANCED CLAMP STYLES ===== */
+/* เพิ่ม min-height เพื่อป้องกันการตัดกันขององค์ประกอบ */
+.container > * {
+    min-height: clamp(20px, 5vw, 30px);
+}
+
+/* ป้องกัน input และ button เล็กเกินไปบนมือถือ */
+input, select, button {
+    min-height: clamp(35px, 8vw, 45px);
+}
+
+/* ปรับแต่ง gap และ spacing ให้เหมาะสมทุกหน้าจอ */
+.grid-layout {
+    gap: clamp(5px, 2vw, 10px);
+}
+
+.flex-layout {
+    gap: clamp(5px, 2vw, 10px);
+}
+
+/* ปรับแต่ง border-radius ให้ responsive */
+.rounded-element {
+    border-radius: clamp(3px, 1.5vw, 8px);
+}
+
+/* ปรับแต่ง shadow ให้ responsive */
+.shadow-element {
+    box-shadow: 0 clamp(1px, 0.5vw, 2px) clamp(2px, 1vw, 4px) rgba(0,0,0,0.1);
+}
+
+/* ป้องกันการแสดงผลผิดพลาดบนหน้าจอขนาดเล็กมาก */
+@media (max-width: 320px) {
+    .container {
+        width: 98%;
+        margin: clamp(3px, 1vw, 5px) auto;
+    }
+    
+    .entry-form {
+        grid-template-columns: 1fr;
+    }
+    
+    .button-group, .button-container {
+        grid-template-columns: 1fr;
+    }
+}
