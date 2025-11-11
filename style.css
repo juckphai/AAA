@@ -1,4 +1,3 @@
-
 /* ===== RESET & BASE STYLES ===== */
 *, *::before, *::after { 
     box-sizing: border-box; 
@@ -12,25 +11,25 @@ body {
     -webkit-text-size-adjust: 100%; 
     -ms-text-size-adjust: 100%; 
     text-size-adjust: 100%; 
-    font-size: clamp(14px, 2.5vw, 16px);
+    font-size: clamp(16px, 2.5vw, 20px); /* ปรับค่าสูงสุดเป็น 20px */
 }
 
 h2 { 
     text-align: center; 
     color: #333; 
-    margin-top: clamp(20px, 5vw, 30px); 
-    font-size: clamp(20px, 6vw, 28px); 
+    margin-top: clamp(20px, 5vw, 35px); 
+    font-size: clamp(24px, 6vw, 32px); /* ปรับค่าสูงสุดเป็น 32px */
 }
 
 /* ===== LAYOUT & CONTAINERS ===== */
 .container { 
-    max-width: clamp(300px, 98vw, 800px); 
-    margin: clamp(10px, 3vw, 20px) auto; 
+    max-width: clamp(300px, 98vw, 900px); /* ปรับค่าสูงสุดเป็น 900px */
+    margin: clamp(10px, 3vw, 25px) auto; 
     background-color: #FAFAD2; 
-    border: clamp(1px, 0.3vw, 2px) solid #ED01ED; 
-    padding: clamp(5px, 2vw, 10px); 
-    border-radius: clamp(5px, 2vw, 10px); 
-    box-shadow: 0 clamp(2px, 1vw, 4px) clamp(4px, 2vw, 8px) rgba(0, 0, 0, 0.1); 
+    border: clamp(1px, 0.3vw, 3px) solid #ED01ED; 
+    padding: clamp(5px, 2vw, 15px); 
+    border-radius: clamp(5px, 2vw, 12px); 
+    box-shadow: 0 clamp(2px, 1vw, 6px) clamp(4px, 2vw, 10px) rgba(0, 0, 0, 0.1); 
     width: 95%; 
     display: flex;
     flex-direction: column;
@@ -44,16 +43,16 @@ h2 {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    max-width: clamp(280px, 98vw, 600px);
+    max-width: clamp(280px, 98vw, 700px); /* ปรับค่าสูงสุดเป็น 700px */
 }
 
 /* ===== SECTION HEADERS ===== */
 .section-header { 
     background-color: #4CAF50; 
     color: white; 
-    padding: clamp(8px, 2vw, 12px) clamp(10px, 3vw, 15px); 
-    border-radius: clamp(2px, 0.5vw, 5px); 
-    margin-bottom: clamp(5px, 2vw, 10px); 
+    padding: clamp(8px, 2vw, 15px) clamp(10px, 3vw, 18px); 
+    border-radius: clamp(2px, 0.5vw, 6px); 
+    margin-bottom: clamp(5px, 2vw, 12px); 
     cursor: pointer; 
     display: flex; 
     justify-content: space-between; 
@@ -62,7 +61,7 @@ h2 {
     width: 100%;
     justify-content: center;
     text-align: center;
-    font-size: clamp(14px, 3vw, 18px);
+    font-size: clamp(16px, 3vw, 22px); /* ปรับค่าสูงสุดเป็น 22px */
 }
 
 .section-header:hover { 
@@ -71,7 +70,7 @@ h2 {
 
 .section-header .arrow { 
     transition: transform 0.3s; 
-    font-size: clamp(12px, 2.5vw, 16px);
+    font-size: clamp(14px, 2.5vw, 18px); /* ปรับค่าสูงสุดเป็น 18px */
 }
 
 .section-header.active .arrow { 
@@ -85,7 +84,7 @@ h2 {
 
 /* Section Header Variants */
 .header-account, .header-add-data, .header-actions, .header-summary { 
-    border: clamp(1px, 0.3vw, 2px) solid #E97132; 
+    border: clamp(1px, 0.3vw, 3px) solid #E97132; 
 }
 
 .header-account { 
@@ -122,9 +121,9 @@ h2 {
 
 .header-import {
     background-color: #a7dca5;
-    border-radius: clamp(8px, 3vw, 15px);
-    padding-top: clamp(6px, 1.5vw, 8px);
-    padding-bottom: clamp(6px, 1.5vw, 8px);
+    border-radius: clamp(8px, 3vw, 18px);
+    padding-top: clamp(6px, 1.5vw, 10px);
+    padding-bottom: clamp(6px, 1.5vw, 10px);
 }
 
 .header-import:hover {
@@ -134,11 +133,11 @@ h2 {
 /* ===== SECTION CONTENT ===== */
 .section-content { 
     display: none; 
-    padding: clamp(10px, 3vw, 15px); 
-    border: clamp(1px, 0.3vw, 2px) solid #ddd; 
-    border-radius: clamp(10px, 4vw, 20px); 
+    padding: clamp(10px, 3vw, 18px); 
+    border: clamp(1px, 0.3vw, 3px) solid #ddd; 
+    border-radius: clamp(10px, 4vw, 25px); 
     background-color: #f9f9f9; 
-    margin-bottom: clamp(10px, 3vw, 15px); 
+    margin-bottom: clamp(10px, 3vw, 18px); 
     transition: all 0.3s ease; 
     width: 100%;
 }
@@ -152,17 +151,17 @@ h2 {
 .main-section-header {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
-    padding: clamp(10px, 3vw, 15px);
-    margin: clamp(5px, 2vw, 10px) 0;
-    border-radius: clamp(5px, 2vw, 10px);
+    padding: clamp(10px, 3vw, 18px);
+    margin: clamp(5px, 2vw, 12px) 0;
+    border-radius: clamp(5px, 2vw, 12px);
     cursor: pointer;
     font-weight: bold;
-    font-size: clamp(14px, 3.5vw, 18px);
+    font-size: clamp(16px, 3.5vw, 24px); /* ปรับค่าสูงสุดเป็น 24px */
     display: flex;
     justify-content: space-between;
     align-items: center;
     transition: all 0.3s ease;
-    box-shadow: 0 clamp(2px, 1vw, 4px) clamp(3px, 1.5vw, 6px) rgba(0,0,0,0.1);
+    box-shadow: 0 clamp(2px, 1vw, 5px) clamp(3px, 1.5vw, 8px) rgba(0,0,0,0.1);
     width: 100%;
     justify-content: center;
     text-align: center;
@@ -171,7 +170,7 @@ h2 {
 .main-section-header:hover {
     background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
     transform: translateY(-2px);
-    box-shadow: 0 clamp(3px, 1.5vw, 6px) clamp(4px, 2vw, 8px) rgba(0,0,0,0.15);
+    box-shadow: 0 clamp(3px, 1.5vw, 8px) clamp(4px, 2vw, 10px) rgba(0,0,0,0.15);
 }
 
 .main-section-header.active {
@@ -184,11 +183,11 @@ h2 {
 
 .main-section-content {
     display: none;
-    padding: clamp(10px, 3vw, 15px);
+    padding: clamp(10px, 3vw, 18px);
     background: #f8f9fa;
-    border-radius: clamp(5px, 2vw, 8px);
-    margin-bottom: clamp(10px, 3vw, 15px);
-    border-left: clamp(2px, 1vw, 4px) solid #667eea;
+    border-radius: clamp(5px, 2vw, 10px);
+    margin-bottom: clamp(10px, 3vw, 18px);
+    border-left: clamp(2px, 1vw, 5px) solid #667eea;
     transition: all 0.3s ease;
     width: 100%;
 }
@@ -202,25 +201,25 @@ h2 {
 .sub-section-header {
     background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
     color: #333;
-    padding: clamp(8px, 2.5vw, 12px);
-    margin: clamp(4px, 1.5vw, 8px) 0;
-    border-radius: clamp(4px, 1.5vw, 8px);
+    padding: clamp(8px, 2.5vw, 15px);
+    margin: clamp(4px, 1.5vw, 10px) 0;
+    border-radius: clamp(4px, 1.5vw, 10px);
     cursor: pointer;
     font-weight: bold;
     display: flex;
     justify-content: space-between;
     align-items: center;
     transition: all 0.3s ease;
-    border-left: clamp(2px, 1vw, 4px) solid #667eea;
+    border-left: clamp(2px, 1vw, 5px) solid #667eea;
     width: 100%;
     justify-content: center;
     text-align: center;
-    font-size: clamp(12px, 2.8vw, 16px);
+    font-size: clamp(14px, 2.8vw, 20px); /* ปรับค่าสูงสุดเป็น 20px */
 }
 
 .sub-section-header:hover {
     background: linear-gradient(135deg, #fed6e3 0%, #a8edea 100%);
-    transform: translateX(clamp(3px, 1vw, 5px));
+    transform: translateX(clamp(3px, 1vw, 6px));
 }
 
 .sub-section-header.active {
@@ -233,11 +232,11 @@ h2 {
 
 .sub-section-content { 
     display: none;
-    padding: clamp(8px, 2vw, 10px);
+    padding: clamp(8px, 2vw, 12px);
     background: white;
-    border-radius: clamp(3px, 1.5vw, 6px);
-    margin: clamp(3px, 1vw, 5px) 0 clamp(10px, 3vw, 15px) 0;
-    border: clamp(1px, 0.3vw, 2px) solid #e9ecef;
+    border-radius: clamp(3px, 1.5vw, 8px);
+    margin: clamp(3px, 1vw, 6px) 0 clamp(10px, 3vw, 18px) 0;
+    border: clamp(1px, 0.3vw, 3px) solid #e9ecef;
     transition: all 0.3s ease;
     width: 100%;
 }
@@ -255,9 +254,9 @@ h2 {
 /* ===== FORM STYLES ===== */
 .entry-form { 
     display: grid; 
-    grid-template-columns: repeat(auto-fit, minmax(clamp(150px, 40vw, 200px), 1fr)); 
-    gap: clamp(8px, 3vw, 15px); 
-    margin-bottom: clamp(10px, 3vw, 15px); 
+    grid-template-columns: repeat(auto-fit, minmax(clamp(150px, 40vw, 250px), 1fr)); /* ปรับค่าสูงสุดเป็น 250px */
+    gap: clamp(8px, 3vw, 18px); 
+    margin-bottom: clamp(10px, 3vw, 18px); 
     width: 100%;
     justify-content: center;
 }
@@ -265,7 +264,7 @@ h2 {
 .entry-group { 
     display: flex; 
     flex-direction: column; 
-    gap: clamp(3px, 1vw, 5px); 
+    gap: clamp(3px, 1vw, 6px); 
     align-items: center;
     text-align: center;
     width: 100%;
@@ -275,17 +274,17 @@ h2 {
     width: 100%;
     text-align: center;
     font-weight: bold;
-    margin-bottom: clamp(3px, 1vw, 5px);
-    font-size: clamp(12px, 2.5vw, 16px);
+    margin-bottom: clamp(3px, 1vw, 6px);
+    font-size: clamp(14px, 2.5vw, 18px); /* ปรับค่าสูงสุดเป็น 18px */
 }
 
 .entry-group input,
 .entry-group select {
     width: 100%;
-    padding: clamp(6px, 2vw, 10px);
-    font-size: clamp(12px, 3vw, 16px);
-    border: clamp(1px, 0.3vw, 2px) solid #ccc;
-    border-radius: clamp(3px, 1vw, 5px);
+    padding: clamp(6px, 2vw, 12px);
+    font-size: clamp(14px, 3vw, 18px); /* ปรับค่าสูงสุดเป็น 18px */
+    border: clamp(1px, 0.3vw, 3px) solid #ccc;
+    border-radius: clamp(3px, 1vw, 6px);
     background-color: #f9f9f9;
     text-align: center;
 }
@@ -293,17 +292,17 @@ h2 {
 label { 
     font-weight: bold; 
     color: #333; 
-    font-size: clamp(12px, 2.5vw, 16px); 
-    margin-bottom: clamp(3px, 1vw, 5px); 
+    font-size: clamp(14px, 2.5vw, 18px); /* ปรับค่าสูงสุดเป็น 18px */
+    margin-bottom: clamp(3px, 1vw, 6px); 
     text-align: center; 
 }
 
 select, input[type="text"], input[type="number"], input[type="date"], input[type="time"], input[type="password"] { 
     width: 100%; 
-    padding: clamp(6px, 2vw, 10px); 
-    font-size: clamp(12px, 3vw, 16px); 
-    border: clamp(1px, 0.3vw, 2px) solid #ccc; 
-    border-radius: clamp(3px, 1vw, 5px); 
+    padding: clamp(6px, 2vw, 12px); 
+    font-size: clamp(14px, 3vw, 18px); /* ปรับค่าสูงสุดเป็น 18px */
+    border: clamp(1px, 0.3vw, 3px) solid #ccc; 
+    border-radius: clamp(3px, 1vw, 6px); 
     background-color: #f9f9f9; 
     text-align: center; 
 }
@@ -320,32 +319,32 @@ input[type=number] {
 
 .checkbox-container { 
     display: grid; 
-    grid-template-columns: repeat(auto-fill, minmax(clamp(120px, 30vw, 150px), 1fr)); 
-    gap: clamp(6px, 2vw, 10px); 
+    grid-template-columns: repeat(auto-fill, minmax(clamp(120px, 30vw, 180px), 1fr)); /* ปรับค่าสูงสุดเป็น 180px */
+    gap: clamp(6px, 2vw, 12px); 
     background-color: #e9ecef; 
-    padding: clamp(6px, 2vw, 10px); 
-    border-radius: clamp(3px, 1vw, 5px); 
-    border: clamp(1px, 0.3vw, 2px) solid #ced4da; 
+    padding: clamp(6px, 2vw, 12px); 
+    border-radius: clamp(3px, 1vw, 6px); 
+    border: clamp(1px, 0.3vw, 3px) solid #ced4da; 
 }
 
 .checkbox-item { 
     display: flex; 
     align-items: center; 
-    gap: clamp(3px, 1vw, 5px); 
+    gap: clamp(3px, 1vw, 6px); 
     justify-content: center; 
-    font-size: clamp(11px, 2.2vw, 14px);
+    font-size: clamp(13px, 2.2vw, 16px); /* ปรับค่าสูงสุดเป็น 16px */
 }
 
 .checkbox-item input { 
     width: auto; 
-    transform: scale(clamp(0.8, 2vw, 1));
+    transform: scale(clamp(0.8, 2vw, 1.1));
 }
 
 /* ===== TWO-COLUMN LAYOUT FOR AMOUNT AND TYPE ===== */
 .amount-type-group {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: clamp(8px, 3vw, 15px);
+    gap: clamp(8px, 3vw, 18px);
     width: 100%;
 }
 
@@ -372,23 +371,23 @@ input[type=number] {
 /* ===== BUTTON STYLES ===== */
 .button-group, .button-container { 
     display: grid; 
-    grid-template-columns: repeat(auto-fit, minmax(clamp(120px, 30vw, 150px), 1fr)); 
-    gap: clamp(6px, 2vw, 10px); 
-    margin: clamp(8px, 2vw, 10px) 0; 
+    grid-template-columns: repeat(auto-fit, minmax(clamp(120px, 30vw, 180px), 1fr)); /* ปรับค่าสูงสุดเป็น 180px */
+    gap: clamp(6px, 2vw, 12px); 
+    margin: clamp(8px, 2vw, 12px) 0; 
     width: 100%;
     justify-items: center;
 }
 
 .button-group button, .button-container button { 
-    padding: clamp(6px, 2vw, 8px); 
-    font-size: clamp(12px, 3vw, 16px); 
+    padding: clamp(6px, 2vw, 10px); 
+    font-size: clamp(14px, 3vw, 18px); /* ปรับค่าสูงสุดเป็น 18px */
     border: none; 
-    border-radius: clamp(8px, 3vw, 15px); 
+    border-radius: clamp(8px, 3vw, 18px); 
     background-color: #4caf50; 
     color: white; 
     cursor: pointer; 
     transition: background-color 0.3s ease, transform 0.2s ease; 
-    min-height: clamp(35px, 8vw, 45px);
+    min-height: clamp(35px, 8vw, 50px); /* ปรับค่าสูงสุดเป็น 50px */
 }
 
 .button-group button:hover, .button-container button:hover { 
@@ -397,18 +396,18 @@ input[type=number] {
 }
 
 .back-button, .file-button { 
-    font-size: clamp(12px, 3vw, 16px); 
-    padding: clamp(8px, 2.5vw, 12px) clamp(15px, 4vw, 20px); 
-    border-radius: clamp(10px, 4vw, 20px); 
+    font-size: clamp(14px, 3vw, 18px); /* ปรับค่าสูงสุดเป็น 18px */
+    padding: clamp(8px, 2.5vw, 15px) clamp(15px, 4vw, 25px); 
+    border-radius: clamp(10px, 4vw, 25px); 
     border: none; 
     color: white; 
     cursor: pointer; 
     transition: background-color 0.3s, transform 0.2s; 
-    margin: clamp(8px, 2vw, 10px) auto; 
+    margin: clamp(8px, 2vw, 12px) auto; 
     display: block; 
-    width: clamp(200px, 70vw, 300px); 
-    max-width: 300px; 
-    min-height: clamp(40px, 9vw, 50px);
+    width: clamp(200px, 70vw, 350px); /* ปรับค่าสูงสุดเป็น 350px */
+    max-width: 350px; 
+    min-height: clamp(40px, 9vw, 55px); /* ปรับค่าสูงสุดเป็น 55px */
 }
 
 .back-button { 
@@ -429,21 +428,21 @@ input[type=number] {
 
 .file-actions { 
     display: flex; 
-    gap: clamp(6px, 2vw, 10px); 
+    gap: clamp(6px, 2vw, 12px); 
     align-items: center; 
     justify-content: center;
     width: 100%;
 }
 
 .action-button { 
-    padding: clamp(8px, 2.5vw, 10px) clamp(15px, 4vw, 20px); 
-    height: clamp(35px, 8vw, 40px); 
-    min-width: clamp(120px, 30vw, 150px); 
+    padding: clamp(8px, 2.5vw, 12px) clamp(15px, 4vw, 25px); 
+    height: clamp(35px, 8vw, 45px); 
+    min-width: clamp(120px, 30vw, 180px); /* ปรับค่าสูงสุดเป็น 180px */
     border: none; 
-    border-radius: clamp(10px, 4vw, 20px); 
+    border-radius: clamp(10px, 4vw, 25px); 
     color: white; 
     cursor: pointer; 
-    font-size: clamp(11px, 2.5vw, 14px); 
+    font-size: clamp(13px, 2.5vw, 16px); /* ปรับค่าสูงสุดเป็น 16px */
     display: flex; 
     align-items: center; 
     justify-content: center; 
@@ -461,13 +460,13 @@ input[type=number] {
 #recordTable { 
     width: 100%; 
     border-collapse: collapse; 
-    margin: clamp(8px, 2vw, 10px) auto; 
-    font-size: clamp(10px, 2.2vw, 14px);
+    margin: clamp(8px, 2vw, 12px) auto; 
+    font-size: clamp(12px, 2.2vw, 16px); /* ปรับค่าสูงสุดเป็น 16px */
 }
 
 #recordTable th, #recordTable td { 
-    border: clamp(1px, 0.3vw, 2px) solid #ccc; 
-    padding: clamp(4px, 1.5vw, 8px); 
+    border: clamp(1px, 0.3vw, 3px) solid #ccc; 
+    padding: clamp(4px, 1.5vw, 10px); 
     line-height: 1.0; 
     text-align: center; 
     word-break: break-word; 
@@ -475,8 +474,8 @@ input[type=number] {
 
 #recordTable th { 
     background-color: #f4f4f4; 
-    font-size: clamp(11px, 2.5vw, 15px);
-    padding: clamp(6px, 1.8vw, 10px) clamp(4px, 1.5vw, 8px);
+    font-size: clamp(13px, 2.5vw, 18px); /* ปรับค่าสูงสุดเป็น 18px */
+    padding: clamp(6px, 1.8vw, 12px) clamp(4px, 1.5vw, 10px);
 }
 
 #recordTable tr:nth-child(even) { 
@@ -489,29 +488,29 @@ input[type=number] {
 
 /* ===== SUMMARY STYLES ===== */
 .summaryResult { 
-    font-size: clamp(10px, 2.2vw, 15px); 
+    font-size: clamp(12px, 2.2vw, 18px); /* ปรับค่าสูงสุดเป็น 18px */
     font-weight: normal; 
     color: blue; 
     background-color: #FAFAD2;
-    border: clamp(1px, 0.3vw, 2px) solid #4CAF50; 
-    border-radius: clamp(3px, 1vw, 5px); 
-    padding: clamp(6px, 2vw, 10px) clamp(3px, 1vw, 5px);
+    border: clamp(1px, 0.3vw, 3px) solid #4CAF50; 
+    border-radius: clamp(3px, 1vw, 6px); 
+    padding: clamp(6px, 2vw, 12px) clamp(3px, 1vw, 6px);
     width: 100%; 
     margin: 0; 
     text-align: center; 
-    box-shadow: 0 clamp(2px, 1vw, 4px) clamp(6px, 3vw, 12px) rgba(0,0,0,0.25); 
+    box-shadow: 0 clamp(2px, 1vw, 5px) clamp(6px, 3vw, 15px) rgba(0,0,0,0.25); 
     line-height: 1.2; 
 }
 
 .summaryResult table td, .summaryResult table th { 
     line-height: 1.2; 
-    padding: clamp(3px, 1vw, 6px);
+    padding: clamp(3px, 1vw, 8px);
 }
 
 .summary-subsection { 
-    border-top: clamp(1px, 0.3vw, 2px) solid #ccc; 
-    margin-top: clamp(10px, 3vw, 15px); 
-    padding-top: clamp(10px, 3vw, 15px); 
+    border-top: clamp(1px, 0.3vw, 3px) solid #ccc; 
+    margin-top: clamp(10px, 3vw, 18px); 
+    padding-top: clamp(10px, 3vw, 18px); 
 }
 
 .summary-subsection:first-child { 
@@ -522,9 +521,9 @@ input[type=number] {
 
 .summary-subsection-header { 
     display: block; 
-    margin-bottom: clamp(8px, 2vw, 10px); 
+    margin-bottom: clamp(8px, 2vw, 12px); 
     font-weight: bold; 
-    font-size: clamp(14px, 3vw, 18px); 
+    font-size: clamp(16px, 3vw, 22px); /* ปรับค่าสูงสุดเป็น 22px */
     color: #0056b3; 
 }
 
@@ -546,7 +545,7 @@ input[type=number] {
 
 .modal-content-container { 
     background-color: #FAFAD2; 
-    padding: clamp(8px, 2vw, 10px); 
+    padding: clamp(8px, 2vw, 12px); 
     border-radius: 0px; 
     box-shadow: none;
     display: flex; 
@@ -554,21 +553,21 @@ input[type=number] {
     align-items: center; 
     margin: auto 0; 
     width: 100%; 
-    max-width: clamp(280px, 99vw, 800px); 
+    max-width: clamp(280px, 98vw, 900px); /* ปรับค่าสูงสุดเป็น 900px */
 }
 
 .modal-close-btn { 
     background-color: #E97132; 
     color: white; 
-    padding: clamp(8px, 2.5vw, 12px) clamp(20px, 6vw, 30px); 
+    padding: clamp(8px, 2.5vw, 15px) clamp(20px, 6vw, 35px); 
     border: none; 
     cursor: pointer; 
-    border-radius: clamp(10px, 4vw, 20px); 
-    font-size: clamp(12px, 3vw, 16px); 
-    margin-top: clamp(8px, 2vw, 10px); 
+    border-radius: clamp(10px, 4vw, 25px); 
+    font-size: clamp(14px, 3vw, 18px); /* ปรับค่าสูงสุดเป็น 18px */
+    margin-top: clamp(8px, 2vw, 12px); 
     transition: background-color 0.3s; 
-    width: clamp(200px, 80vw, 250px); 
-    max-width: 250px; 
+    width: clamp(200px, 98vw, 300px); /* ปรับค่าสูงสุดเป็น 300px */
+    max-width: 300px; 
 }
 
 .modal-close-btn:hover { 
@@ -580,10 +579,10 @@ input[type=number] {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    margin-top: clamp(8px, 2vw, 10px);
-    max-width: clamp(250px, 85vw, 600px);
+    margin-top: clamp(8px, 2vw, 12px);
+    max-width: clamp(250px, 98vw, 700px); /* ปรับค่าสูงสุดเป็น 700px */
     background-color: #f0f0f0;
-    padding: clamp(8px, 2vw, 10px);
+    padding: clamp(8px, 2vw, 12px);
     border-radius: 0px;
 }
 
@@ -592,47 +591,47 @@ input[type=number] {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    margin-bottom: clamp(10px, 3vw, 15px);
+    margin-bottom: clamp(10px, 3vw, 18px);
 }
 
 .control-group label, .control-group span {
-    font-size: clamp(12px, 2.5vw, 16px);
+    font-size: clamp(14px, 2.5vw, 18px); /* ปรับค่าสูงสุดเป็น 18px */
     color: #333;
-    margin-bottom: clamp(6px, 1.5vw, 8px);
+    margin-bottom: clamp(6px, 1.5vw, 10px);
 }
 
 .control-group input[type="range"] {
-    width: clamp(200px, 70vw, 300px);
-    max-width: 300px;
+    width: clamp(200px, 98vw, 350px); /* ปรับค่าสูงสุดเป็น 350px */
+    max-width: 350px;
     margin: 0;
 }
 
 .format-modal-content {
     background-color: #fff;
-    padding: clamp(15px, 4vw, 20px) clamp(20px, 5vw, 30px);
+    padding: clamp(15px, 4vw, 25px) clamp(20px, 5vw, 35px);
     border-radius: 0px;
     text-align: center;
     box-shadow: none;
     width: 100%;
-    max-width: clamp(250px, 85vw, 600px);
+    max-width: clamp(250px, 98vw, 700px); /* ปรับค่าสูงสุดเป็น 700px */
 }
 
 .format-modal-buttons {
     display: flex;
     flex-direction: column;
-    gap: clamp(10px, 3vw, 15px);
-    margin-top: clamp(15px, 4vw, 20px);
+    gap: clamp(10px, 3vw, 18px);
+    margin-top: clamp(15px, 4vw, 25px);
 }
 
 .format-modal-buttons button {
-    padding: clamp(12px, 3vw, 15px);
-    font-size: clamp(12px, 3vw, 16px);
+    padding: clamp(12px, 3vw, 18px);
+    font-size: clamp(14px, 3vw, 18px); /* ปรับค่าสูงสุดเป็น 18px */
     border: none;
-    border-radius: clamp(5px, 2vw, 10px);
+    border-radius: clamp(5px, 2vw, 12px);
     color: white;
     cursor: pointer;
     transition: background-color 0.3s;
-    min-height: clamp(45px, 10vw, 55px);
+    min-height: clamp(45px, 10vw, 60px); /* ปรับค่าสูงสุดเป็น 60px */
 }
 
 .format-modal-buttons .btn-json { 
@@ -657,7 +656,7 @@ input[type=number] {
 
 .format-modal-buttons .btn-cancel { 
     background-color: #6c757d; 
-    margin-top: clamp(8px, 2vw, 10px);
+    margin-top: clamp(8px, 2vw, 12px);
 }
 
 .format-modal-buttons .btn-cancel:hover { 
@@ -683,22 +682,22 @@ input[type=number] {
 /* ===== TOAST NOTIFICATION ===== */
 .toast-notification { 
     position: fixed; 
-    bottom: clamp(10px, 3vw, 20px); 
-    right: clamp(10px, 3vw, 20px); 
-    padding: clamp(8px, 2.5vw, 12px) clamp(15px, 4vw, 24px); 
+    bottom: clamp(10px, 3vw, 25px); 
+    right: clamp(10px, 3vw, 25px); 
+    padding: clamp(8px, 2.5vw, 15px) clamp(15px, 4vw, 30px); 
     color: white; 
-    border-radius: clamp(15px, 6vw, 30px); 
-    box-shadow: 0 clamp(2px, 1vw, 4px) clamp(8px, 3vw, 15px) rgba(0,0,0,0.3); 
+    border-radius: clamp(15px, 6vw, 35px); 
+    box-shadow: 0 clamp(2px, 1vw, 5px) clamp(8px, 3vw, 18px) rgba(0,0,0,0.3); 
     z-index: 1001; 
     opacity: 0; 
     visibility: hidden; 
     transition: opacity 0.5s, visibility 0.5s, transform 0.5s; 
     transform: translateY(20px); 
     font-weight: bold;
-    font-size: clamp(11px, 2.5vw, 14px);
+    font-size: clamp(13px, 2.5vw, 16px); /* ปรับค่าสูงสุดเป็น 16px */
     text-align: center;
-    min-width: clamp(200px, 60vw, 250px);
-    max-width: clamp(250px, 80vw, 400px);
+    min-width: clamp(200px, 60vw, 300px); /* ปรับค่าสูงสุดเป็น 300px */
+    max-width: clamp(250px, 80vw, 450px); /* ปรับค่าสูงสุดเป็น 450px */
     word-wrap: break-word;
 }
 
@@ -712,30 +711,30 @@ input[type=number] {
 .install-prompt { 
     background-color: #fff3cd; 
     color: #856404; 
-    border: clamp(1px, 0.3vw, 2px) solid #ffeeba; 
-    border-radius: clamp(5px, 2vw, 10px); 
-    padding: clamp(10px, 3vw, 15px); 
-    margin: clamp(10px, 3vw, 15px) clamp(8px, 2vw, 10px); 
+    border: clamp(1px, 0.3vw, 3px) solid #ffeeba; 
+    border-radius: clamp(5px, 2vw, 12px); 
+    padding: clamp(10px, 3vw, 18px); 
+    margin: clamp(10px, 3vw, 18px) clamp(8px, 2vw, 12px); 
     text-align: left; 
-    font-size: clamp(11px, 2.5vw, 14px); 
+    font-size: clamp(13px, 2.5vw, 16px); /* ปรับค่าสูงสุดเป็น 16px */
     position: relative; 
 }
 
 .install-prompt h4 { 
     margin-top: 0; 
-    font-size: clamp(12px, 3vw, 16px);
+    font-size: clamp(14px, 3vw, 18px); /* ปรับค่าสูงสุดเป็น 18px */
 }
 
 .install-prompt ul { 
-    padding-left: clamp(15px, 4vw, 20px); 
+    padding-left: clamp(15px, 4vw, 25px); 
     margin-bottom: 0; 
 }
 
 .install-prompt .close-prompt { 
     position: absolute; 
-    top: clamp(8px, 2vw, 10px); 
-    right: clamp(10px, 3vw, 15px); 
-    font-size: clamp(16px, 4vw, 20px); 
+    top: clamp(8px, 2vw, 12px); 
+    right: clamp(10px, 3vw, 18px); 
+    font-size: clamp(18px, 4vw, 24px); /* ปรับค่าสูงสุดเป็น 24px */
     font-weight: bold; 
     cursor: pointer; 
     color: #856404; 
@@ -871,24 +870,24 @@ input[type=number] {
 /* ===== FOOTER STYLING ===== */
 footer {
     text-align: center;
-    padding: clamp(8px, 2.5vw, 12px) clamp(10px, 3vw, 15px);
-    margin: clamp(15px, 4vw, 20px) auto clamp(8px, 2vw, 10px);
+    padding: clamp(8px, 2.5vw, 15px) clamp(10px, 3vw, 18px);
+    margin: clamp(15px, 4vw, 25px) auto clamp(8px, 2vw, 12px);
     background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
     color: white;
-    border-radius: clamp(15px, 6vw, 25px);
-    box-shadow: 0 clamp(2px, 1vw, 4px) clamp(6px, 3vw, 12px) rgba(0,0,0,0.15);
-    max-width: clamp(280px, 85vw, 600px);
+    border-radius: clamp(15px, 6vw, 30px);
+    box-shadow: 0 clamp(2px, 1vw, 5px) clamp(6px, 3vw, 15px) rgba(0,0,0,0.15);
+    max-width: clamp(280px, 85vw, 700px); /* ปรับค่าสูงสุดเป็น 700px */
     width: 100%;
     position: relative;
     overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: clamp(4px, 1.5vw, 8px);
-    font-size: clamp(0.6rem, 2.2vw, 0.8rem);
+    gap: clamp(4px, 1.5vw, 10px);
+    font-size: clamp(0.7rem, 2.2vw, 0.9rem); /* ปรับค่าสูงสุดเป็น 0.9rem */
     line-height: 1.3;
     white-space: normal;
-    border: clamp(1px, 0.3vw, 2px) solid #ED01ED;
+    border: clamp(1px, 0.3vw, 3px) solid #ED01ED;
 }
 
 footer::before {
@@ -897,7 +896,7 @@ footer::before {
     top: 0;
     left: 0;
     right: 0;
-    height: clamp(2px, 0.8vw, 3px);
+    height: clamp(2px, 0.8vw, 4px);
     background: linear-gradient(90deg, #e91e63, #4CAF50, #00B0F0, #ED01ED, #ff9800);
 }
 
@@ -910,43 +909,43 @@ footer div {
 /* ===== RESPONSIVE STYLES ===== */
 @media screen and (max-width: 600px) { 
     .container { 
-        padding: clamp(3px, 1.5vw, 5px); 
-        margin: clamp(5px, 2vw, 10px) auto;
+        padding: clamp(3px, 1.5vw, 6px); 
+        margin: clamp(5px, 2vw, 12px) auto;
     } 
     
     h2 { 
-        font-size: clamp(18px, 5vw, 24px); 
+        font-size: clamp(20px, 5vw, 28px); /* ปรับค่าสูงสุดเป็น 28px */
     } 
     
     .entry-form { 
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: clamp(4px, 1.5vw, 8px);
+        gap: clamp(4px, 1.5vw, 10px);
     } 
     
     .button-group, .button-container { 
         grid-template-columns: 1fr; 
-        gap: clamp(4px, 1.5vw, 8px);
+        gap: clamp(4px, 1.5vw, 10px);
     } 
     
     .sub-section-content .button-group { 
         grid-template-columns: repeat(3, 1fr); 
-        gap: clamp(3px, 1vw, 5px); 
+        gap: clamp(3px, 1vw, 6px); 
     } 
     
     .sub-section-content .button-group button { 
-        padding: clamp(6px, 2vw, 10px) clamp(3px, 1vw, 5px); 
-        font-size: clamp(10px, 2.5vw, 14px); 
+        padding: clamp(6px, 2vw, 12px) clamp(3px, 1vw, 6px); 
+        font-size: clamp(12px, 2.5vw, 16px); /* ปรับค่าสูงสุดเป็น 16px */
     } 
     
     .button-group button, .button-container button { 
-        padding: clamp(10px, 3vw, 14px); 
-        font-size: clamp(12px, 3vw, 16px); 
+        padding: clamp(10px, 3vw, 16px); 
+        font-size: clamp(14px, 3vw, 18px); /* ปรับค่าสูงสุดเป็น 18px */
     } 
     
     .file-actions { 
         flex-direction: column; 
-        padding: 0 clamp(8px, 2vw, 10px); 
+        padding: 0 clamp(8px, 2vw, 12px); 
         align-items: stretch; 
     } 
     
@@ -962,7 +961,7 @@ footer div {
     /* ปรับแต่งกลุ่มจำนวนเงินและประเภทสำหรับมือถือ */
     .amount-type-group {
         grid-template-columns: 1fr 1fr;
-        gap: clamp(4px, 1.5vw, 8px);
+        gap: clamp(4px, 1.5vw, 10px);
     }
     
     .amount-group input,
@@ -975,13 +974,13 @@ footer div {
     }
     
     .date-time-group label {
-        font-size: clamp(10px, 2.2vw, 14px);
-        margin-bottom: clamp(2px, 0.8vw, 3px);
+        font-size: clamp(12px, 2.2vw, 16px); /* ปรับค่าสูงสุดเป็น 16px */
+        margin-bottom: clamp(2px, 0.8vw, 4px);
     }
     
     .date-time-group input {
-        padding: clamp(6px, 2vw, 8px);
-        font-size: clamp(10px, 2.2vw, 14px);
+        padding: clamp(6px, 2vw, 10px);
+        font-size: clamp(12px, 2.2vw, 16px); /* ปรับค่าสูงสุดเป็น 16px */
         width: 100%;
     }
     
@@ -989,21 +988,21 @@ footer div {
     .centered-date-form.horizontal {
         flex-direction: row;
         justify-content: center;
-        gap: clamp(6px, 2vw, 10px);
+        gap: clamp(6px, 2vw, 12px);
     }
     
     .centered-date-form.horizontal .centered-date-group {
-        max-width: clamp(120px, 35vw, 150px);
+        max-width: clamp(120px, 35vw, 180px); /* ปรับค่าสูงสุดเป็น 180px */
         margin-bottom: 0;
     }
     
     .centered-date-form.horizontal .centered-date-group label {
-        font-size: clamp(10px, 2.2vw, 14px);
+        font-size: clamp(12px, 2.2vw, 16px); /* ปรับค่าสูงสุดเป็น 16px */
     }
     
     .centered-date-form.horizontal .centered-date-group input {
-        padding: clamp(6px, 2vw, 8px);
-        font-size: clamp(10px, 2.2vw, 14px);
+        padding: clamp(6px, 2vw, 10px);
+        font-size: clamp(12px, 2.2vw, 16px); /* ปรับค่าสูงสุดเป็น 16px */
     }
 }
 
@@ -1011,7 +1010,7 @@ footer div {
 @media screen and (min-width: 601px) {
     .entry-form {
         grid-template-columns: 1fr 1fr;
-        gap: clamp(8px, 3vw, 15px);
+        gap: clamp(8px, 3vw, 18px);
     }
     
     .date-time-group,
@@ -1030,11 +1029,11 @@ footer div {
     .centered-date-form.horizontal {
         flex-direction: row;
         justify-content: center;
-        gap: clamp(8px, 3vw, 15px);
+        gap: clamp(8px, 3vw, 18px);
     }
     
     .centered-date-form.horizontal .centered-date-group {
-        max-width: clamp(150px, 40vw, 200px);
+        max-width: clamp(150px, 40vw, 250px); /* ปรับค่าสูงสุดเป็น 250px */
         margin-bottom: 0;
     }
 }
@@ -1042,24 +1041,24 @@ footer div {
 /* Responsive design for footer */
 @media (max-width: 768px) {
     footer {
-        margin: clamp(15px, 4vw, 25px) clamp(8px, 2vw, 10px) clamp(8px, 2vw, 12px);
-        padding: clamp(8px, 2.5vw, 12px) clamp(10px, 3vw, 15px);
-        border-radius: clamp(15px, 6vw, 25px);
-        max-width: calc(100% - clamp(16px, 4vw, 20px));
-        font-size: clamp(0.55rem, 2vw, 0.7rem);
-        gap: clamp(3px, 1.2vw, 6px);
+        margin: clamp(15px, 4vw, 30px) clamp(8px, 2vw, 12px) clamp(8px, 2vw, 15px);
+        padding: clamp(8px, 2.5vw, 15px) clamp(10px, 3vw, 18px);
+        border-radius: clamp(15px, 6vw, 30px);
+        max-width: calc(100% - clamp(16px, 4vw, 25px));
+        font-size: clamp(0.65rem, 2vw, 0.8rem); /* ปรับค่าสูงสุดเป็น 0.8rem */
+        gap: clamp(3px, 1.2vw, 8px);
         line-height: 1.4;
     }
 }
 
 @media (max-width: 480px) {
     footer {
-        margin: clamp(10px, 3vw, 20px) clamp(3px, 1.5vw, 5px) clamp(5px, 2vw, 10px);
-        padding: clamp(6px, 2vw, 10px) clamp(8px, 2.5vw, 12px);
-        border-radius: clamp(10px, 4vw, 20px);
-        max-width: calc(100% - clamp(6px, 2vw, 10px));
-        font-size: clamp(0.5rem, 1.8vw, 0.65rem);
-        gap: clamp(2px, 1vw, 4px);
+        margin: clamp(10px, 3vw, 25px) clamp(3px, 1.5vw, 6px) clamp(5px, 2vw, 12px);
+        padding: clamp(6px, 2vw, 12px) clamp(8px, 2.5vw, 15px);
+        border-radius: clamp(10px, 4vw, 25px);
+        max-width: calc(100% - clamp(6px, 2vw, 12px));
+        font-size: clamp(0.6rem, 1.8vw, 0.75rem); /* ปรับค่าสูงสุดเป็น 0.75rem */
+        gap: clamp(2px, 1vw, 5px);
         line-height: 1.5;
     }
     
@@ -1072,9 +1071,9 @@ footer div {
 /* Responsive design for toast */
 @media (max-width: 600px) {
     .toast-notification {
-        right: clamp(5px, 2vw, 10px);
-        left: clamp(5px, 2vw, 10px);
-        bottom: clamp(5px, 2vw, 10px);
+        right: clamp(5px, 2vw, 12px);
+        left: clamp(5px, 2vw, 12px);
+        bottom: clamp(5px, 2vw, 12px);
         max-width: none;
         min-width: auto;
     }
@@ -1084,7 +1083,7 @@ footer div {
 @media (prefers-color-scheme: dark) {
     footer {
         background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-        box-shadow: 0 clamp(2px, 1vw, 4px) clamp(6px, 3vw, 12px) rgba(0,0,0,0.25);
+        box-shadow: 0 clamp(2px, 1vw, 5px) clamp(6px, 3vw, 15px) rgba(0,0,0,0.25);
     }
     
     footer::before {
@@ -1118,11 +1117,11 @@ footer div {
 /* Enhanced section headers for better compatibility */
 .section-header {
   cursor: pointer;
-  padding: clamp(8px, 2vw, 10px);
+  padding: clamp(8px, 2vw, 12px);
   background-color: #f5f5f5;
-  border: clamp(1px, 0.3vw, 2px) solid #ddd;
-  margin: clamp(3px, 1vw, 5px) 0;
-  border-radius: clamp(3px, 1vw, 5px);
+  border: clamp(1px, 0.3vw, 3px) solid #ddd;
+  margin: clamp(3px, 1vw, 6px) 0;
+  border-radius: clamp(3px, 1vw, 6px);
 }
 
 .section-header:hover {
@@ -1175,92 +1174,92 @@ footer div {
 
 /* ===== ICON STYLES ===== */
 .button-icon {
-  margin-right: clamp(3px, 1vw, 6px);
-  font-size: clamp(10px, 2.2vw, 14px);
+  margin-right: clamp(3px, 1vw, 8px);
+  font-size: clamp(12px, 2.2vw, 16px); /* ปรับค่าสูงสุดเป็น 16px */
 }
 
 /* ปรับแต่งไอคอนในปุ่ม */
 .button-group button .button-icon,
 .button-container button .button-icon,
 .action-button .button-icon {
-  margin-right: clamp(3px, 1vw, 5px);
-  font-size: clamp(9px, 2vw, 12px);
+  margin-right: clamp(3px, 1vw, 6px);
+  font-size: clamp(11px, 2vw, 14px); /* ปรับค่าสูงสุดเป็น 14px */
 }
 
 /* ปรับแต่งไอคอนในส่วนหัว */
 .section-header .button-icon,
 .main-section-header .button-icon,
 .sub-section-header .button-icon {
-  margin-right: clamp(3px, 1.2vw, 6px);
-  font-size: clamp(10px, 2.2vw, 14px);
+  margin-right: clamp(3px, 1.2vw, 8px);
+  font-size: clamp(12px, 2.2vw, 16px); /* ปรับค่าสูงสุดเป็น 16px */
 }
 
 /* ปรับแต่งไอคอนในตาราง */
 #recordTable th .button-icon {
-  margin-right: clamp(2px, 0.8vw, 4px);
-  font-size: clamp(9px, 2vw, 12px);
+  margin-right: clamp(2px, 0.8vw, 5px);
+  font-size: clamp(11px, 2vw, 14px); /* ปรับค่าสูงสุดเป็น 14px */
 }
 
 /* ปรับแต่งไอคอนใน modal */
 .format-modal-buttons button .button-icon {
-  margin-right: clamp(3px, 1.2vw, 6px);
-  font-size: clamp(10px, 2.2vw, 14px);
+  margin-right: clamp(3px, 1.2vw, 8px);
+  font-size: clamp(12px, 2.2vw, 16px); /* ปรับค่าสูงสุดเป็น 16px */
 }
 
 /* ปรับแต่งไอคอนในปุ่มย้อนกลับและไฟล์ */
 .back-button .button-icon,
 .file-button .button-icon {
-  margin-right: clamp(3px, 1.2vw, 6px);
-  font-size: clamp(10px, 2.2vw, 14px);
+  margin-right: clamp(3px, 1.2vw, 8px);
+  font-size: clamp(12px, 2.2vw, 16px); /* ปรับค่าสูงสุดเป็น 16px */
 }
 
 /* ปรับแต่งไอคอนในปุ่ม action */
 .action-button .button-icon {
-  margin-right: clamp(2px, 1vw, 4px);
-  font-size: clamp(9px, 2vw, 12px);
+  margin-right: clamp(2px, 1vw, 5px);
+  font-size: clamp(11px, 2vw, 14px); /* ปรับค่าสูงสุดเป็น 14px */
 }
 
 /* ปรับแต่งไอคอนในปุ่ม modal */
 .modal-close-btn .button-icon {
-  margin-right: clamp(3px, 1.2vw, 6px);
-  font-size: clamp(10px, 2.2vw, 14px);
+  margin-right: clamp(3px, 1.2vw, 8px);
+  font-size: clamp(12px, 2.2vw, 16px); /* ปรับค่าสูงสุดเป็น 16px */
 }
 
 /* ===== ENHANCED CLAMP STYLES ===== */
 /* เพิ่ม min-height เพื่อป้องกันการตัดกันขององค์ประกอบ */
 .container > * {
-    min-height: clamp(20px, 5vw, 30px);
+    min-height: clamp(20px, 5vw, 35px); /* ปรับค่าสูงสุดเป็น 35px */
 }
 
 /* ป้องกัน input และ button เล็กเกินไปบนมือถือ */
 input, select, button {
-    min-height: clamp(35px, 8vw, 45px);
+    min-height: clamp(35px, 8vw, 50px); /* ปรับค่าสูงสุดเป็น 50px */
 }
 
 /* ปรับแต่ง gap และ spacing ให้เหมาะสมทุกหน้าจอ */
 .grid-layout {
-    gap: clamp(5px, 2vw, 10px);
+    gap: clamp(5px, 2vw, 12px);
 }
 
 .flex-layout {
-    gap: clamp(5px, 2vw, 10px);
+    gap: clamp(5px, 2vw, 12px);
 }
 
 /* ปรับแต่ง border-radius ให้ responsive */
 .rounded-element {
-    border-radius: clamp(3px, 1.5vw, 8px);
+    border-radius: clamp(3px, 1.5vw, 10px);
 }
 
 /* ปรับแต่ง shadow ให้ responsive */
 .shadow-element {
-    box-shadow: 0 clamp(1px, 0.5vw, 2px) clamp(2px, 1vw, 4px) rgba(0,0,0,0.1);
+    box-shadow: 0 clamp(1px, 0.5vw, 3px) clamp(2px, 1vw, 5px) rgba(0,0,0,0.1);
 }
 
 /* ป้องกันการแสดงผลผิดพลาดบนหน้าจอขนาดเล็กมาก */
 @media (max-width: 320px) {
     .container {
         width: 98%;
-        margin: clamp(3px, 1vw, 5px) auto;
+        margin: clamp(3px, 1vw, 6px) auto;
     }
     
     .entry-form {
