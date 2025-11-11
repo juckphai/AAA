@@ -24,7 +24,7 @@ h2 {
 
 /* ===== LAYOUT & CONTAINERS ===== */
 .container { 
-    max-width: clamp(300px, 90vw, 800px); 
+    max-width: clamp(300px, 98vw, 800px); 
     margin: clamp(10px, 3vw, 20px) auto; 
     background-color: #FAFAD2; 
     border: clamp(1px, 0.3vw, 2px) solid #ED01ED; 
@@ -44,7 +44,7 @@ h2 {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    max-width: clamp(280px, 85vw, 600px);
+    max-width: clamp(280px, 98vw, 600px);
 }
 
 /* ===== SECTION HEADERS ===== */
@@ -554,7 +554,7 @@ input[type=number] {
     align-items: center; 
     margin: auto 0; 
     width: 100%; 
-    max-width: clamp(280px, 90vw, 800px); 
+    max-width: clamp(280px, 99vw, 800px); 
 }
 
 .modal-close-btn { 
