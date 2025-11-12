@@ -88,35 +88,35 @@ h2 {
 }
 
 .header-account { 
-    background-color: #0070C0; 
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 .header-account:hover { 
-    background-color: #B5E6A2; 
+    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
 }
 
 .header-add-data { 
-    background-color: #00B0F0; 
+    background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
 }
 
 .header-add-data:hover { 
-    background-color: #B5E6A2; 
+    background: linear-gradient(135deg, #43A047 0%, #1B5E20 100%);
 }
 
 .header-actions { 
-    background-color: #00B050; 
+    background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
 }
 
 .header-actions:hover { 
-    background-color: #B5E6A2; 
+    background: linear-gradient(135deg, #FB8C00 0%, #EF6C00 100%);
 }
 
 .header-summary { 
-    background-color: #ED01ED; 
+    background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%);
 }
 
 .header-summary:hover { 
-    background-color: #B5E6A2; 
+    background: linear-gradient(135deg, #8E24AA 0%, #6A1B9A 100%);
 }
 
 .header-import {
@@ -1133,16 +1133,32 @@ footer div {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
+.header-account:hover {
+    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+}
+
 .header-add-data {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+}
+
+.header-add-data:hover {
+    background: linear-gradient(135deg, #43A047 0%, #1B5E20 100%);
 }
 
 .header-actions {
-    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+}
+
+.header-actions:hover {
+    background: linear-gradient(135deg, #FB8C00 0%, #EF6C00 100%);
 }
 
 .header-summary {
-    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%);
+}
+
+.header-summary:hover {
+    background: linear-gradient(135deg, #8E24AA 0%, #6A1B9A 100%);
 }
 
 @media print {
