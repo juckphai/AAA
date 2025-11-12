@@ -492,7 +492,7 @@ input[type=number] {
     font-weight: normal; 
     color: blue; 
     background-color: #FAFAD2;
-    border: clamp(1px, 0.3vw, 3px) solid #ED01ED; 
+    border: clamp(1px, 0.3vw, 3px) solid #00B050; 
     border-radius: clamp(3px, 1vw, 6px); 
     padding: clamp(6px, 2vw, 12px) clamp(3px, 1vw, 6px);
     width: 100%; 
