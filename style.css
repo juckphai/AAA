@@ -30,7 +30,7 @@ h2 {
     padding: clamp(5px, 2vw, 15px); 
     border-radius: clamp(5px, 2vw, 12px); 
     box-shadow: 0 clamp(2px, 1vw, 6px) clamp(4px, 2vw, 10px) rgba(0, 0, 0, 0.1); 
-    width: 95%; 
+    width: 98%; 
     display: flex;
     flex-direction: column;
     align-items: center;
