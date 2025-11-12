@@ -191,10 +191,16 @@
   <span class="arrow">▶</span>
 </div>
 <div id="manage-account-submenu" class="section-content sub-section-content">
-  <div class="enhanced-button-group manage-account-buttons">
-    <button type="button" onclick="addAccount()">➕ เพิ่มบช.ใหม่</button>
-    <button type="button" onclick="deleteAccount()">🗑️ ลบบช.</button>
-    <button type="button" onclick="editAccount()">✏️ แก้ไขชื่อบช.</button>
+  <div class="compact-button-group manage-account-buttons">
+    <button type="button" onclick="addAccount()" title="เพิ่มบัญชีใหม่">
+      <span class="button-icon">➕</span>เพิ่มบช.
+    </button>
+    <button type="button" onclick="deleteAccount()" title="ลบบัญชี">
+      <span class="button-icon">🗑️</span>ลบบช.
+    </button>
+    <button type="button" onclick="editAccount()" title="แก้ไขชื่อบัญชี">
+      <span class="button-icon">✏️</span>แก้ไขบช.
+    </button>
   </div>
 </div>
               </div>
@@ -231,15 +237,21 @@
   </div>
 
   <!-- ส่วนจัดการประเภท -->
-<div class="sub-section-header" onclick="toggleSubSection('manage-types-submenu')" style="margin-top:10px;">
+<div class="sub-section-header" onclick="toggleSubSection('manage-types-submenu')" style="margin-top:8px;">
   <span>🏷️ จัดการประเภท</span>
   <span class="arrow">▶</span>
 </div>
 <div id="manage-types-submenu" class="section-content sub-section-content">
-  <div class="enhanced-button-group manage-type-buttons">
-    <button onclick="addNewType()">➕ เพิ่มประเภท</button>
-    <button onclick="editType()">✏️ แก้ไขประเภท</button>
-    <button onclick="deleteType()">🗑️ ลบประเภท</button>
+  <div class="compact-button-group manage-type-buttons">
+    <button onclick="addNewType()" title="เพิ่มประเภทใหม่">
+      <span class="button-icon">➕</span>เพิ่มประเภท
+    </button>
+    <button onclick="editType()" title="แก้ไขประเภท">
+      <span class="button-icon">✏️</span>แก้ไขประเภท
+    </button>
+    <button onclick="deleteType()" title="ลบประเภท">
+      <span class="button-icon">🗑️</span>ลบประเภท
+    </button>
   </div>
 </div>
 
