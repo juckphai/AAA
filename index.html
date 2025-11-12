@@ -186,17 +186,17 @@
                 <label for="accountSelect">เลือกบัญชี:</label>
                 <select id="accountSelect" onchange="changeAccount()"></select>
                 
-                <div class="sub-section-header" onclick="toggleSubSection('manage-account-submenu')">
-                  <span>⚙️ จัดการบัญชี</span>
-                  <span class="arrow">▶</span>
-                </div>
-                <div id="manage-account-submenu" class="section-content sub-section-content">
-<div class="button-group">
-    <button type="button" onclick="addAccount()" style="background-color: #28a745;">➕ เพิ่มบช.ใหม่</button>
-    <button type="button" onclick="deleteAccount()" style="background-color: #dc3545;">🗑️ ลบบช.</button>
-    <button type="button" onclick="editAccount()" style="background-color: #ffc107;">✏️ แก้ไขชื่อบช.</button>
+<div class="sub-section-header" onclick="toggleSubSection('manage-account-submenu')">
+  <span>⚙️ จัดการบัญชี</span>
+  <span class="arrow">▶</span>
 </div>
-                </div>
+<div id="manage-account-submenu" class="section-content sub-section-content">
+  <div class="enhanced-button-group manage-account-buttons">
+    <button type="button" onclick="addAccount()">➕ เพิ่มบช.ใหม่</button>
+    <button type="button" onclick="deleteAccount()">🗑️ ลบบช.</button>
+    <button type="button" onclick="editAccount()">✏️ แก้ไขชื่อบช.</button>
+  </div>
+</div>
               </div>
             
               <!-- เมนูใหญ่ 2: เพิ่มข้อมูล -->
@@ -231,18 +231,17 @@
   </div>
 
   <!-- ส่วนจัดการประเภท -->
-  <div class="sub-section-header" onclick="toggleSubSection('manage-types-submenu')" style="margin-top:10px;">
-    <span>🏷️ จัดการประเภท</span>
-    <span class="arrow">▶</span>
+<div class="sub-section-header" onclick="toggleSubSection('manage-types-submenu')" style="margin-top:10px;">
+  <span>🏷️ จัดการประเภท</span>
+  <span class="arrow">▶</span>
+</div>
+<div id="manage-types-submenu" class="section-content sub-section-content">
+  <div class="enhanced-button-group manage-type-buttons">
+    <button onclick="addNewType()">➕ เพิ่มประเภท</button>
+    <button onclick="editType()">✏️ แก้ไขประเภท</button>
+    <button onclick="deleteType()">🗑️ ลบประเภท</button>
   </div>
-
-  <div id="manage-types-submenu" class="section-content sub-section-content">
-    <div class="button-group">
-        <button onclick="addNewType()">➕ เพิ่มประเภท</button>
-        <button onclick="editType()">✏️ แก้ไขประเภท</button>
-        <button onclick="deleteType()">🗑️ ลบประเภท</button>
-    </div>
-  </div>
+</div>
 
   <div class="entry-group">
     <label for="description">📄 รายละเอียด</label>

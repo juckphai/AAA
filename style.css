@@ -1270,3 +1270,73 @@ input, select, button {
         grid-template-columns: 1fr;
     }
 }
+/* เพิ่มในไฟล์ style.css */
+
+/* ===== ENHANCED BUTTON GROUP STYLES ===== */
+.enhanced-button-group {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  width: 100%;
+  margin: 10px 0;
+}
+
+.enhanced-button-group button {
+  padding: 10px 8px;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  background-color: #4caf50;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  word-break: break-word;
+  white-space: normal;
+}
+
+.enhanced-button-group button:hover {
+  background-color: #45a049;
+  transform: translateY(-2px);
+}
+
+/* ปุ่มจัดการบัญชี - สีเขียว */
+.manage-account-buttons button:nth-child(1) { background-color: #28a745; } /* เพิ่มบัญชี */
+.manage-account-buttons button:nth-child(1):hover { background-color: #218838; }
+.manage-account-buttons button:nth-child(2) { background-color: #dc3545; } /* ลบบัญชี */
+.manage-account-buttons button:nth-child(2):hover { background-color: #c82333; }
+.manage-account-buttons button:nth-child(3) { background-color: #ffc107; color: #212529; } /* แก้ไขบัญชี */
+.manage-account-buttons button:nth-child(3):hover { background-color: #e0a800; }
+
+/* ปุ่มจัดการประเภท - สีน้ำเงิน */
+.manage-type-buttons button:nth-child(1) { background-color: #17a2b8; } /* เพิ่มประเภท */
+.manage-type-buttons button:nth-child(1):hover { background-color: #138496; }
+.manage-type-buttons button:nth-child(2) { background-color: #6f42c1; } /* แก้ไขประเภท */
+.manage-type-buttons button:nth-child(2):hover { background-color: #5a2d9c; }
+.manage-type-buttons button:nth-child(3) { background-color: #e83e8c; } /* ลบประเภท */
+.manage-type-buttons button:nth-child(3):hover { background-color: #d91a72; }
+
+/* Responsive สำหรับมือถือ */
+@media screen and (max-width: 600px) {
+  .enhanced-button-group {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  
+  .enhanced-button-group button {
+    padding: 12px 10px;
+    font-size: 15px;
+    min-height: 50px;
+  }
+}
+
+/* สำหรับหน้าจอขนาดกลาง */
+@media screen and (min-width: 601px) and (max-width: 900px) {
+  .enhanced-button-group {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
