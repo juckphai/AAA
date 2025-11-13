@@ -467,7 +467,7 @@ input[type=number] {
 #recordTable th, #recordTable td { 
     border: clamp(1px, 0.3vw, 3px) solid #ccc; 
     padding: clamp(4px, 1.5vw, 10px); 
-    line-height: 1.0; 
+    line-height: 0.7; 
     text-align: center; 
     word-break: break-word; 
 }
@@ -499,11 +499,11 @@ input[type=number] {
     margin: 0; 
     text-align: center; 
     box-shadow: 0 clamp(2px, 1vw, 5px) clamp(6px, 3vw, 15px) rgba(0,0,0,0.25); 
-    line-height: 1.2; 
+    line-height: 1.0; 
 }
 
 .summaryResult table td, .summaryResult table th { 
-    line-height: 1.2; 
+    line-height: 0.7; 
     padding: clamp(3px, 1vw, 8px);
 }
 
