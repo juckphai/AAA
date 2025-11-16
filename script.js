@@ -1836,7 +1836,7 @@ function loadFromLocal() {
 async function handleSaveAs(format) {
     closeFormatModal();
     const formatLower = format.toLowerCase().trim();
-    const fileName = prompt("กรุณากรอกชื่อไฟล์สำหรับสำรองข้อมูล (ไม่ต้องใส่นามสกุล):", "สำรองทุกบัญชี");
+    const fileName = prompt("กรุณากรอกชื่อไฟล์สำหรับบันทึกข้อมูล (ไม่ต้องใส่นามสกุล):", "ข้อมูลทุกบัญชี");
     if (!fileName) {
         showToast("❌ ยกเลิกการบันทึกไฟล์", 'info');
         return;
@@ -2088,8 +2088,8 @@ async function loadFromFile(event) {
                 
                 // ✅ การประมวลผลไฟล์ตามประเภท
                 if (finalDataToMerge.accounts && Array.isArray(finalDataToMerge.accounts)) {
-                    // ไฟล์สำรองข้อมูลทั้งหมด
-                    if(confirm("ไฟล์นี้เป็นไฟล์สำรองข้อมูล JSON ทั้งหมด ต้องการโหลดข้อมูลทั้งหมดทับของเดิมหรือไม่?")) {
+                    // ไฟล์บันทึกข้อมูลทั้งหมด
+                    if(confirm("ไฟล์นี้เป็นไฟล์บันทึกข้อมูล JSON ทั้งหมด ต้องการโหลดข้อมูลทั้งหมดทับของเดิมหรือไม่?")) {
                         accounts = finalDataToMerge.accounts;
                         records = finalDataToMerge.records;
                         accountTypes = new Map(finalDataToMerge.accountTypes);
@@ -2488,9 +2488,9 @@ function saveBackupPassword(e) {
     saveToLocal(true); 
     
     if (backupPassword) {
-        showToast('✅ บันทึกรหัสผ่านสำหรับไฟล์สำรองเรียบร้อยแล้ว', 'success');
+        showToast('✅ บันทึกรหัสผ่านสำหรับไฟล์บันทึกข้อมูลเรียบร้อยแล้ว', 'success');
     } else {
-        showToast('✅ ลบรหัสผ่านสำหรับไฟล์สำรองเรียบร้อยแล้ว', 'success');
+        showToast('✅ ลบรหัสผ่านสำหรับไฟล์บันทึกข้อมูลเรียบร้อยแล้ว', 'success');
     }
     
     document.getElementById('backup-password').value = '';
@@ -2504,7 +2504,7 @@ function renderBackupPasswordStatus() {
         statusEl.textContent = 'สถานะ: มีการตั้งรหัสผ่านแล้ว';
         statusEl.style.color = 'green';
     } else {
-        statusEl.textContent = 'สถานะ: ยังไม่มีการตั้งรหัสผ่าน (ไฟล์สำรองจะไม่ถูกเข้ารหัส)';
+        statusEl.textContent = 'สถานะ: ยังไม่มีการตั้งรหัสผ่าน (ไฟล์บันทึกข้อมูลจะไม่ถูกเข้ารหัส)';
         statusEl.style.color = '#f5a623';
     }
 }
