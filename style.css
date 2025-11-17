@@ -43,7 +43,7 @@ h2 {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    max-width: clamp(280px, 98vw, 700px); /* ปรับค่าสูงสุดเป็น 700px */
+    max-width: clamp(280px, 98vw, 900px); /* ปรับค่าสูงสุดเป็น 700px */
 }
 
 /* ===== SECTION HEADERS ===== */
@@ -405,8 +405,8 @@ input[type=number] {
     transition: background-color 0.3s, transform 0.2s; 
     margin: clamp(8px, 2vw, 12px) auto; 
     display: block; 
-    width: clamp(200px, 70vw, 350px); /* ปรับค่าสูงสุดเป็น 350px */
-    max-width: 350px; 
+    width: clamp(200px, 70vw, 600px); /* ปรับค่าสูงสุดเป็น 350px */
+    max-width: 600px; 
     min-height: clamp(40px, 9vw, 55px); /* ปรับค่าสูงสุดเป็น 55px */
 }
 
@@ -580,7 +580,7 @@ input[type=number] {
     align-items: center;
     width: 100%;
     margin-top: clamp(8px, 2vw, 12px);
-    max-width: clamp(250px, 98vw, 700px); /* ปรับค่าสูงสุดเป็น 700px */
+    max-width: clamp(250px, 98vw, 900px); /* ปรับค่าสูงสุดเป็น 700px */
     background-color: #f0f0f0;
     padding: clamp(8px, 2vw, 12px);
     border-radius: 0px;
@@ -601,8 +601,8 @@ input[type=number] {
 }
 
 .control-group input[type="range"] {
-    width: clamp(200px, 98vw, 350px); /* ปรับค่าสูงสุดเป็น 350px */
-    max-width: 350px;
+    width: clamp(200px, 98vw, 600px); /* ปรับค่าสูงสุดเป็น 350px */
+    max-width: 600px;
     margin: 0;
 }
 
@@ -613,7 +613,7 @@ input[type=number] {
     text-align: center;
     box-shadow: none;
     width: 100%;
-    max-width: clamp(250px, 98vw, 700px); /* ปรับค่าสูงสุดเป็น 700px */
+    max-width: clamp(250px, 98vw, 900px); /* ปรับค่าสูงสุดเป็น 700px */
 }
 
 .format-modal-buttons {
@@ -876,7 +876,7 @@ footer {
     color: white;
     border-radius: clamp(15px, 6vw, 30px);
     box-shadow: 0 clamp(2px, 1vw, 5px) clamp(6px, 3vw, 15px) rgba(0,0,0,0.15);
-    max-width: clamp(280px, 85vw, 700px); /* ปรับค่าสูงสุดเป็น 700px */
+    max-width: clamp(280px, 85vw, 900px); /* ปรับค่าสูงสุดเป็น 700px */
     width: 100%;
     position: relative;
     overflow: hidden;
@@ -907,7 +907,7 @@ footer div {
 }
 
 /* ===== RESPONSIVE STYLES ===== */
-@media screen and (max-width: 600px) { 
+@media screen and (max-width: 900px) { 
     .container { 
         padding: clamp(3px, 1.5vw, 6px); 
         margin: clamp(5px, 2vw, 12px) auto;
