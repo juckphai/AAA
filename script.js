@@ -1342,7 +1342,15 @@ function buildOriginalSummaryHtml(context) {
     ${summaryLineHTML} 
     ${totalBalanceLine} 
     
-    <p><span style="color: blue; font-size: 14px; font-weight: bold;">ธุรกรรมทั้งหมด : </span><span style="font-size: 16px; font-weight: bold;">${totalTransactionCount} ครั้ง (รายรับ ${summary.incomeCount} + รายจ่าย ${summary.expenseCount})</span></p>
+<p>
+  <span style="color: blue; font-size: clamp(12px, 2vw, 16px); font-weight: bold;">
+    ธุรกรรมทั้งหมด :
+  </span>
+  <span style="font-size: clamp(14px, 2.2vw, 20px); font-weight: bold;">
+    ${totalTransactionCount} ครั้ง (รายรับ ${summary.incomeCount} + รายจ่าย ${summary.expenseCount})
+  </span>
+</p>
+
     
     <p>ข้อความเพิ่ม : <span style="color: orange;">${remark}</span></p> 
     ${recordsHTML}`;
