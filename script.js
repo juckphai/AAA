@@ -1312,7 +1312,7 @@ function buildOriginalSummaryHtml(context) {
     
     let summaryLineHTML;
     if (summary.totalIncome === 0 && summary.totalExpense === 0) {
-         summaryLineHTML = `<p style="color: green; font-weight: bold;">${headerLine1} ไม่มีธุระกรรมการเงิน</p>`;
+         summaryLineHTML = `<p style="color: green; font-weight: bold;">${headerLine1} ไม่มีธุรกรรมการเงิน</p>`;
     } else {
          summaryLineHTML = `<p style="color: ${comparisonColor}; font-weight: bold;">${headerLine1} ${comparisonText}</p>`;
     }
@@ -1323,6 +1323,9 @@ function buildOriginalSummaryHtml(context) {
     } else {
         totalBalanceLine = `<p><span style="color: blue; font-size: 14px; font-weight: bold;">เงินในบัญชีถึงวันนี้มี = </span><span style="color: ${totalBalance >= 0 ? 'green' : 'red'}; font-size: 16px; font-weight: bold;">${totalBalance.toLocaleString()}</span> บาท</p>`
     }
+    
+    // คำนวณจำนวนธุรกรรมรวม (แก้ไขเพิ่มเติมตรงนี้)
+    const totalTransactionCount = summary.incomeCount + summary.expenseCount;
     
     const summaryDateTime = new Date().toLocaleString("th-TH", { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'}) + ' น.';
     
@@ -1338,10 +1341,12 @@ function buildOriginalSummaryHtml(context) {
     <hr style="border: 0.5px solid green;">
     ${summaryLineHTML} 
     ${totalBalanceLine} 
+    
+    <p><span style="color: blue; font-size: 14px; font-weight: bold;">ธุรกรรมทั้งหมด : </span><span style="font-size: 16px; font-weight: bold;">${totalTransactionCount} ครั้ง (รายรับ ${summary.incomeCount} + รายจ่าย ${summary.expenseCount})</span></p>
+    
     <p>ข้อความเพิ่ม : <span style="color: orange;">${remark}</span></p> 
     ${recordsHTML}`;
 }
-
 function buildPdfSummaryHtml(context) {
     const { summaryResult, title, dateString, remark, transactionDaysInfo, type, thaiDateString, headerLine1, headerLine2, headerLine3 } = context;
     const { summary, periodRecords, totalBalance } = summaryResult;
@@ -1419,6 +1424,9 @@ function buildPdfSummaryHtml(context) {
         totalBalanceLine = `<p style="line-height: 0.5;"><b>เงินในบัญชีถึงวันนี้มี = </b><b style="color: ${totalBalance >= 0 ? 'green' : 'red'}; font-size: 1.1em;">${totalBalance.toLocaleString()}</b> บาท</p>`
     }
     
+    // คำนวณจำนวนธุรกรรมรวม (แก้ไขเพิ่มเติมตรงนี้)
+    const totalTransactionCount = summary.incomeCount + summary.expenseCount;
+    
     const summaryDateTime = new Date().toLocaleString("th-TH", { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'}) + ' น.';
     
     return ` 
@@ -1435,11 +1443,13 @@ function buildPdfSummaryHtml(context) {
     <hr style="border: 0.5px solid green;">
     ${summaryLineHTML} 
     ${totalBalanceLine} 
+    
+    <p style="line-height: 0.5;"><strong>ธุรกรรมทั้งหมด : </strong> ${totalTransactionCount} ครั้ง (รวมรับ-จ่าย)</p>
+    
     <p style="line-height: 0.5;"><b>ข้อความเพิ่ม : </b><span style="color: orange;">${remark}</span></p> 
     ${recordsHTML}
     `;
 }
-
 function handleSummaryOutput(choice) {
     if (!summaryContext || !summaryContext.summaryResult) {
         console.error("Summary context is missing. Cannot proceed.");
@@ -2635,14 +2645,11 @@ function exportSummaryToXlsx(summaryResult, title, dateString, remark, transacti
     
     const netAmount = summary.totalIncome - summary.totalExpense;
     let comparisonText = '';
-    let comparisonColor = 'black';
     
     if (summary.totalIncome > summary.totalExpense) {
         comparisonText = `รายได้มากกว่ารายจ่าย = ${netAmount.toLocaleString()} บาท`;
-        comparisonColor = 'blue';
     } else if (summary.totalIncome < summary.totalExpense) {
         comparisonText = `รายจ่ายมากกว่ารายได้ = ${Math.abs(netAmount).toLocaleString()} บาท`;
-        comparisonColor = 'red';
     } else {
         comparisonText = 'รายได้เท่ากับรายจ่าย';
     }
@@ -2658,6 +2665,10 @@ function exportSummaryToXlsx(summaryResult, title, dateString, remark, transacti
     } else {
         excelData.push(['เงินคงเหลือในบัญชีทั้งหมด =', `${totalBalance.toLocaleString()} บาท`]);
     }
+
+    // ส่วนที่เพิ่มเข้ามาใหม่
+    const totalTransactionCount = summary.incomeCount + summary.expenseCount;
+    excelData.push(['ธุรกรรมทั้งหมด :', `${totalTransactionCount} ครั้ง`]);
     
     excelData.push(['ข้อความเพิ่ม :', remark]);
     excelData.push([]);
@@ -2712,7 +2723,6 @@ function exportSummaryToXlsx(summaryResult, title, dateString, remark, transacti
     
     XLSX.writeFile(wb, fileName);
 }
-
 function applyExcelStyles(ws, data) {
     if (!ws['!merges']) ws['!merges'] = [];
     
