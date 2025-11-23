@@ -1254,7 +1254,7 @@ function generateSummaryData(startDate, endDate) {
 }
 
 function buildOriginalSummaryHtml(context) {
-    const { summaryResult, title, dateString, remark, transactionDaysInfo, type, thaiDateString, headerLine1, headerLine2, headerLine3 } = context;
+    const { summaryResult, title, dateString, remark, transactionDaysInfo, type, thaiDateString, headerLine1, headerLine2, headerLine3, daysDiff } = context;
     const { summary, periodRecords, totalBalance } = summaryResult;
     
     let incomeHTML = ''; 
@@ -1324,10 +1324,35 @@ function buildOriginalSummaryHtml(context) {
         totalBalanceLine = `<p><span style="color: blue; font-size: 14px; font-weight: bold;">เงินในบัญชีถึงวันนี้มี = </span><span style="color: ${totalBalance >= 0 ? 'green' : 'red'}; font-size: 16px; font-weight: bold;">${totalBalance.toLocaleString()}</span> บาท</p>`
     }
     
-    // คำนวณจำนวนธุรกรรมรวม (แก้ไขเพิ่มเติมตรงนี้)
     const totalTransactionCount = summary.incomeCount + summary.expenseCount;
-    
     const summaryDateTime = new Date().toLocaleString("th-TH", { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'}) + ' น.';
+    
+    // --- ส่วนที่แก้ไขใหม่: คำนวณค่าเฉลี่ยแบบบรรทัดเดียว ---
+    let averageHtml = '';
+    if (daysDiff && daysDiff >= 2) {
+        const netTotal = summary.totalIncome - summary.totalExpense;
+        const avgNet = netTotal / daysDiff;
+        let avgText = "";
+        let avgColor = "";
+
+        if (avgNet > 0) {
+            avgText = `รายได้มากกว่ารายจ่ายเฉลี่ย : ${avgNet.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} บาท/วัน`;
+            avgColor = "blue";
+        } else if (avgNet < 0) {
+            avgText = `รายจ่ายมากกว่ารายได้เฉลี่ย : ${Math.abs(avgNet).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} บาท/วัน`;
+            avgColor = "red";
+        } else {
+            avgText = `รายได้เท่ากับรายจ่ายเฉลี่ย : 0.00 บาท/วัน`;
+            avgColor = "black";
+        }
+
+        averageHtml = `
+        <hr style="border: 0.5px solid green;">
+        <p><span style="color: #673ab7; font-weight: bold;">สรุปค่าเฉลี่ย (จำนวน ${daysDiff} วัน) :</span></p>
+        <p style="margin-left: 10px; color: ${avgColor}; font-weight: bold;">- ${avgText}</p>
+        `;
+    }
+    // ------------------------------------
     
     return ` 
     <p><strong>ชื่อบัญชี:</strong> ${currentAccount}</p> 
@@ -1342,21 +1367,22 @@ function buildOriginalSummaryHtml(context) {
     ${summaryLineHTML} 
     ${totalBalanceLine} 
     
-<p>
-  <span style="color: blue; font-size: clamp(12px, 2vw, 16px); font-weight: bold;">
-    ธุรกรรมทั้งหมด :
-  </span>
-  <span style="font-size: clamp(14px, 2.2vw, 20px); font-weight: bold;">
-    ${totalTransactionCount} ครั้ง (รายรับ ${summary.incomeCount} + รายจ่าย ${summary.expenseCount})
-  </span>
-</p>
+    <p>
+      <span style="color: blue; font-size: clamp(12px, 2vw, 16px); font-weight: bold;">
+        ธุรกรรมทั้งหมด :
+      </span>
+      <span style="font-size: clamp(14px, 2.2vw, 20px); font-weight: bold;">
+        ${totalTransactionCount} ครั้ง (รายรับ ${summary.incomeCount} + รายจ่าย ${summary.expenseCount})
+      </span>
+    </p>
 
+    ${averageHtml}
     
     <p>ข้อความเพิ่ม : <span style="color: orange;">${remark}</span></p> 
     ${recordsHTML}`;
 }
 function buildPdfSummaryHtml(context) {
-    const { summaryResult, title, dateString, remark, transactionDaysInfo, type, thaiDateString, headerLine1, headerLine2, headerLine3 } = context;
+    const { summaryResult, title, dateString, remark, transactionDaysInfo, type, thaiDateString, headerLine1, headerLine2, headerLine3, daysDiff } = context;
     const { summary, periodRecords, totalBalance } = summaryResult;
     
     let incomeHTML = ''; 
@@ -1432,10 +1458,35 @@ function buildPdfSummaryHtml(context) {
         totalBalanceLine = `<p style="line-height: 0.5;"><b>เงินในบัญชีถึงวันนี้มี = </b><b style="color: ${totalBalance >= 0 ? 'green' : 'red'}; font-size: 1.1em;">${totalBalance.toLocaleString()}</b> บาท</p>`
     }
     
-    // คำนวณจำนวนธุรกรรมรวม (แก้ไขเพิ่มเติมตรงนี้)
     const totalTransactionCount = summary.incomeCount + summary.expenseCount;
-    
     const summaryDateTime = new Date().toLocaleString("th-TH", { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'}) + ' น.';
+    
+    // --- ส่วนที่แก้ไขใหม่: คำนวณค่าเฉลี่ยแบบบรรทัดเดียว (PDF Style) ---
+    let averageHtml = '';
+    if (daysDiff && daysDiff >= 2) {
+        const netTotal = summary.totalIncome - summary.totalExpense;
+        const avgNet = netTotal / daysDiff;
+        let avgText = "";
+        let avgColor = "";
+
+        if (avgNet > 0) {
+            avgText = `รายได้มากกว่ารายจ่ายเฉลี่ย : ${avgNet.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} บาท/วัน`;
+            avgColor = "blue";
+        } else if (avgNet < 0) {
+            avgText = `รายจ่ายมากกว่ารายได้เฉลี่ย : ${Math.abs(avgNet).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} บาท/วัน`;
+            avgColor = "red";
+        } else {
+            avgText = `รายได้เท่ากับรายจ่ายเฉลี่ย : 0.00 บาท/วัน`;
+            avgColor = "black";
+        }
+
+        averageHtml = `
+        <hr style="border: 0.5px solid green;">
+        <p style="line-height: 0.5;"><strong>สรุปค่าเฉลี่ย (จำนวน ${daysDiff} วัน) :</strong></p>
+        <p style="margin-left: 15px; line-height: 0.5; color: ${avgColor}; font-weight: bold;">- ${avgText}</p>
+        `;
+    }
+    // ------------------------------------
     
     return ` 
     <p style="line-height: 0.5;"><strong>ชื่อบัญชี:</strong> ${currentAccount}</p> 
@@ -1454,6 +1505,8 @@ function buildPdfSummaryHtml(context) {
     
     <p style="line-height: 0.5;"><strong>ธุรกรรมทั้งหมด : </strong> ${totalTransactionCount} ครั้ง (รวมรับ-จ่าย)</p>
     
+    ${averageHtml}
+
     <p style="line-height: 0.5;"><b>ข้อความเพิ่ม : </b><span style="color: orange;">${remark}</span></p> 
     ${recordsHTML}
     `;
@@ -1469,8 +1522,9 @@ function handleSummaryOutput(choice) {
         const htmlForDisplay = buildOriginalSummaryHtml(summaryContext);
         openSummaryModal(htmlForDisplay);
     } else if (choice === 'xlsx') {
-        const { summaryResult, title, dateString, remark, transactionDaysInfo, periodName } = summaryContext;
-        exportSummaryToXlsx(summaryResult, title, dateString, remark, transactionDaysInfo, periodName);
+        const { summaryResult, title, dateString, remark, transactionDaysInfo, periodName, daysDiff } = summaryContext;
+        // ส่ง daysDiff ไปด้วย
+        exportSummaryToXlsx(summaryResult, title, dateString, remark, transactionDaysInfo, periodName, daysDiff);
         showToast(`📊 สรุปข้อมูลบันทึกเป็นไฟล์ XLSX สำเร็จ`, 'success');
     } else if (choice === 'pdf') {
         const printContainer = document.getElementById('print-container');
@@ -1562,17 +1616,32 @@ function summarize() {
         showToast("❌ วันที่เริ่มต้นต้องมาก่อนวันที่สิ้นสุด", 'error'); 
         return; 
     }
-const adjustedEndDate = new Date(endDate);
-adjustedEndDate.setHours(23, 59, 59, 999);
-const summaryResult = generateSummaryData(startDate, adjustedEndDate);
+    const adjustedEndDate = new Date(endDate);
+    adjustedEndDate.setHours(23, 59, 59, 999);
+    const summaryResult = generateSummaryData(startDate, adjustedEndDate);
     if (!summaryResult) return;
+    
+    // คำนวณจำนวนวัน
     const daysDiff = Math.floor((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+    
     const transactionDays = new Set(summaryResult.periodRecords.map(r => parseLocalDateTime(r.dateTime).toDateString()));
     const transactionDaysInfo = `<p style="font-size: 16px; color: blue; font-weight: bold;">จำนวน ${daysDiff} วัน</p><p style="font-size: 16px; color: #333; font-weight: bold;">ทำธุรกรรม ${transactionDays.size} วัน, ไม่ได้ทำ ${daysDiff - transactionDays.size} วัน</p>`;
     const remarkInput = prompt("กรุณากรอกหมายเหตุ (ถ้าไม่กรอกจะใช้ 'No comment'):", "No comment") || "No comment";
     const thaiDateString = `${startDate.toLocaleDateString('th-TH', {day: 'numeric', month: 'long', year: 'numeric'})} ถึง ${endDate.toLocaleDateString('th-TH', {day: 'numeric', month: 'long', year: 'numeric'})}`;
+    
+    // เพิ่ม daysDiff เข้าไปใน object
     summaryContext = {
-        summaryResult, type: 'range', title: "สรุปวันที่", dateString: `${startDateStr} to ${endDateStr}`, thaiDateString: thaiDateString, remark: remarkInput, transactionDaysInfo: transactionDaysInfo, periodName: `จาก${startDateStr.replace(/-/g, '_')}_ถึง${endDateStr.replace(/-/g, '_')}`, headerLine1: 'สรุป :', headerLine2: 'เงินในบัญชีถึงวันนี้มี'
+        summaryResult, 
+        type: 'range', 
+        title: "สรุปวันที่", 
+        dateString: `${startDateStr} to ${endDateStr}`, 
+        thaiDateString: thaiDateString, 
+        remark: remarkInput, 
+        transactionDaysInfo: transactionDaysInfo, 
+        periodName: `จาก${startDateStr.replace(/-/g, '_')}_ถึง${endDateStr.replace(/-/g, '_')}`, 
+        headerLine1: 'สรุป :', 
+        headerLine2: 'เงินในบัญชีถึงวันนี้มี',
+        daysDiff: daysDiff 
     };
     openSummaryOutputModal();
     showToast("📊 สรุปข้อมูลตามช่วงวันที่เรียบร้อย", 'success');
@@ -1592,23 +1661,39 @@ function summarizeAll() {
     const startDate = new Date(Math.min.apply(null, allDates)); 
     const endDate = new Date(Math.max.apply(null, allDates));
     startDate.setHours(0, 0, 0, 0); 
-const adjustedEndDate = new Date(endDate);
-adjustedEndDate.setHours(23, 59, 59, 999);
-const summaryResult = generateSummaryData(startDate, adjustedEndDate);
+    const adjustedEndDate = new Date(endDate);
+    adjustedEndDate.setHours(23, 59, 59, 999);
+    const summaryResult = generateSummaryData(startDate, adjustedEndDate);
     if (!summaryResult) return;
+    
+    // คำนวณจำนวนวัน
     const daysDiff = Math.floor((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+    
     const transactionDays = new Set(summaryResult.periodRecords.map(r => parseLocalDateTime(r.dateTime).toDateString()));
     const transactionDaysInfo = `<p style="font-size: 16px; color: blue; font-weight: bold;">รวมเป็นเวลา ${daysDiff} วัน</p><p style="font-size: 16px; color: #333; font-weight: bold;">ทำธุรกรรม ${transactionDays.size} วัน, ไม่ได้ทำ ${daysDiff - transactionDays.size} วัน</p>`;
     const remarkInput = prompt("กรุณากรอกหมายเหตุ (ถ้าไม่กรอกจะใช้ 'No comment'):", "No comment") || "No comment";
     const startDateStr = `${startDate.getFullYear()}-${String(startDate.getMonth() + 1).padStart(2, '0')}-${String(startDate.getDate()).padStart(2, '0')}`;
     const endDateStr = `${endDate.getFullYear()}-${String(endDate.getMonth() + 1).padStart(2, '0')}-${String(endDate.getDate()).padStart(2, '0')}`;
     const thaiDateString = `${startDate.toLocaleDateString('th-TH', {day: 'numeric', month: 'long', year: 'numeric'})} ถึง ${endDate.toLocaleDateString('th-TH', {day: 'numeric', month: 'long', year: 'numeric'})}`;
+    
+    // เพิ่ม daysDiff เข้าไปใน object
     summaryContext = {
-        summaryResult, type: 'all', title: "สรุปข้อมูลทั้งหมดตั้งแต่", dateString: `${startDateStr} to ${endDateStr}`, thaiDateString: thaiDateString, remark: remarkInput, transactionDaysInfo: transactionDaysInfo, periodName: 'ทั้งหมด', headerLine1: 'สรุป :', headerLine2: 'เงินคงเหลือในบัญชีทั้งหมด'
+        summaryResult, 
+        type: 'all', 
+        title: "สรุปข้อมูลทั้งหมดตั้งแต่", 
+        dateString: `${startDateStr} to ${endDateStr}`, 
+        thaiDateString: thaiDateString, 
+        remark: remarkInput, 
+        transactionDaysInfo: transactionDaysInfo, 
+        periodName: 'ทั้งหมด', 
+        headerLine1: 'สรุป :', 
+        headerLine2: 'เงินคงเหลือในบัญชีทั้งหมด',
+        daysDiff: daysDiff
     };
     openSummaryOutputModal();
     showToast("📊 สรุปข้อมูลทั้งหมดเรียบร้อย", 'success');
 }
+
 
 // ==============================================
 // ฟังก์ชันจัดการการส่งออกข้อมูล
@@ -2608,7 +2693,7 @@ async function decryptData(encryptedPayload, password) {
 // ฟังก์ชันส่งออก Summary เป็น XLSX
 // ==============================================
 
-function exportSummaryToXlsx(summaryResult, title, dateString, remark, transactionDaysInfo = null, periodName) {
+function exportSummaryToXlsx(summaryResult, title, dateString, remark, transactionDaysInfo = null, periodName, daysDiff = 0) {
     const { summary, periodRecords, totalBalance } = summaryResult;
     
     const wb = XLSX.utils.book_new();
@@ -2674,9 +2759,28 @@ function exportSummaryToXlsx(summaryResult, title, dateString, remark, transacti
         excelData.push(['เงินคงเหลือในบัญชีทั้งหมด =', `${totalBalance.toLocaleString()} บาท`]);
     }
 
-    // ส่วนที่เพิ่มเข้ามาใหม่
     const totalTransactionCount = summary.incomeCount + summary.expenseCount;
     excelData.push(['ธุรกรรมทั้งหมด :', `${totalTransactionCount} ครั้ง`]);
+    
+    // --- ส่วนที่แก้ไขใหม่: ค่าเฉลี่ยใน Excel แบบบรรทัดเดียว ---
+    if (daysDiff && daysDiff >= 2) {
+        const netTotal = summary.totalIncome - summary.totalExpense;
+        const avgNet = netTotal / daysDiff;
+        let avgText = "";
+
+        if (avgNet > 0) {
+            avgText = `รายได้มากกว่ารายจ่ายเฉลี่ย : ${avgNet.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} บาท/วัน`;
+        } else if (avgNet < 0) {
+            avgText = `รายจ่ายมากกว่ารายได้เฉลี่ย : ${Math.abs(avgNet).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} บาท/วัน`;
+        } else {
+            avgText = `รายได้เท่ากับรายจ่ายเฉลี่ย : 0.00 บาท/วัน`;
+        }
+
+        excelData.push([]);
+        excelData.push([`สรุปค่าเฉลี่ย (จำนวน ${daysDiff} วัน) :`]);
+        excelData.push([`- ${avgText}`]);
+    }
+    // ---------------------------------------
     
     excelData.push(['ข้อความเพิ่ม :', remark]);
     excelData.push([]);
