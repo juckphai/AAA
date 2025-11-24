@@ -5,25 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>บัญชีรายรับรายจ่าย</title>
 
-  <!-- ไฟล์ Manifest และข้อมูล meta อื่น ๆ -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#4a90e2"/>
 
-  <!-- [PWA] Apple-specific meta tags -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="บัญชีรายรับรายจ่าย">
   <link rel="apple-touch-icon" href="./192.png">
 
-  <!-- ลิงก์ไปยังไฟล์ CSS -->
   <link rel="stylesheet" href="style.css">
 
-  <!-- ไลบรารีภายนอก -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
-  <!-- สไตล์เพิ่มเติมสำหรับการจัดกึ่งกลาง -->
   <style>
     /* สไตล์สำหรับเมนูใหญ่และเมนูย่อย */
     .main-section-content,
@@ -159,7 +154,6 @@
 
 <div style="text-align: center; margin-top: 5px;">
     <div class="container">
-        <!-- เนื้อหา HTML หลัก -->
         <div style="width: 100%; max-width: 900px; margin: 10px auto;">
             <div class="file-actions" style="display: flex; justify-content: center; gap: 10px;">
               <div class="file-button-wrapper" style="flex: 1; min-width: 0;">
@@ -177,7 +171,6 @@
                 ชื่อบัญชี - <span id="accountName"></span>
               </h1>
               
-              <!-- เมนูใหญ่ 1: จัดการบัญชี -->
               <div class="section-header main-section-header header-account" onclick="toggleMainSection('account-section')">
                 <span>🏦 เลือกและจัดการบัญชี</span>
                 <span class="arrow">▶</span>
@@ -205,8 +198,7 @@
 </div>
               </div>
             
-              <!-- เมนูใหญ่ 2: เพิ่มข้อมูล -->
-<div class="section-header main-section-header header-add-data" onclick="toggleMainSection('add-data-section')">
+              <div class="section-header main-section-header header-add-data" onclick="toggleMainSection('add-data-section')">
   <span>📝 เพิ่มข้อมูล</span>
   <span class="arrow">▶</span>
 </div>
@@ -222,7 +214,6 @@
     </div>
   </div>
 
-  <!-- จำนวนเงินและประเภทในแถวเดียวกัน -->
   <div class="amount-type-group">
     <div class="entry-group amount-group">
       <label for="amount">💰 จำนวนเงิน</label>
@@ -236,8 +227,7 @@
     </div>
   </div>
 
-  <!-- ส่วนจัดการประเภท -->
-<div class="sub-section-header" onclick="toggleSubSection('manage-types-submenu')" style="margin-top:8px;">
+  <div class="sub-section-header" onclick="toggleSubSection('manage-types-submenu')" style="margin-top:8px;">
   <span>🏷️ จัดการประเภท</span>
   <span class="arrow">▶</span>
 </div>
@@ -260,14 +250,12 @@
     <input type="text" id="description" required>
   </div>
   
-  <!-- SECTION เติมข้อมูล -->
   <div class="sub-section-header" onclick="toggleSubSection('import-data-main-submenu')">
     <span>🔄 เติมข้อมูล</span>
     <span class="arrow">▶</span>
   </div>
   <div id="import-data-main-submenu" class="section-content sub-section-content">
     
-    <!-- เติมข้อมูลจากบัญชีอื่น -->
     <div id="import-from-account-section">
       <label class="summary-subsection-header" style="color: #673ab7; margin-bottom: 10px;">🔄 เติมข้อมูลจากบัญชีอื่น</label>
       <div class="entry-form">
@@ -285,7 +273,6 @@
       </div>
     </div>
 
-    <!-- เติมข้อมูลจากไฟล์ -->
     <div id="import-from-file-section" style="border-top: 1px solid #ccc; margin-top: 15px; padding-top: 15px;">
       <label class="summary-subsection-header" style="color: #009688; margin-bottom: 10px;">📁 เติมข้อมูลจากไฟล์ (รายวัน)</label>
       <p style="text-align:center; color:#333; margin-bottom:10px;">
@@ -314,7 +301,6 @@
   </div>
 </div>
               
-              <!-- เมนูใหญ่ 3: จัดการข้อมูล -->
               <div class="section-header main-section-header header-actions" onclick="toggleMainSection('other-actions-section')">
                 <span>🔧 จัดการข้อมูล</span>
                 <span class="arrow">▶</span>
@@ -356,7 +342,6 @@
                   <button type="button" onclick="openExportOptionsModal()" style="flex: 1; background-color: #0d47a1;">💾 บันทึกข้อมูล</button>
                 </div>
                 
-                <!-- ส่วนลบข้อมูลตามวันที่เลือก - ปรับให้อยู่กึ่งกลาง -->
                 <div class="summary-subsection" style="text-align: center;">
                   <label class="summary-subsection-header" style="color: #c0392b;">🗑️ ลบข้อมูลตามวันที่เลือก (ในบัญชีนี้)</label>
                   <div class="centered-date-form">
@@ -371,7 +356,6 @@
                 </div>
               </div>
             
-              <!-- เมนูใหญ่ 4: สรุปข้อมูล -->
               <div class="section-header main-section-header header-summary" onclick="toggleMainSection('summary-main-section')">
                 <span>📊 สรุปข้อมูล</span>
                 <span class="arrow">▶</span>
@@ -388,7 +372,6 @@
                   </div>
                 </div>
                 
-                <!-- ส่วนสรุปวันที่เลือก - ปรับให้อยู่กึ่งกลาง -->
                 <div class="summary-subsection" style="text-align: center;">
                   <label class="summary-subsection-header">📅 สรุปวันที่เลือก</label>
                   <div class="centered-date-form">
@@ -402,7 +385,6 @@
                   </div>
                 </div>
                 
-                <!-- ส่วนสรุปวันที่ถึงวันที่ - ปรับให้อยู่กึ่งกลาง -->
                 <div class="summary-subsection" style="text-align: center;">
                   <label class="summary-subsection-header">📆 สรุปวันที่ถึงวันที่</label>
                   <div class="centered-date-form horizontal">
@@ -441,12 +423,10 @@
     </div>
 </div>
 
-<!-- โครงสร้าง Popup สำหรับแสดงผลสรุป -->
 <div id="summaryModal" class="modal-overlay">
   <div class="modal-content-container">
     <div id="modalBodyContent" class="summaryResult">
-      <!-- เนื้อหาการสรุปจะถูกใส่ที่นี่โดย JavaScript -->
-    </div>
+      </div>
     <div class="modal-controls">
       <button id="saveSummaryAsImageBtn" class="modal-close-btn" style="background-color: #007bff; margin-bottom: 15px;">🖼️ บันทึกเป็นรูปภาพ</button>
       <div class="control-group">
@@ -464,7 +444,6 @@
   </div>
 </div>
 
-<!-- Modal สำหรับเลือกรูปแบบไฟล์ (บัญชีที่เลือก) -->
 <div id="exportSingleAccountModal" class="modal-overlay">
   <div class="format-modal-content">
     <h3>📁 เลือกรูปแบบไฟล์สำหรับบัญชีที่เลือก</h3>
@@ -476,7 +455,6 @@
   </div>
 </div>
 
-<!-- Modal สำหรับเลือกรูปแบบการแสดงผลสรุป -->
 <div id="summaryOutputModal" class="modal-overlay">
   <div class="format-modal-content">
     <h3>📊 เลือกรูปแบบการแสดงผลสรุป</h3>
@@ -489,7 +467,6 @@
   </div>
 </div>
 
-<!-- Modal สำหรับเลือกประเภทการบันทึกข้อมูล -->
 <div id="exportOptionsModal" class="modal-overlay">
   <div class="format-modal-content">
     <h3>💾 เลือกประเภทการบันทึกข้อมูล</h3>
@@ -503,7 +480,6 @@
   </div>
 </div>
 
-<!-- Modal สำหรับเลือกช่วงวันที่ -->
 <div id="dateRangeExportModal" class="modal-overlay">
   <div class="format-modal-content">
     <h3>📆 เลือกช่วงวันที่ที่ต้องการบันทึก</h3>
@@ -525,7 +501,6 @@
   </div>
 </div>
 
-<!-- Modal สำหรับเลือกวันที่เดียว -->
 <div id="singleDateExportModal" class="modal-overlay">
   <div class="format-modal-content">
     <h3>📅 เลือกวันที่ต้องการบันทึก</h3>
@@ -543,7 +518,6 @@
   </div>
 </div>
 
-<!-- Modal สำหรับเลือกรูปแบบไฟล์สำหรับบันทึกทั้งหมด -->
 <div id="formatSelectionModal" class="modal-overlay">
   <div class="format-modal-content">
     <h3>📁 เลือกรูปแบบไฟล์สำหรับบันทึกทั้งหมด</h3>
@@ -555,7 +529,6 @@
   </div>
 </div>
 
-<!-- Modal สำหรับเลือกรูปแบบไฟล์สำหรับบันทึกวันที่เดียว -->
 <div id="singleDateExportFormatModal" class="modal-overlay">
   <div class="format-modal-content">
     <h3>📁 เลือกรูปแบบไฟล์ที่จะบันทึก</h3>
@@ -567,33 +540,29 @@
   </div>
 </div>
 
-<!-- Toast Notification -->
 <div id="toast" class="toast-notification"></div>
 
-<!-- Print Container -->
 <div id="print-container"></div>
 
-<!-- โหลดไฟล์ JavaScript หลัก -->
 <script src="script.js"></script>
 
-<!-- ลงทะเบียน Service Worker -->
 <script>
-  // ลงทะเบียน Service Worker
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
-      navigator.serviceWorker.register('./sw.js')
+      // ใช้ service-worker.js โดยตรงแทน sw.js
+      navigator.serviceWorker.register('./service-worker.js')
         .then(function(registration) {
-          console.log('Service Worker ลงทะเบียนสำเร็จ:', registration.scope);
+          console.log('Service Worker ลงทะเบียนสำเร็จ Scope:', registration.scope);
           
-          // ตรวจสอบการอัพเดท Service Worker
+          // ตรวจสอบการอัปเดต
           registration.addEventListener('updatefound', () => {
             const newWorker = registration.installing;
             console.log('พบ Service Worker ใหม่กำลังติดตั้ง');
             
             newWorker.addEventListener('statechange', () => {
               if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                console.log('พร้อมใช้งาน Service Worker ใหม่');
-                // สามารถแสดงการแจ้งเตือนให้ผู้ใช้รีเฟรชหน้าเว็บได้ที่นี่
+                console.log('พร้อมใช้งาน Service Worker ใหม่ - กรุณารีเฟรชหน้าจอ');
+                // สามารถใส่ UI แจ้งเตือนผู้ใช้ให้รีเฟรชได้ที่นี่
               }
             });
           });
@@ -602,9 +571,9 @@
           console.log('การลงทะเบียน Service Worker ล้มเหลว:', error);
         });
 
-      // ตรวจสอบว่ามี Service Worker ที่อัพเดทแล้วหรือไม่
+      // ตรวจสอบเมื่อ controller เปลี่ยนแปลง (หมายถึง service worker ใหม่เริ่มทำงานแล้ว)
       navigator.serviceWorker.addEventListener('controllerchange', () => {
-        console.log('Service Worker controller เปลี่ยนแปลง');
+        console.log('Service Worker controller เปลี่ยนแปลงแล้ว');
       });
     });
   }
