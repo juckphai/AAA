@@ -11,103 +11,8 @@ let backupPassword = null;
 let summaryContext = {};
 let singleDateExportContext = {}; 
 let dateRangeExportContext = {};
-let cachedGlobalJsonHandle = null; // จำไฟล์ Backup JSON (ทั้งหมด)
-let cachedGlobalCsvHandle = null;  // จำไฟล์ Backup CSV (ทั้งหมด)
+
 // ==============================================
-async function saveFileWithPicker(blob, defaultFileName, existingHandle = null) {
-    // 1. ตรวจสอบประเภทไฟล์เพื่อตั้งค่าตัวกรอง
-    let mimeType = blob.type;
-    let description = 'File';
-    let acceptObj = {};
-
-    if (defaultFileName.endsWith('.json')) {
-        description = 'JSON Data';
-        acceptObj = { 'application/json': ['.json'] };
-    } else if (defaultFileName.endsWith('.csv')) {
-        description = 'CSV Data';
-        acceptObj = { 'text/csv': ['.csv'] };
-    } else if (defaultFileName.endsWith('.xlsx')) {
-        description = 'Excel File';
-        acceptObj = { 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx'] };
-    } else {
-        const ext = defaultFileName.split('.').pop();
-        acceptObj = { [mimeType]: ['.' + ext] };
-    }
-    // 2. พยายามใช้ File System Access API (สำหรับ PC/Chrome/Edge)
-    if ('showSaveFilePicker' in window) {
-        try {
-            let handle = existingHandle;
-
-            // ถ้าไม่มี Handle เดิม (ครั้งแรก) หรือ Browser ไม่ยอมให้ใช้ Handle เดิม -> เปิดหน้าต่างเลือกใหม่
-            if (!handle) {
-                const options = {
-                    suggestedName: defaultFileName,
-                    types: [{
-                        description: description,
-                        accept: acceptObj,
-                    }],
-                };
-                handle = await window.showSaveFilePicker(options);
-            } else {
-                // ถ้ามี Handle เดิม ต้องขอสิทธิ์เขียนไฟล์ (Verify Permission)
-                // เพื่อความปลอดภัย Browser อาจถาม User อีกครั้งถ้านานเกินไป
-                const opts = { mode: 'readwrite' };
-                if ((await handle.queryPermission(opts)) !== 'granted') {
-                    if ((await handle.requestPermission(opts)) !== 'granted') {
-                        // ถ้า User ไม่อนุญาต ให้เปิด Save As ใหม่
-                         const options = {
-                            suggestedName: defaultFileName,
-                            types: [{ description: description, accept: acceptObj }],
-                        };
-                        handle = await window.showSaveFilePicker(options);
-                    }
-                }
-            }
-
-            // เขียนข้อมูลลงไฟล์
-            const writable = await handle.createWritable();
-            await writable.write(blob);
-            await writable.close();
-
-            showToast(`✓ บันทึกข้อมูลลงไฟล์ "${handle.name}" เรียบร้อย`, 'success');
-            
-            // ส่ง Handle กลับไปเพื่อเก็บไว้ใช้ครั้งหน้า
-            return handle;
-
-        } catch (err) {
-            // กรณี User กดยกเลิก (Cancel) ไม่ต้องทำอะไร
-            if (err.name === 'AbortError') return existingHandle;
-            
-            console.error('SaveFilePicker failed:', err);
-            // ถ้า Error อื่นๆ ให้ไหลไปใช้ระบบดาวน์โหลดแบบปกติ (Fallback)
-        }
-    }
-
-    // 3. Fallback: กรณีมือถือหรือ Browser ไม่รองรับ (ดาวน์โหลดปกติ จำตำแหน่งไม่ได้)
-    try {
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = defaultFileName;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-        showToast(`✓ บันทึกไฟล์ "${defaultFileName}" สำเร็จ (โหมดดาวน์โหลด)`, 'success');
-        return null; 
-    } catch (error) {
-        console.error("Download failed:", error);
-        showToast("❌ เกิดข้อผิดพลาดในการดาวน์โหลด", 'error');
-        return null;
-    }
-}
-
-// ฟังก์ชันสำหรับรีเซ็ตการจำค่า (เผื่อต้องการเปลี่ยนไฟล์ใหม่)
-function resetSaveFileMemory() {
-    cachedGlobalJsonHandle = null;
-    cachedGlobalCsvHandle = null;
-    showToast("🔄 รีเซ็ตการจำไฟล์เรียบร้อย ครั้งต่อไปจะถามชื่อไฟล์ใหม่", 'info');
-}
 // ฟังก์ชันจัดการ Toast Notification
 // ==============================================
 
@@ -1608,7 +1513,7 @@ function buildPdfSummaryHtml(context) {
     ${recordsHTML}
     `;
 }
-async function handleSummaryOutput(choice) {
+function handleSummaryOutput(choice) {
     if (!summaryContext || !summaryContext.summaryResult) {
         console.error("Summary context is missing. Cannot proceed.");
         closeSummaryOutputModal();
@@ -1619,16 +1524,11 @@ async function handleSummaryOutput(choice) {
         const htmlForDisplay = buildOriginalSummaryHtml(summaryContext);
         openSummaryModal(htmlForDisplay);
     } else if (choice === 'xlsx') {
+        // เพิ่ม activeDays เข้ามาใน destructuring
         const { summaryResult, title, dateString, remark, transactionDaysInfo, periodName, daysDiff, activeDays } = summaryContext;
-        
-        // [แก้ไข: ใส่ await เพื่อรอให้เลือกไฟล์และบันทึกเสร็จก่อน]
-        await exportSummaryToXlsx(summaryResult, title, dateString, remark, transactionDaysInfo, periodName, daysDiff, activeDays);
-        
-        // บรรทัดนี้จะทำงานหลังจากบันทึกเสร็จ (หรือหลังจากปิดหน้าต่าง Save)
-        // หมายเหตุ: saveFileWithPicker มี Toast แจ้งเตือนของตัวเองอยู่แล้ว 
-        // แต่ถ้าต้องการยืนยันอีกครั้ง สามารถเก็บไว้ได้ครับ
+        // ส่ง activeDays ไปยังฟังก์ชัน export
+        exportSummaryToXlsx(summaryResult, title, dateString, remark, transactionDaysInfo, periodName, daysDiff, activeDays);
         showToast(`📊 สรุปข้อมูลบันทึกเป็นไฟล์ XLSX สำเร็จ`, 'success');
-        
     } else if (choice === 'pdf') {
         const printContainer = document.getElementById('print-container');
         if (printContainer) {
@@ -1645,7 +1545,7 @@ async function handleSummaryOutput(choice) {
             setTimeout(() => { 
                 window.print(); 
                 
-                // แสดง Toast หลังจากพิมพ์เสร็จ
+                // แสดง Toast หลังจากพิมพ์เสร็จ (รอให้หน้าต่างพิมพ์ปิด)
                 setTimeout(() => {
                     if (toast) {
                         toast.style.display = '';
@@ -1914,14 +1814,16 @@ function processDateRangeExport() {
 
 async function exportDateRangeAsJson(filteredRecords, startDate, endDate) {
     const defaultFileName = `${currentAccount}_${startDate}_ถึง_${endDate}`;
-    const fileNameInput = prompt("กรุณากรอกชื่อไฟล์ (ไม่ต้องใส่นามสกุล):", defaultFileName);
+    const fileName = prompt("กรุณากรอกชื่อไฟล์ (ไม่ต้องใส่นามสกุล):", defaultFileName);
     
-    if (!fileNameInput) {
+    if (!fileName) {
         showToast("❌ ยกเลิกการบันทึกไฟล์", 'info');
         return;
     }
-
+    
+    // ✅ บันทึกข้อมูลประเภทบัญชีด้วย
     const accountTypesData = accountTypes.get(currentAccount) || { "รายรับ": [], "รายจ่าย": [] };
+    
     const exportData = {
         accountName: currentAccount,
         isDateRangeExport: true,
@@ -1930,6 +1832,7 @@ async function exportDateRangeAsJson(filteredRecords, startDate, endDate) {
         exportTimestamp: new Date().toISOString(),
         recordCount: filteredRecords.length,
         records: filteredRecords,
+        // ✅ เพิ่มข้อมูลประเภทบัญชี
         accountTypes: accountTypesData
     };
     
@@ -1948,9 +1851,18 @@ async function exportDateRangeAsJson(filteredRecords, startDate, endDate) {
     
     try {
         const blob = new Blob([dataString], { type: 'application/json' });
-        await saveFileWithPicker(blob, `${fileNameInput}.json`); // ใช้ Helper function
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${fileName}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        showToast(`✅ บันทึกข้อมูลช่วงวันที่ ${startDate} ถึง ${endDate} เป็น JSON เรียบร้อย\nจำนวนรายการ: ${filteredRecords.length} รายการ`, 'success');
     } catch (error) {
-        console.error("Error exporting file:", error);
+        console.error("Error downloading file:", error);
         showToast("❌ เกิดข้อผิดพลาดในการบันทึกไฟล์: " + error.message, 'error');
     }
 }
@@ -2037,37 +1949,18 @@ function loadFromLocal() {
 async function handleSaveAs(format) {
     closeFormatModal();
     const formatLower = format.toLowerCase().trim();
-    
-    // ตรวจสอบว่ามีไฟล์ที่จำไว้ไหม
-    let reuseHandle = null;
-    let fileName = "";
-
-    // ถ้าเป็น JSON และเคยเซฟแล้ว -> ใช้ไฟล์เดิม
-    if (formatLower === 'json' && cachedGlobalJsonHandle) {
-        reuseHandle = cachedGlobalJsonHandle;
-        fileName = cachedGlobalJsonHandle.name; // ใช้ชื่อเดิมเพื่อ display
-    } 
-    // ถ้าเป็น CSV และเคยเซฟแล้ว -> ใช้ไฟล์เดิม
-    else if (formatLower === 'csv' && cachedGlobalCsvHandle) {
-        reuseHandle = cachedGlobalCsvHandle;
-        fileName = cachedGlobalCsvHandle.name;
-    } 
-    // ถ้ายังไม่เคยเซฟ -> ถามชื่อไฟล์
-    else {
-        const fileNameInput = prompt("กรุณากรอกชื่อไฟล์สำหรับบันทึกข้อมูล (ไม่ต้องใส่นามสกุล):", "ข้อมูลทุกบัญชี");
-        if (!fileNameInput) {
-            showToast("❌ ยกเลิกการบันทึกไฟล์", 'info');
-            return;
-        }
-        const now = new Date();
-        const dateTimeString = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}_${String(now.getHours()).padStart(2, '0')}${String(now.getMinutes()).padStart(2, '0')}`;
-        fileName = `${fileNameInput}_${dateTimeString}.${formatLower}`;
+    const fileName = prompt("กรุณากรอกชื่อไฟล์สำหรับบันทึกข้อมูล (ไม่ต้องใส่นามสกุล):", "ข้อมูลทุกบัญชี");
+    if (!fileName) {
+        showToast("❌ ยกเลิกการบันทึกไฟล์", 'info');
+        return;
     }
+    const now = new Date();
+    const dateTimeString = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}_${String(now.getHours()).padStart(2, '0')}${String(now.getMinutes()).padStart(2, '0')}`;
     
     if (formatLower === 'json') {
+        const fullFileName = `${fileName}_${dateTimeString}.json`;
         const data = { accounts, currentAccount, records, accountTypes: Array.from(accountTypes.entries()), backupPassword: null };
         let dataString = JSON.stringify(data, null, 2);
-        
         if (backupPassword) {
             showToast('🔐 กำลังเข้ารหัสข้อมูล...', 'info');
             try {
@@ -2078,14 +1971,13 @@ async function handleSaveAs(format) {
                 return;
             }
         }
-        
         const blob = new Blob([dataString], { type: 'application/json' });
-        
-        // เรียกใช้ฟังก์ชันบันทึก และรับ Handle ใหม่กลับมาเก็บ
-        const resultHandle = await saveFileWithPicker(blob, fileName, reuseHandle);
-        if (resultHandle) cachedGlobalJsonHandle = resultHandle; 
-
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a'); a.href = url; a.download = fullFileName; a.click();
+        URL.revokeObjectURL(url);
+        showToast(`✅ บันทึกข้อมูลทั้งหมดเป็น JSON เรียบร้อย\nไฟล์: ${fullFileName}`, 'success');
     } else if (formatLower === 'csv') {
+        const fullFileName = `${fileName}_${dateTimeString}.csv`;
         let csvData = [];
         csvData.push(['###ALL_ACCOUNTS_BACKUP_CSV###']);
         csvData.push(['###ACCOUNTS_LIST###', ...accounts]);
@@ -2104,13 +1996,14 @@ async function handleSaveAs(format) {
             const { formattedDate, formattedTime } = formatDateForDisplay(record.dateTime);
             csvData.push([formattedDate, formattedTime, record.type, record.description, record.amount, record.account]);
         });
-        
         let csvContent = Papa.unparse(csvData, { header: false });
         const blob = new Blob(["\uFEFF" + csvContent], { type: "text/csv;charset=utf-8;" });
-        
-        // เรียกใช้ฟังก์ชันบันทึก และรับ Handle ใหม่กลับมาเก็บ
-        const resultHandle = await saveFileWithPicker(blob, fileName, reuseHandle);
-        if (resultHandle) cachedGlobalCsvHandle = resultHandle;
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = fullFileName;
+        link.click();
+        URL.revokeObjectURL(link.href);
+        showToast(`✅ บันทึกข้อมูลทั้งหมดลงในไฟล์ CSV "${fullFileName}" เรียบร้อยแล้ว`, 'success');
     }
 }
 
@@ -2120,16 +2013,16 @@ async function handleExportSelectedAs(format) {
         showToast("❌ เกิดข้อผิดพลาด: ไม่พบบัญชีที่เลือก", 'error');
         return;
     }
-    const fileNameInput = prompt(`กรุณากรอกชื่อไฟล์สำหรับบัญชี ${currentAccount} (ไม่ต้องใส่นามสกุล):`, currentAccount);
-    if (!fileNameInput) {
+    const fileName = prompt(`กรุณากรอกชื่อไฟล์สำหรับบัญชี ${currentAccount} (ไม่ต้องใส่นามสกุล):`, currentAccount);
+    if (!fileName) {
         showToast("❌ ยกเลิกการบันทึกไฟล์", 'info');
         return;
     }
     const now = new Date();
     const dateTimeString = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}_${String(now.getHours()).padStart(2, '0')}${String(now.getMinutes()).padStart(2, '0')}`;
-    const fileName = `${fileNameInput}_${dateTimeString}.${format}`;
-
+    
     if (format === 'json') {
+        const fullFileName = `${fileName}_${dateTimeString}.json`;
         const accountData = {
             accountName: currentAccount,
             records: records.filter(record => record.account === currentAccount),
@@ -2147,9 +2040,12 @@ async function handleExportSelectedAs(format) {
             }
         }
         const blob = new Blob([dataString], { type: 'application/json' });
-        await saveFileWithPicker(blob, fileName); // ใช้ Helper function
-
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a'); a.href = url; a.download = fullFileName; a.click();
+        URL.revokeObjectURL(url);
+        showToast(`✅ บันทึกบัญชี "${currentAccount}" เป็น JSON เรียบร้อย\nไฟล์: ${fullFileName}`, 'success');
     } else if (format === 'csv') {
+        const fullFileName = `${fileName}_${dateTimeString}.csv`;
         initializeAccountTypes(currentAccount);
         const accountCurrentTypes = accountTypes.get(currentAccount);
         let excelData = [];
@@ -2166,7 +2062,9 @@ async function handleExportSelectedAs(format) {
         });
         let csvContent = Papa.unparse(excelData, { header: false });
         const blob = new Blob(["\uFEFF" + csvContent], { type: "text/csv;charset=utf-8;" });
-        await saveFileWithPicker(blob, fileName); // ใช้ Helper function
+        const link = document.createElement("a"); link.href = URL.createObjectURL(blob); link.download = fullFileName; link.click();
+        setTimeout(() => URL.revokeObjectURL(link.href), 100);
+        showToast(`✅ บันทึกบัญชี "${currentAccount}" เป็น CSV เรียบร้อย\nไฟล์: ${fullFileName}`, 'success');
     }
 }
 
@@ -2178,12 +2076,12 @@ async function handleSingleDateExportAs(format) {
         showToast("❌ เกิดข้อผิดพลาด: ไม่พบข้อมูลที่จะบันทึก", 'error');
         return;
     }
-    const fileNameInput = prompt(`กรุณากรอกชื่อไฟล์ (ไม่ต้องใส่นามสกุล):`, `${currentAccount}_${selectedDate}`);
-    if (!fileNameInput) {
+    const fileName = prompt(`กรุณากรอกชื่อไฟล์ (ไม่ต้องใส่นามสกุล):`, `${currentAccount}_${selectedDate}`);
+    if (!fileName) {
         showToast("❌ ยกเลิกการบันทึกไฟล์", 'info');
         return;
     }
-    const fullFileName = `${fileNameInput}.${format}`;
+    const fullFileName = `${fileName}.${format}`;
     
     if (format === 'json') {
         const exportData = {
@@ -2194,37 +2092,71 @@ async function handleSingleDateExportAs(format) {
         };
         let dataString = JSON.stringify(exportData, null, 2);
         if (backupPassword) {
+            showToast('🔐 กำลังเข้ารหัสข้อมูล...', 'info');
             try {
                 const encryptedObject = await encryptData(dataString, backupPassword);
                 dataString = JSON.stringify(encryptedObject, null, 2);
-            } catch (e) { return; }
+            } catch (e) {
+                showToast('❌ การเข้ารหัสล้มเหลว!', 'error'); 
+                return;
+            }
         }
         const blob = new Blob([dataString], { type: 'application/json' });
-        await saveFileWithPicker(blob, fullFileName);
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a'); a.href = url; a.download = fullFileName; a.click();
+        URL.revokeObjectURL(url);
+        showToast(`✅ บันทึกข้อมูลวันที่ ${selectedDate} เป็น JSON เรียบร้อย\nไฟล์: ${fullFileName}`, 'success');
 
     } else if (format === 'xlsx') {
         const wb = XLSX.utils.book_new();
+        
         let excelData = [];
+        
         excelData.push([`ชื่อบัญชี: ${currentAccount}`]);
         excelData.push([`วันที่ส่งออก: ${selectedDate}`]);
         excelData.push([]);
+        
         excelData.push(["วันที่", "เวลา", "ประเภท", "รายละเอียด", "จำนวนเงิน (บาท)"]);
+        
         const sortedRecords = [...filteredRecords].sort((a, b) => parseLocalDateTime(a.dateTime) - parseLocalDateTime(b.dateTime));
+        
         sortedRecords.forEach(record => {
             const { formattedDate, formattedTime } = formatDateForDisplay(record.dateTime);
             excelData.push([formattedDate, formattedTime, record.type, record.description, record.amount]);
         });
+        
         const ws = XLSX.utils.aoa_to_sheet(excelData);
-        ws['!cols'] = [{wch: 12}, {wch: 10}, {wch: 15}, {wch: 30}, {wch: 15}];
+        
+        const colWidths = [
+            {wch: 12},
+            {wch: 10},
+            {wch: 15},
+            {wch: 30},
+            {wch: 15}
+        ];
+        ws['!cols'] = colWidths;
+        
+        ws['!pageSetup'] = {
+            orientation: 'landscape',
+            paperSize: 9,
+            fitToPage: true,
+            fitToWidth: 1,
+            fitToHeight: 0,
+            margins: {
+                left: 0.7, right: 0.7,
+                top: 0.75, bottom: 0.75,
+                header: 0.3, footer: 0.3
+            }
+        };
+        
         XLSX.utils.book_append_sheet(wb, ws, "ข้อมูลบัญชี");
         
-        // [ส่วนที่แก้ไข]
-        const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-        const blob = new Blob([wbout], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-        await saveFileWithPicker(blob, fullFileName);
+        XLSX.writeFile(wb, fullFileName);
+        showToast(`✅ บันทึกข้อมูลวันที่ ${selectedDate} เป็น XLSX เรียบร้อย\nไฟล์: ${fullFileName}`, 'success');
     }
     singleDateExportContext = {};
 }
+
 // ==============================================
 // ฟังก์ชันจัดการการนำเข้าไฟล์
 // ==============================================
@@ -2771,12 +2703,20 @@ async function decryptData(encryptedPayload, password) {
 // ฟังก์ชันส่งออก Summary เป็น XLSX
 // ==============================================
 
-async function exportSummaryToXlsx(summaryResult, title, dateString, remark, transactionDaysInfo = null, periodName, daysDiff = 0, activeDays = 0) {
+function exportSummaryToXlsx(summaryResult, title, dateString, remark, transactionDaysInfo = null, periodName, daysDiff = 0, activeDays = 0) {
     const { summary, periodRecords, totalBalance } = summaryResult;
-
+    
     const wb = XLSX.utils.book_new();
+    
     let excelData = [];
-    const summaryDateTime = new Date().toLocaleString("th-TH", { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'}) + ' น.';
+    
+    const summaryDateTime = new Date().toLocaleString("th-TH", { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric', 
+        hour: '2-digit', 
+        minute: '2-digit'
+    }) + ' น.';
     
     excelData.push(['สรุปข้อมูลบัญชี']);
     excelData.push(['ชื่อบัญชี:', currentAccount]);
@@ -2785,11 +2725,12 @@ async function exportSummaryToXlsx(summaryResult, title, dateString, remark, tra
     excelData.push([]);
     
     if (transactionDaysInfo) {
-        // แปลง HTML string เป็น text สำหรับ Excel (แบบง่าย)
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = transactionDaysInfo;
         const pElements = tempDiv.querySelectorAll('p');
-        pElements.forEach(p => { excelData.push([p.innerText]); });
+        pElements.forEach(p => {
+            excelData.push([p.innerText]);
+        });
         excelData.push([]);
     }
     
@@ -2798,6 +2739,7 @@ async function exportSummaryToXlsx(summaryResult, title, dateString, remark, tra
         excelData.push([`- ${type} : ${summary.income[type].count} ครั้ง เป็นเงิน ${summary.income[type].amount.toLocaleString()} บาท`]);
     }
     excelData.push([]);
+    
     excelData.push(['รายจ่าย :', `${summary.expenseCount} ครั้ง เป็นเงิน ${summary.totalExpense.toLocaleString()} บาท`]);
     for (const type in summary.expense) {
         excelData.push([`- ${type} : ${summary.expense[type].count} ครั้ง เป็นเงิน ${summary.expense[type].amount.toLocaleString()} บาท`]);
@@ -2805,48 +2747,103 @@ async function exportSummaryToXlsx(summaryResult, title, dateString, remark, tra
     excelData.push([]);
     
     const netAmount = summary.totalIncome - summary.totalExpense;
-    let comparisonText = summary.totalIncome > summary.totalExpense ? `รายได้มากกว่ารายจ่าย = ${netAmount.toLocaleString()} บาท` : (summary.totalIncome < summary.totalExpense ? `รายจ่ายมากกว่ารายได้ = ${Math.abs(netAmount).toLocaleString()} บาท` : 'รายได้เท่ากับรายจ่าย');
-    if (summary.totalIncome === 0 && summary.totalExpense === 0) comparisonText = 'ไม่มีธุรกรรมการเงิน';
+    let comparisonText = '';
     
-    excelData.push(['สรุป :', comparisonText]);
-    excelData.push([periodName === 'ทั้งหมด' || periodName.includes('ถึง') ? 'เงินคงเหลือในบัญชีทั้งหมด =' : 'เงินในบัญชีถึงวันนี้มี =', `${totalBalance.toLocaleString()} บาท`]);
-    excelData.push(['ธุรกรรมทั้งหมด :', `${summary.incomeCount + summary.expenseCount} ครั้ง`]);
+    if (summary.totalIncome > summary.totalExpense) {
+        comparisonText = `รายได้มากกว่ารายจ่าย = ${netAmount.toLocaleString()} บาท`;
+    } else if (summary.totalIncome < summary.totalExpense) {
+        comparisonText = `รายจ่ายมากกว่ารายได้ = ${Math.abs(netAmount).toLocaleString()} บาท`;
+    } else {
+        comparisonText = 'รายได้เท่ากับรายจ่าย';
+    }
+    
+    if (summary.totalIncome === 0 && summary.totalExpense === 0) {
+        excelData.push(['สรุป :', 'ไม่มีธุรกรรมการเงิน']);
+    } else {
+        excelData.push(['สรุป :', comparisonText]);
+    }
+    
+    if (periodName === 'ทั้งหมด' || periodName.includes('ถึง')) {
+        excelData.push(['เงินในบัญชีถึงวันนี้มี =', `${totalBalance.toLocaleString()} บาท`]);
+    } else {
+        excelData.push(['เงินคงเหลือในบัญชีทั้งหมด =', `${totalBalance.toLocaleString()} บาท`]);
+    }
 
+    const totalTransactionCount = summary.incomeCount + summary.expenseCount;
+    excelData.push(['ธุรกรรมทั้งหมด :', `${totalTransactionCount} ครั้ง`]);
+    
+    // --- ส่วนที่แก้ไขใหม่: ค่าเฉลี่ยใน Excel (ใช้ activeDays) ---
     if (activeDays && activeDays >= 1) {
-        const avgNet = netAmount / activeDays;
-        let avgText = avgNet > 0 ? `รายได้มากกว่ารายจ่ายเฉลี่ย : ${avgNet.toLocaleString(undefined, {minimumFractionDigits: 2})} บาท/วัน` : (avgNet < 0 ? `รายจ่ายมากกว่ารายได้เฉลี่ย : ${Math.abs(avgNet).toLocaleString(undefined, {minimumFractionDigits: 2})} บาท/วัน` : `รายได้เท่ากับรายจ่ายเฉลี่ย : 0.00 บาท/วัน`);
+        const netTotal = summary.totalIncome - summary.totalExpense;
+        const avgNet = netTotal / activeDays; // หารด้วย activeDays
+        let avgText = "";
+
+        if (avgNet > 0) {
+            avgText = `รายได้มากกว่ารายจ่ายเฉลี่ย : ${avgNet.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} บาท/วัน`;
+        } else if (avgNet < 0) {
+            avgText = `รายจ่ายมากกว่ารายได้เฉลี่ย : ${Math.abs(avgNet).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} บาท/วัน`;
+        } else {
+            avgText = `รายได้เท่ากับรายจ่ายเฉลี่ย : 0.00 บาท/วัน`;
+        }
+
         excelData.push([]);
         excelData.push([`สรุปค่าเฉลี่ย (คำนวณจาก ${activeDays} วันที่ทำธุรกรรม) :`]);
         excelData.push([`- ${avgText}`]);
     }
-
+    // ---------------------------------------
+    
     excelData.push(['ข้อความเพิ่ม :', remark]);
     excelData.push([]);
     
     if (periodRecords.length > 0) {
         excelData.push(['--- รายการธุรกรรม ---']);
         excelData.push(['วันที่', 'เวลา', 'ประเภท', 'รายละเอียด', 'จำนวนเงิน (บาท)']);
+        
         periodRecords.forEach(record => {
             const { formattedDate, formattedTime } = formatDateForDisplay(record.dateTime);
-            excelData.push([formattedDate, formattedTime, record.type, record.description, record.amount.toLocaleString()]);
+            
+            excelData.push([
+                formattedDate, 
+                formattedTime, 
+                record.type, 
+                record.description, 
+                record.amount.toLocaleString()
+            ]);
         });
     }
     
     const ws = XLSX.utils.aoa_to_sheet(excelData);
-    const colWidths = [{wch: 15}, {wch: 30}, {wch: 15}, {wch: 30}, {wch: 20}];
+    
+    const colWidths = [
+        {wch: 15},
+        {wch: 30},
+        {wch: 15},
+        {wch: 30},
+        {wch: 20}
+    ];
     ws['!cols'] = colWidths;
+    
+    ws['!pageSetup'] = {
+        orientation: 'portrait',
+        paperSize: 9,
+        fitToPage: true,
+        fitToWidth: 1,
+        fitToHeight: 0,
+        margins: {
+            left: 0.7, right: 0.7,
+            top: 0.75, bottom: 0.75,
+            header: 0.3, footer: 0.3
+        }
+    };
+    
     if (!ws['!merges']) ws['!merges'] = [];
     ws['!merges'].push({s: {r: 0, c: 0}, e: {r: 0, c: 4}});
     
     XLSX.utils.book_append_sheet(wb, ws, "สรุปข้อมูลบัญชี");
     
-    // สร้าง Blob
     const fileName = `สรุป_${currentAccount}_${periodName}_${new Date().getTime()}.xlsx`;
-    const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-    const blob = new Blob([wbout], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
     
-    // [แก้ไข: ใส่ await เพื่อรอให้การบันทึกเสร็จสิ้น]
-    await saveFileWithPicker(blob, fileName); 
+    XLSX.writeFile(wb, fileName);
 }
 function applyExcelStyles(ws, data) {
     if (!ws['!merges']) ws['!merges'] = [];
@@ -2913,11 +2910,6 @@ function filterRecordsByDateRange(startDate, endDate) {
 
 function showNoDataAlert(startDateStr, endDateStr) {
     showToast(`❌ ไม่พบข้อมูลในบัญชี "${currentAccount}" ระหว่างวันที่ ${startDateStr} ถึง ${endDateStr}`, 'error');
-}
-// ฟังก์ชันสำหรับปุ่มล้างค่าและปิดหน้าต่าง Modal พร้อมกัน
-function resetSaveFileMemoryAndToast() {
-    resetSaveFileMemory(); // เรียกฟังก์ชันหลักเพื่อล้างค่าตัวแปร
-    closeExportOptionsModal(); // ปิดหน้าต่าง Modal
 }
 // ==============================================
 // ฟังก์ชันตั้งค่าวันที่และเวลาปัจจุบัน
