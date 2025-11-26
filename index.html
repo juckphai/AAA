@@ -471,15 +471,15 @@
   <div class="format-modal-content">
     <h3>💾 เลือกประเภทการบันทึกข้อมูล</h3>
     <div class="format-modal-buttons">
-      <button onclick="saveToFile()" style="background-color: #0d47a1;">💾 บันทึกข้อมูลทั้งหมด (ทุกบัญชี)</button>
+      <button onclick="saveToFile()" style="background-color: #0d47a1;">💾 บันทึกข้อมูลทั้งหมด (ทุกบัญชี)</button>   
       <button onclick="exportSelectedAccount()" style="background-color: #ff9800;">💾 บันทึกบัญชีที่เลือก (ทั้งหมด)</button>
       <button onclick="initiateSingleDateExport()" style="background-color: #009688;">📅 บันทึกเฉพาะวันที่เลือก (บัญชีนี้)</button>
       <button onclick="initiateDateRangeExport()" style="background-color: #8e44ad;">📆 บันทึกตามช่วงวันที่ (บัญชีนี้)</button>
+      <button onclick="resetSaveFileMemoryAndToast()" style="background-color: #ffc107; color: #000; font-size: 0.9em;">🔄 ล้างค่าการจำไฟล์ (เพื่อเลือกไฟล์ใหม่)</button>
       <button class="btn-cancel" onclick="closeExportOptionsModal()">❌ ยกเลิก</button>
     </div>
   </div>
 </div>
-
 <div id="dateRangeExportModal" class="modal-overlay">
   <div class="format-modal-content">
     <h3>📆 เลือกช่วงวันที่ที่ต้องการบันทึก</h3>

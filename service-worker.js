@@ -1,7 +1,7 @@
 // service-worker.js
 // อัปเดตเวอร์ชัน cache เพื่อให้เครื่องลูกข่ายรู้ว่ามีการเปลี่ยนแปลง (v445 -> v446)
-const staticCacheName = 'account-app-static-v449';
-const dynamicCacheName = 'account-app-dynamic-v449';
+const staticCacheName = 'account-app-static-v419';
+const dynamicCacheName = 'account-app-dynamic-v419';
 
 // รายการไฟล์ที่ต้องการ Cache ทันทีที่ติดตั้ง (รวม CDN แล้ว)
 const assets = [
