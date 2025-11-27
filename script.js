@@ -2930,7 +2930,41 @@ function setCurrentDateTime() {
     document.getElementById('entryTime').value = `${hours}:${minutes}`;
 }
 // ==============================================
-// ฟังก์ชันเริ่มต้น
+// ฟังก์ชันจัดการปุ่ม Enter ในฟอร์มเพิ่มข้อมูล
+// ==============================================
+
+function setupEnterKeyForAddEntry() {
+    const amountInput = document.getElementById('amount');
+    const typeInput = document.getElementById('type');
+    const descriptionInput = document.getElementById('description');
+    
+    // สร้าง Array ของ Input ที่ต้องการให้กด Enter เพื่อ Add Entry
+    const inputs = [amountInput, typeInput, descriptionInput];
+    
+    inputs.forEach(input => {
+        if (input) {
+            input.addEventListener('keydown', function(event) {
+                // ตรวจสอบว่าเป็นการกดปุ่ม Enter (keyCode 13 หรือ key 'Enter')
+                if (event.key === 'Enter' || event.keyCode === 13) {
+                    // ป้องกันการทำงานเริ่มต้นของเบราว์เซอร์ (เช่น การ Submit Form)
+                    event.preventDefault(); 
+                    
+                    // เรียกใช้ฟังก์ชันเพิ่มรายการ
+                    addEntry();
+                    
+                    // หากต้องการให้ Type Input คืนค่าเดิมหลังกด Enter 
+                    // สามารถเรียกใช้ restoreType() ได้ที่นี่ (ถ้าต้องการ)
+                    if (input.id === 'type') {
+                        restoreType(typeInput);
+                    }
+                }
+            });
+        }
+    });
+}
+
+// ==============================================
+// ฟังก์ชันเริ่มต้น (แก้ไขส่วนนี้)
 // ==============================================
 
 window.onload = function () {
@@ -2962,6 +2996,9 @@ window.onload = function () {
         toggleMainSection: typeof toggleMainSection,
         toggleSubSection: typeof toggleSubSection
     });
+    
+    // ** [จุดที่เพิ่มโค้ดใหม่] **
+    setupEnterKeyForAddEntry(); 
     
     setTimeout(() => {
         toggleMainSection('account-section');
