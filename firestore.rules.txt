@@ -1,0 +1,28 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // อนุญาตให้ผู้ใช้ที่เข้าสู่ระบบแล้วอ่านเขียนข้อมูลของตัวเองในคอลเลกชัน "users"
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // อนุญาตให้ผู้ใช้ที่เข้าสู่ระบบแล้วอ่านเขียนโพสต์ของตัวเองได้
+    // แต่ผู้อื่นอ่านได้อย่างเดียว (ยกเว้นการลบ/แก้ไข)
+    match /posts/{postId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null;
+      allow update, delete: if request.auth != null && request.auth.uid == resource.data.authorId;
+    }
+
+    // คอลเลกชัน "publicData" อนุญาตให้ทุกคนอ่านได้ แต่เขียนต้องล็อกอิน
+    match /publicData/{document} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+    // ส่วนอื่นๆ ที่ไม่ได้ระบุไว้โดยเฉพาะ ต้องล็อกอินถึงจะเข้าถึงได้
+    match /{document=**} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
